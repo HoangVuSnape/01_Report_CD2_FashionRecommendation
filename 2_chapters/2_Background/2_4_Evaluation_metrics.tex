@@ -1,1 +1,58 @@
-\section{Evaluation metrics}
+\section{Evaluation Metrics}
+
+To systematically evaluate the performance of top-\(N\) recommender systems, various evaluation metrics are employed. These metrics are broadly classified into click-level retrieval metrics and position-aware ranking metrics. In this study, we utilize Recall@K, NDCG@K, and Hit Ratio@K (specifically at \(K=5\) and \(K=10\)) as our primary evaluation metrics, while Mean Average Precision (MAP) and Mean Reciprocal Rank (MRR) serve as secondary evaluation metrics to prepare for the experimental analysis in Chapter 4.
+
+\subsection{Click-Level Retrieval Metrics}
+
+Click-level retrieval metrics assess the model's ability to retrieve correct items in the top-\(K\) recommendation list, regardless of their specific positions.
+
+\begin{itemize}
+    \item \textbf{Precision@K}: Measures the proportion of recommended items in the top-\(K\) list that are actually relevant to the target user.
+    \begin{equation}
+        \text{Precision}@K = \frac{|\mathcal{I}_u^{\text{test}} \cap \hat{\mathcal{I}}_{u,K}|}{K},
+    \end{equation}
+    where \(\mathcal{I}_u^{\text{test}}\) is the set of ground-truth relevant items for user \(u\) in the test set, and \(\hat{\mathcal{I}}_{u,K}\) is the set of top-\(K\) recommended items.
+    
+    \item \textbf{Recall@K}: Measures the proportion of ground-truth relevant items that are successfully retrieved in the top-\(K\) recommendation list.
+    \begin{equation{}}
+        \text{Recall}@K = \frac{|\mathcal{I}_u^{\text{test}} \cap \hat{\mathcal{I}}_{u,K}|}{|\mathcal{I}_u^{\text{test}}|}.
+    \end{equation{}}
+    
+    \item \textbf{Hit Ratio@K (HR@K)}: Indicates whether at least one ground-truth relevant item is successfully recommended in the top-\(K\) list.
+    \begin{equation}
+        \text{HR}@K = \begin{cases}
+            1, & \text{if } \mathcal{I}_u^{\text{test}} \cap \hat{\mathcal{I}}_{u,K} \neq \emptyset \\
+            0, & \text{otherwise}
+        \end{cases}.
+    \end{equation}
+\end{itemize}
+
+
+\subsection{Position-Aware Ranking Metrics}
+
+Position-aware ranking metrics evaluate the quality of the recommendation list by penalizing the model if correct items are ranked lower in the list.
+
+\begin{itemize}
+    \item \textbf{Normalized Discounted Cumulative Gain (NDCG@K)}: Measures ranking quality by discounting the relevance of retrieved items logarithmically based on their positions.
+    \begin{equation}
+        \text{NDCG}@K = \frac{\text{DCG}@K}{\text{IDCG}@K},
+    \end{equation}
+    where \(\text{DCG}@K = \sum_{i=1}^{K} \frac{r_i}{\log_2(i+1)}\) (with \(r_i = 1\) if the item at rank \(i\) is relevant, and \(0\) otherwise) and \(\text{IDCG}@K\) is the ideal \(\text{DCG}@K\) where all ground-truth items are placed at the top.
+    
+    \item \textbf{Mean Average Precision (MAP@K)}: Computes the average of precision scores calculated at each rank where a relevant item is retrieved, providing a comprehensive measure of ranking quality.
+    \begin{equation}
+        \text{MAP}@K = \frac{1}{|\mathcal{U}|} \sum_{u \in \mathcal{U}} \frac{1}{\min(|\mathcal{I}_u^{\text{test}}|, K)} \sum_{i=1}^{K} P(i) \cdot r_i,
+    \end{equation}
+    where \(P(i)\) is the precision at rank \(i\), and \(r_i\) is the relevance indicator.
+    
+    \item \textbf{Mean Reciprocal Rank (MRR)}: Evaluates ranking based on the reciprocal rank of the first relevant item in the list, reflecting the user's effort to find the first correct recommendation.
+    \begin{equation}
+        \text{MRR} = \frac{1}{|\mathcal{U}|} \sum_{u \in \mathcal{U}} \frac{1}{\text{rank}_u^*},
+    \end{equation}
+    where \(\text{rank}_u^*\) is the rank position of the first relevant item for user \(u\) in the recommendation list (setting \(\frac{1}{\text{rank}_u^*} = 0\) if no relevant item is found).
+\end{itemize}
+
+
+\subsection{Experimental Setup Context}
+
+In the empirical evaluation detailed in Chapter 4, Recall@K, NDCG@K, and Hit Ratio@K (where \(K \in \{5, 10\}\)) are designated as the primary performance indicators, as they represent standard benchmarks adapted for top-\(N\) recommendation in resource-constrained or sparse data scenarios. Mean Average Precision (MAP) and Mean Reciprocal Rank (MRR) are reported as auxiliary metrics to provide further insights into the overall ranking characteristics of the models.
