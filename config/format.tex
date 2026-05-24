@@ -1,4 +1,6 @@
-\usepackage[utf8]{vietnam}
+\usepackage[fontsize=13]{scrextend}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
 \AtBeginDocument{
     \renewcommand{\chaptername}{CHAPTER}
     \renewcommand{\figurename}{Figure}
@@ -13,9 +15,8 @@
 \usepackage{multicol}
 \usepackage{xcolor}
 \usepackage{titlesec,titletoc}
-\usepackage{titlesec}
-\titleformat{\chapter}[block]{\bfseries\fontsize{16}{19}\selectfont\centering}{\thechapter}{0pt}{\MakeUppercase}
-\titlespacing*{\chapter}{0pt}{40pt}{5pt}
+\titleformat{\chapter}[display]{\bfseries\fontsize{16}{19}\selectfont\centering}{\MakeUppercase{\chaptername}\ \thechapter}{0pt}{\MakeUppercase}
+\titlespacing*{\chapter}{0pt}{40pt}{20pt}
 \titleformat{\section}[hang]{\bfseries\fontsize{14}{17}\selectfont\color{black}}{\thesection}{1.5ex}{}
 \titlespacing*{\section}{0pt}{12pt}{6pt}
 \titleformat{\subsection}[hang]{\bfseries\itshape\fontsize{14}{17}\selectfont\color{black}}{\thesubsection}{1.5ex}{}
@@ -39,8 +40,7 @@
 \newlist{abbrv}{itemize}{1}
 \setlist[abbrv,1]{label=,labelwidth=1in,align=parleft,itemsep=0.1\baselineskip,leftmargin=!}
 
-\usepackage[fontsize = 13]{scrextend}
-\usepackage[thmmarks]{ntheorem} 
+\usepackage[thmmarks]{ntheorem}
 
 \theorembodyfont{\normalfont}
 \theoremseparator{.}
