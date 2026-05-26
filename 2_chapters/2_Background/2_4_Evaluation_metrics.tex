@@ -14,9 +14,9 @@ Click-level retrieval metrics assess the model's ability to retrieve correct ite
     where \(\mathcal{I}_u^{\text{test}}\) is the set of ground-truth relevant items for user \(u\) in the test set, and \(\hat{\mathcal{I}}_{u,K}\) is the set of top-\(K\) recommended items.
     
     \item \textbf{Recall@K}: Measures the proportion of ground-truth relevant items that are successfully retrieved in the top-\(K\) recommendation list.
-    \begin{equation{}}
+    \begin{equation}
         \text{Recall}@K = \frac{|\mathcal{I}_u^{\text{test}} \cap \hat{\mathcal{I}}_{u,K}|}{|\mathcal{I}_u^{\text{test}}|}.
-    \end{equation{}}
+    \end{equation}
     
     \item \textbf{Hit Ratio@K (HR@K)}: Indicates whether at least one ground-truth relevant item is successfully recommended in the top-\(K\) list.
     \begin{equation}
