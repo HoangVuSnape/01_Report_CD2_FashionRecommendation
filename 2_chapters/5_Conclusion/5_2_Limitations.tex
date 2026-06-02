@@ -1,1 +1,9 @@
 \section{Limitations}
+
+Despite the positive empirical findings, several limitations of the current study must be acknowledged:
+
+First, graph-based recommendation architectures introduce significant computational and memory overhead during training and inference. The dual-graph convolution layers in CombiGCN require maintaining and propagating messages over large item-item similarity matrices. Similarly, end-to-end representation learning and modal projection in BM3 and FREEDOM demand high GPU memory footprints. As a result, scaling these GNN models to real-world corporate catalogs—which routinely contain tens of millions of active users, outfits, and transactions—is constrained by memory boundaries and training time limitations.
+
+Second, the reliance on offline feature extraction represents a static bottleneck. Visual and textual features are pre-extracted using pre-trained networks (MobileNetV2, CLIP, BERT) and cached as static embeddings. This design prevents the system from capturing real-time temporal dynamics, such as rapid shifts in fashion trends, changing user style preferences, or seasonal transition cycles (e.g., winter coat versus summer dress recommendations).
+
+Finally, while multimodal graphs alleviate data sparsity, extreme cold-start boundaries remain a challenge. For extremely casual users or newly introduced items with fewer than three initial interactions, the collaborative and semantic signals propagate poorly along graph neighborhoods, which limits the model's capacity to deliver highly personalized recommendations under extreme sparsity constraints.

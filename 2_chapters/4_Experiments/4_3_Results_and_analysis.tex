@@ -2,7 +2,7 @@
 
 This section presents the empirical evaluation results and comparative analysis of the proposed multimodal recommendation frameworks. We evaluate 24 distinct configurations across three GNN models (BM3, CombiGCN, and FREEDOM) and one collaborative filtering baseline (LightGCN) under varying encoders and modal fusion strategies. The results are structured to systematically address the four research questions (RQs) defined in Section 4.2.
 
-\subsection{Encoder Comparison (RQ1)}
+\subsection{Encoder Comparison}
 
 We first evaluate the impact of different visual feature extractors---CLIP versus MobileNetV2 (MBNv2)---on top-$N$ recommendation accuracy. Visual features represent a critical modality in the fashion rental domain, conveying compatibility and aesthetic styling information. To examine how each encoder influences collaborative filtering under different configurations, we analyze performance along two dimensions: metric consistency across $K$ retrieval levels and multi-dimensional balance across all six evaluation metrics.
 
@@ -66,7 +66,7 @@ The empirical superiority of MobileNetV2 over CLIP in the best-performing config
 
 However, fashion styling and item compatibility depend on fine-grained visual features, such as local textures, stitching patterns, fabric type, collar shape, and detailed styling lines. MobileNetV2, being a convolutional neural network (CNN) trained with localized spatial pooling, preserves these low-level spatial texture features and local color distributions in its early and middle layers. In collaborative filtering, these fine-grained texture descriptors serve as stronger indicators of aesthetic compatibility than coarse semantic labels. Therefore, when combined with collaborative filtering structures, MobileNetV2 generates more descriptive and stable representations than CLIP, leading to superior and more consistent recommendations.
 
-\subsection{Fusion Strategy Comparison (RQ2)}
+\subsection{Fusion Strategy Comparison}
 
 We perform an ablation study to analyze the impact of different feature integration strategies---visual-only (\texttt{img\_only}), textual-only (\texttt{tfidf}), multimodal late fusion (\texttt{multimodal}), and weighted attention gating (\texttt{multimodal\_attention})---across the three graph recommendation models.
 
@@ -130,10 +130,11 @@ We summarize the NDCG@10 results in Table~\ref{tab:ablation_summary}, reporting 
 \centering
 \caption{Ablation Study Comparison of NDCG@10 Scores Under Different Similarity and Fusion Types (Best Encoder Selected for Each Setup).}
 \label{tab:ablation_summary}
-\setlength{\tabcolsep}{10pt}
+\small
+\setlength{\tabcolsep}{6pt}
 \begin{tabular}{lcccc}
 \hline
-\textbf{Model} & \textbf{img\_only} & \textbf{tfidf} & \textbf{multimodal} & \textbf{multimodal\_attention} \\ \hline
+\textbf{Model} & \textbf{img\_only} & \textbf{tfidf} & \textbf{multimodal} & \shortstack[c]{\textbf{multimodal\_}\\\textbf{attention}} \\ \hline
 BM3 (MBNv2) & 0.0150 & 0.0149 & \textbf{0.0186} & 0.0101 \\
 CombiGCN (MBNv2) & 0.0085 & 0.0071 & \textbf{0.0175} & 0.0151 \\
 FREEDOM (MBNv2) & 0.0062 & 0.0031 & 0.0081 & \textbf{0.0088} \\ \hline
@@ -147,7 +148,7 @@ From the ablation experiments, we derive three key insights:
     \item \textbf{No universal configuration (no silver bullet)}: Configuration choices are highly architecture-dependent. BM3 is highly compatible with TF-IDF under CLIP, whereas CombiGCN is incompatible with TF-IDF but achieves high performance with CLIP-based visual-only embeddings. Therefore, encoder and fusion settings must be optimized locally for each specific recommender structure.
 \end{enumerate}
 
-\subsection{Model Comparison (RQ3 \& RQ4)}
+\subsection{Model Comparison}
 
 We compare the best-performing configuration of each architecture to identify the most effective overall recommendation framework for the VCR dataset. Both BM3 and CombiGCN achieve their best performance under the MBNv2-based multimodal late fusion setting, whereas FREEDOM peaks under the MBNv2-based weighted attention fusion setting. This reinforces the findings in RQ1 regarding the superiority of MobileNetV2.
 

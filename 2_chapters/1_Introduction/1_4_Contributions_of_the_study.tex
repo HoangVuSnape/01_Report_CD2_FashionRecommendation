@@ -1,1 +1,9 @@
 \section{Contributions of the study}
+
+This study provides the following main contributions to the field of personalized fashion recommendation:
+\begin{enumerate}
+    \item \textbf{Structural GNN Adaptations}: We successfully adapt the dual-graph GCN architecture of CombiGCN to operate on an item-item content-similarity graph (visual and textual) rather than its original user-user behavior graph, enabling content-guided preference propagation.
+    \item \textbf{Empirical Verification of Visual Encoders}: We perform a comprehensive benchmark showing that MobileNetV2 features are superior to CLIP features in optimal setups, demonstrating that localized spatial texture cues are more informative for garment styling than abstract vision-language semantic alignments.
+    \item \textbf{Ablation of Multimodal Fusion Strategies}: We demonstrate that trainable weighted attention gating layers degrade the performance of robust models (BM3, CombiGCN) due to parameter bloat and overfitting on sparse datasets, showing that average-pooled late fusion is a more stable and parameter-efficient strategy.
+    \item \textbf{Resolution-Aware GNN Benchmarking}: We identify key performance trade-offs across retrieval depths, revealing that BM3 dominates at list boundaries $K \ge 5$ due to its contrastive bootstrap alignment, while CombiGCN is superior for top-1 recommendations. We also justify the use of $K=5$ as the primary evaluation depth to prevent recall saturation on sparse user profiles.
+\end{enumerate}

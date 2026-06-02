@@ -7,7 +7,6 @@
 - 1.3.1 Research subjects  
 - 1.3.2 Research scope  
 1.4 Contributions of the study  
-1.5 Report structure  
 
 **Chapter 2 — Background and Literature Review**  
 2.1 Recommender Systems  
