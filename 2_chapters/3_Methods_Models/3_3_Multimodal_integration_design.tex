@@ -1,1 +1,28 @@
 \section{Multimodal integration design}
+
+To systematically evaluate the impact of different multimodal representations and fusion strategies on graph-based recommendation, we implement a unified multimodal integration architecture across all evaluated models. This integration design reconciles the differences between the four graph collaborative filtering architectures, establishing a consistent interface for mapping heterogeneous visual and textual features into a shared latent space. In this study, we distinguish between two primary integration paradigms based on where the fusion of modalities occurs: data-level integration and model-level integration.
+
+Data-level integration is represented by architectures such as BeLightRec \parencite{10.1007/978-981-97-9616-8_3}, which precomputes item-item similarity graphs from multimodal content features. In this paradigm, multimodal fusion is executed offline at the data-loading layer. The raw item representations (visual features $\mathbf{x}_i^{\text{vis}}$ extracted from MobileNetV2 or CLIP and textual features $\mathbf{x}_i^{\text{txt}}$ extracted from TF-IDF or BERT) are combined directly to compute an item-item similarity matrix. For instance, when utilizing late fusion (\texttt{multimodal}), the similarity is calculated over concatenated normalized representations. The resulting similarity matrix is filtered, normalized, and cached. Under this design, the recommendation model does not directly ingest raw modal embeddings during training; instead, the precomputed similarity matrix $S$ serves as a static structural prior that directs the graph propagation process. In our implementation, this data-level design is coupled with the dual-graph propagation of CombiGCN to evaluate similarity-guided neighborhood aggregation. This design decouples graph convolutions from high-dimensional feature processing, which significantly reduces the computational and memory footprint on the GPU during training.
+
+Conversely, model-level integration is employed by BM3 \parencite{10.1145/3543507.3583251} and FREEDOM \parencite{Zhou_2023}. In this paradigm, raw multimodal embeddings ($\mathbf{x}_i^{\text{vis}} \in \mathbb{R}^{d_v}$ and $\mathbf{x}_i^{\text{txt}} \in \mathbb{R}^{d_t}$) are loaded directly into the GPU memory, and the fusion process is learned end-to-end. To address the discrepancy in dimensions between visual features (e.g., $d_v = 512$ for CLIP) and textual features (e.g., $d_t = 768$ for BERT), we implement linear projection layers mapping features to a shared latent space:
+\begin{equation}
+    \mathbf{h}_i^v = W_v \mathbf{x}_i^{\text{vis}} + \mathbf{b}_v, \quad \mathbf{h}_i^t = W_t \mathbf{x}_i^{\text{txt}} + \mathbf{b}_t,
+\end{equation}
+where $W_v \in \mathbb{R}^{d \times d_v}$ and $W_t \in \mathbb{R}^{d \times d_t}$ are learnable projection matrices, $\mathbf{b}_v, \mathbf{b}_t \in \mathbb{R}^d$ are bias vectors, and $d = 512$ is the target dimension matching the user-item collaborative filtering embedding space. 
+
+After projection, the features are integrated depending on the configured fusion strategy. For the late fusion (\texttt{multimodal}) strategy, the representation is computed via element-wise averaging:
+\begin{equation}
+    \mathbf{e}_{i, \text{modal}} = \frac{\mathbf{h}_i^v + \mathbf{h}_i^t}{2}.
+\end{equation}
+For the weighted attention fusion (\texttt{multimodal\_attention}) strategy, we implement an adaptive attention gating network. The projected visual and textual embeddings are concatenated and passed through a trainable attention layer to compute dynamic modality weights:
+\begin{equation}
+    \beta_{v,i} = \sigma\left(\mathbf{w}_{\text{attn}}^{T} [\mathbf{h}_i^v \parallel \mathbf{h}_i^t] + b_{\text{attn}}\right),
+\end{equation}
+\begin{equation}
+    \beta_{t,i} = 1 - \beta_{v,i},
+\end{equation}
+where $\parallel$ denotes the vector concatenation operator, $\mathbf{w}_{\text{attn}} \in \mathbb{R}^{2d}$ is a trainable weight vector, $b_{\text{attn}} \in \mathbb{R}$ is a bias scalar, and $\sigma(\cdot)$ is the sigmoid activation function. The fused multimodal representation is then defined as:
+\begin{equation}
+    \mathbf{e}_{i, \text{modal}} = \beta_{v,i} \mathbf{h}_i^v + \beta_{t,i} \mathbf{h}_i^t.
+\end{equation}
+This gating mechanism enables the recommendation models to dynamically prioritize the most informative modality for each individual fashion item, balancing visual aesthetics and textual descriptions adaptively. The resulting $\mathbf{e}_{i, \text{modal}}$ is then integrated into the GNN collaborative filtering representations via contrastive learning objectives (bootstrap alignment in BM3 or InfoNCE in FREEDOM) and combined directly into the final preference scoring function.

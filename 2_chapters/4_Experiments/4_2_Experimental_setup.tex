@@ -1,1 +1,43 @@
 \section{Experimental setup}
+
+This section details the experimental configuration, hyperparameter selections, and evaluation protocols established to compare the recommender system models under uniform conditions.
+
+\subsection{Configuration Space}
+
+To systematically evaluate the impact of different visual/textual encoders and modal fusion strategies across different graph structures, we define a grid of 24 model configurations. Specifically, the configuration space is spanned by three dimensions:
+\begin{itemize}
+    \item \textbf{Recommendation Models}: We evaluate three graph collaborative filtering architectures: CombiGCN (adapted) \parencite{10.1007/978-981-97-0669-3_11}, BM3 \parencite{10.1145/3543507.3583251}, and FREEDOM \parencite{Zhou_2023}. LightGCN \parencite{he2020lightgcnsimplifyingpoweringgraph} is evaluated as a pure collaborative filtering baseline.
+    \item \textbf{Feature Encoders}: We evaluate two vision encoders (MobileNetV2 vs. CLIP) and two textual encoders (TF-IDF vs. BERT) to extract raw features. These features are stored as \texttt{image\_embeddings.npy} and \texttt{text\_embeddings.npy} respectively.
+    \item \textbf{Fusion and Similarity Types (\texttt{sim\_type})}: We evaluate four settings:
+    \begin{itemize}
+        \item \texttt{img\_only}: Item representation uses visual embeddings only.
+        \item \texttt{tfidf} / \texttt{bert}: Item representation uses textual embeddings only.
+        \item \texttt{multimodal}: Late fusion combining visual and textual features via average pooling or concatenation.
+        \item \texttt{multimodal\_attention}: Trainable weighted attention fusion dynamically gating visual and textual contributions.
+    \end{itemize}
+\end{itemize}
+
+\subsection{Key Hyperparameters}
+
+To ensure reproducibility, all models are trained using uniform optimization hyperparameters where applicable. The common parameters are defined as follows:
+\begin{itemize}
+    \item Embedding dimension ($d$): 512 for user/item ID embeddings and projected features.
+    \item Number of GNN layers ($K$): 4 layers of graph propagation.
+    \item Learning rate ($\eta$): $0.001$, optimized via the Adam optimizer.
+    \item L2 regularization decay coefficient ($\lambda$): $10^{-4}$.
+    \item Batch size: 8,192 interactions per mini-batch.
+    \item Epochs and stopping criteria: All models are trained for a maximum of 1,000 epochs. Early stopping is applied with a patience of 40 epochs, monitored via Recall@20 on the test set.
+\end{itemize}
+Model-specific contrastive learning parameters are configured as:
+\begin{itemize}
+    \item \textbf{BM3}: Contrastive learning weight $\lambda_{CL} = 0.2$, target EMA encoder momentum $m = 0.995$.
+    \item \textbf{FREEDOM}: Contrastive learning weight $\lambda_{CL} = 0.1$, InfoNCE temperature $\tau = 0.2$, and kNN graph size $k = 10$.
+\end{itemize}
+
+\subsection{Choice of K Values and Rationale}
+
+To measure top-$N$ recommendation accuracy, candidate items for each user are ranked in descending order of their predicted scores. We evaluate recommendation performance at four different cut-off values: $K \in \{1, 5, 10, 20\}$. 
+
+The choice of $K=5$ is designated as the primary evaluation setting in our analysis. The technical rationale is based on the characteristics of the VCR test set: the test set contains an average of only $3.81$ items per user (see Table~\ref{tab:dataset_stats}). Consequently, a recommendation list of size $K=10$ or $K=20$ is larger than the user's ground-truth catalog, which leads to recall saturation and compresses the performance margins between different configurations. Evaluating at $K=5$ provides a tighter target window (approximately $1.3\times$ the size of the ground truth), which effectively prevents metric saturation and allows for a clearer differentiation of model performance. The values $K=10$ and $K=20$ are maintained to facilitate comparisons with standard GNN literature.
+
+We report performance across six standard top-$N$ recommendation metrics: Recall@K, Normalized Discounted Cumulative Gain (NDCG@K), and Hit Ratio (HR@K) as our primary metrics, while Precision@K, Mean Average Precision (MAP@K), and Mean Reciprocal Rank (MRR@K) serve as secondary metrics.

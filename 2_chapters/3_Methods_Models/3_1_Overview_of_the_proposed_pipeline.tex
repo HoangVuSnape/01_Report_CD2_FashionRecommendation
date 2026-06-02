@@ -1,7 +1,55 @@
 \section{Overview of the proposed pipeline}
 
+To ensure robust representation learning and evaluate recommendation models under uniform conditions, we implement a structured data processing and evaluation pipeline. This pipeline systematically refines raw user interactions and multimodal metadata, filters sparse interactions to guarantee statistical significance, and splits transaction logs using a temporal partitioning rule. The complete workflow of the data processing pipeline, including the step-by-step reduction of user and interaction matrices, is illustrated in Figure~\ref{fig:data_pipeline}.
+
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.45\textwidth]{figs/bm3}
-	\caption{Graph}
+	\includegraphics[width=0.9\textwidth]{figs/data_pipeline.3.1}
+	\caption{Workflow of the proposed data preprocessing pipeline, outlining the three primary steps: initial filtering and sampling, data refinement via N-core filtering and ID mapping, and per-user temporal partitioning into training and testing datasets.}
+	\label{fig:data_pipeline}
 \end{figure}
+
+The data processing pipeline is divided into three consecutive phases:
+\begin{enumerate}
+    \item \textbf{Raw Data to Sampling}: Filtering out outfits with incomplete visual metadata and extracting a transaction sample with sufficient historical actions.
+    \item \textbf{Data Refinement}: Cleaning missing entries, applying N-core user filtering, and mapping user/item string IDs to continuous integers.
+    \item \textbf{Per-user Temporal Split}: Partitioning each user's history chronologically to construct train and test matrices without temporal data leakage.
+\end{enumerate}
+
+\subsection{Raw data to sampling}
+
+The preprocessing pipeline accepts raw data from the VCR dataset, consisting of three primary tables: \texttt{user\_activity\_triplets.csv} containing approximately 64,000 transaction records across 1,600 users, \texttt{picture\_triplets.csv} containing around 50,000 images representing items within different outfit combinations, and \texttt{outfits.csv} containing outfit metadata. 
+
+During the initial filtering step, we resolve the multi-image representation of outfits by retaining only the primary display image (where \texttt{displayOrder == 0}) for each product. Drawing on the viewpoint analysis established in the DeepFashion2 benchmark \parencite{ge2019deepfashion2versatilebenchmarkdetection}, we select this frontal view as the representative image for each outfit because it yields the highest retrieval accuracy ($0.681$), capturing the most comprehensive set of discriminative features such as silhouette, color palettes, and front-facing patterns. In accordance with Visual Bayesian Personalized Ranking (VBPR) formulations \parencite{he2015vbprvisualbayesianpersonalized}, embedding these high-fidelity visual features from the frontal view into the latent collaborative space has been demonstrated to improve recommendation performance, yielding up to an $11.6\%$ improvement in Area Under the ROC Curve (AUC) compared to models relying solely on implicit collaborative feedback. Outfits that do not contain a valid primary display image or possess null category names are discarded. To ensure that the sampled dataset contains users with sufficient historical preferences, we apply a sampling filter to select only users who have participated in at least 3 transactions. This process extracts a sampled dataset of exactly 10,000 transactions across 2,223 valid outfits, which are exported as \texttt{user\_activity\_triplets\_10k.csv}, \texttt{picture\_triplets\_10k.csv}, and \texttt{outfits\_10k.csv} respectively.
+
+\subsection{Data cleaning, N-core filtering, and ID mapping}
+
+Following the initial sampling phase, the transactions undergo a refinement process to prepare them for graph convolutional operations. First, any transactions containing null visual features or missing categories are removed. Second, to address the severe cold-start problem and guarantee that the graph neural network can learn meaningful collaborative representations from high-order connectivity, we apply an $N$-core filtering process. In this study, we set $N=5$, meaning we retain only the users who have interacted with at least 5 distinct items. Consequently, items that are only interacted with by filtered users are also removed. This core filtering process reduces the dataset from 10,000 interactions to 9,455 interactions, spanning 553 unique users and 2,194 unique items.
+
+Finally, to construct the sparse adjacency matrices required for graph neural network operations, we perform an ID mapping step. The alphanumeric string IDs of users and items are mapped to a continuous sequence of 0-indexed integers. Specifically:
+\begin{itemize}
+    \item Users are mapped to integers in the range $[0, |\mathcal{U}| - 1]$, where $|\mathcal{U}| = 553$.
+    \item Items are mapped to integers in the range $[0, |\mathcal{I}| - 1]$, where $|\mathcal{I}| = 2,194$.
+\end{itemize}
+These mappings are stored in \texttt{user\_list.txt} and \texttt{item\_list.txt} to serve as lookups for indexing and evaluation.
+
+\subsection{Per-user temporal split}
+
+To evaluate model performance in a realistic top-$N$ recommendation scenario, the interaction logs are partitioned into training and testing sets. Rather than applying a global random split, which ignores chronological order and introduces data leakage (predicting past actions based on future training interactions), we implement a per-user temporal split.
+
+For each individual user $u \in \mathcal{U}$, we sort their interacted items in ascending chronological order. Let $\mathcal{I}_u$ denote the ordered sequence of items interacted by user $u$. We define the time rank of the interaction between user $u$ and item $i$ as:
+\begin{equation}
+    \text{rank}_{u,i} = \text{cumcount}(u, i) + 1,
+\end{equation}
+where $\text{cumcount}(u, i) \in [0, |\mathcal{I}_u| - 1]$ is the zero-based index of the interaction in the chronological sequence. We define the training threshold for user $u$ as:
+\begin{equation}
+    \theta_u = \lfloor |\mathcal{I}_u| \times 0.8 \rfloor,
+\end{equation}
+where $\lfloor \cdot \rfloor$ is the floor function. The interaction is partitioned as follows:
+\begin{equation}
+    (u, i) \in \begin{cases}
+        \text{Train Set}, & \text{if } \text{rank}_{u,i} \le \theta_u \\
+        \text{Test Set}, & \text{if } \text{rank}_{u,i} > \theta_u
+    \end{cases}.
+\end{equation}
+By partitioning the data per-user, we ensure that every user is represented in both the training and testing sets, allowing for personalized evaluation. The temporal split yields a training set (\texttt{train.txt}) consisting of 7,350 interactions across 553 users, and a testing set (\texttt{test.txt}) consisting of 2,105 interactions across the same 553 users. The final text files represent interactions in a sparse format, where each row starts with the mapped \texttt{user\_id} followed by space-separated positive \texttt{item\_id} values.

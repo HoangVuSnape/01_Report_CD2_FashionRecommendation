@@ -1,1 +1,40 @@
 \section{Dataset}
+
+To evaluate the performance of the proposed recommendation frameworks, we conduct experiments on a publicly available dataset. This section outlines the characteristics of the source dataset, details the N-core preprocessing steps, and summarizes the final train/test partition statistics.
+
+\subsection{Data Description and Statistics}
+
+In this study, we utilize the Vibrent Clothes Rental (VCR) dataset, a public benchmark available on Kaggle containing real-world e-commerce transaction logs and product metadata. The raw dataset consists of over $64.4\text{k}$ user transaction records along with heterogeneous product descriptors and images. Specifically, the dataset contains three primary modules:
+\begin{itemize}
+    \item \textbf{Outfits Catalog}: A collection of clothing outfits available for rent or purchase. Each outfit is associated with a variable number of product photos and comprehensive metadata, including product name, category, price, and textual descriptions.
+    \item \textbf{User Behaviors}: Anonymized user interaction logs detailing rental or purchase transactions of outfits, which serve as implicit feedback for collaborative filtering.
+    \item \textbf{Product Images}: A repository of images associated with each outfit, capturing diverse styles and angles of clothing items.
+\end{itemize}
+The raw transaction records are stored in \texttt{user\_activity\_triplets.csv} (~$64.4\text{k}$ transactions across ~$1.6\text{k}$ users), product photos are linked via \texttt{picture\_triplets.csv} (~$50\text{k}$ images), and outfit attributes are cataloged in \texttt{outfits.csv}.
+
+\subsection{Preprocessing and Train/Test Creation}
+
+To prepare the dataset for graph neural network learning, we apply the preprocessing pipeline described in Section 3.1. First, we resolve multi-image outfit representations by retaining only the primary display image (where \texttt{displayOrder == 0}) as the representative frontal view for each outfit, discarding outfits with missing display images or empty category names. Second, we filter out casual users with extremely sparse histories by selecting users with a minimum of 3 transactions, resulting in a sampled subset of approximately 10,000 transactions across 2,223 outfits.
+
+To address the extreme data sparsity and ensure that GNN models can capture meaningful collaborative signals, we apply a $5$-core filter, retaining only users and items that have at least 5 interactions in the transaction history. Alphanumeric user and item identifiers are then mapped to continuous, 0-indexed integers to facilitate adjacency matrix computations. This refinement process yields a final dataset of exactly 9,455 transactions across 553 users and 2,194 items.
+
+Finally, we apply a per-user temporal split (80/20) to partition each user's chronological interaction history. The first 80\% of transactions are allocated to the training set (\texttt{train.txt}), and the remaining 20\% are allocated to the testing set (\texttt{test.txt}). This temporal splitting strategy prevents future information leakage into the training phase, mirroring a realistic recommendation scenario. The final statistical characteristics of the preprocessed dataset are summarized in Table~\ref{tab:dataset_stats}.
+
+\begin{table}[H]
+\centering
+\caption{Statistical Summary of the Preprocessed VCR Dataset.}
+\label{tab:dataset_stats}
+\begin{tabular}{lr}
+\hline
+\textbf{Statistic} & \textbf{Value} \\ \hline
+Number of unique users ($|\mathcal{U}|$) & 553 \\
+Number of unique items ($|\mathcal{I}|$) & 2,194 \\
+Total interactions & 9,455 \\
+Graph density (\%) & $0.78\%$ \\
+Graph sparsity (\%) & $99.22\%$ \\
+Training interactions & 7,350 \\
+Testing interactions & 2,105 \\
+Average training interactions per user & 13.29 \\
+Average testing interactions per user & 3.81 \\ \hline
+\end{tabular}
+\end{table}
