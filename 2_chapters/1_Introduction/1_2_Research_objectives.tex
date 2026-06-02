@@ -11,7 +11,7 @@ The primary objective of this study is to develop, adapt, and systematically ben
 To achieve the general objective, the study addresses the following specific objectives:
 \begin{enumerate}
     \item Clean and preprocess transaction logs and visual catalogs from the raw VCR dataset, filtering out metadata noise and constructing a robust benchmark dataset using a per-user temporal split.
-    \item Extract visual representation embeddings using convolutional neural networks (MobileNetV2) and vision-language foundation models (CLIP), and textual representations using statistical approaches (TF-IDF) and pre-trained transformers (BERT).
+    \item Extract visual representation embeddings using convolutional neural networks (MobileNetV2) and vision-language foundation models (CLIP), and textual representations using statistical approaches (TF-IDF).
     \item Adapt and implement advanced GNN architectures: LightGCN (interaction-only baseline), CombiGCN (adapted to operate over item-item similarity graphs), BM3 (self-supervised contrastive bootstrap), and FREEDOM (decoupled propagation on kNN graphs).
     \item Conduct a systematic grid benchmark of 24 configurations to evaluate the relative impact of feature encoders and modal fusion strategies (late fusion vs. trainable attention gating).
     \item Analyze performance characteristics across multiple cut-off depths ($K \in \{1, 5, 10, 20\}$) to establish ranking consistency and identify optimal configuration setups.

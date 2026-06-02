@@ -12,10 +12,12 @@ Let \(\mathcal{G} = (\mathcal{V}, \mathcal{E})\) represent a user--item bipartit
         \mathbf{0} & R \\
         R^{T} & \mathbf{0}
     \end{pmatrix}.
+    \label{eq:adjacency_matrix}
 \end{equation}
 Because the graph is bipartite, there are no intra-set edges (i.e., direct user--user or item--item connections), which is reflected in the diagonal blocks of \(A\) being zero. To facilitate graph neural operations, the symmetric normalized adjacency matrix is commonly employed:
 \begin{equation}
-    \mathcal{A} = D^{-1/2} A D^{-1/2},
+    \tilde{A} = D^{-1/2} A D^{-1/2},
+    \label{eq:norm_adjacency_matrix}
 \end{equation}
 where \(D\) is a diagonal degree matrix with entries \(D_{ii} = \sum_{j} A_{ij}\). The degree \(D_{ii}\) represents the number of interactions associated with node \(i\), which serves as a normalization factor to prevent numerical instability during message passing.
 
@@ -26,6 +28,7 @@ A key advantage of graph-based modeling is its ability to capture high-order con
 For example, consider a path of length 3 starting from user \(u_1\):
 \begin{equation}
     u_1 \rightarrow i_1 \rightarrow u_2 \rightarrow i_2.
+    \label{eq:three_hop_path}
 \end{equation}
 Here, the 2-hop neighbor \(u_2\) is a user who shared an interest in item \(i_1\) with \(u_1\). By extending the path to 3 hops, the item \(i_2\) is identified as an item consumed by the similar user \(u_2\). In the context of collaborative filtering, propagating information along these multi-hop paths allows the model to capture the following semantic relations:
 \begin{itemize}
@@ -50,29 +53,34 @@ LightGCN is a simplified graph neural network tailored specifically for collabor
 Let \(\mathbf{e}_u^{(k)} \in \mathbb{R}^d\) and \(\mathbf{e}_i^{(k)} \in \mathbb{R}^d\) denote the embedding vectors of user \(u\) and item \(i\) at layer \(k\), respectively, where \(d\) represents the embedding dimension. The layer-combination update rule at step \(k+1\) is defined as:
 \begin{equation}
     \mathbf{e}_u^{(k+1)} = \sum_{i \in \mathcal{N}_u} \frac{1}{\sqrt{|\mathcal{N}_u|} \sqrt{|\mathcal{N}_i|}} \mathbf{e}_i^{(k)},
+    \label{eq:prop_user}
 \end{equation}
 \begin{equation}
     \mathbf{e}_i^{(k+1)} = \sum_{u \in \mathcal{N}_i} \frac{1}{\sqrt{|\mathcal{N}_i|} \sqrt{|\mathcal{N}_u|}} \mathbf{e}_u^{(k)},
+    \label{eq:prop_item}
 \end{equation}
 where \(\mathcal{N}_u\) is the set of items interacted by user \(u\), and \(\mathcal{N}_i\) is the set of users who interacted with item \(i\). The normalization term \(\frac{1}{\sqrt{|\mathcal{N}_u|} \sqrt{|\mathcal{N}_i|}}\) scales the aggregated messages based on node degrees, preventing representation scaling issues as the number of layers increases.
 
 In matrix form, the propagation can be formulated as:
 \begin{equation}
-    E^{(k+1)} = \mathcal{A} E^{(k)},
+    E^{(k+1)} = \tilde{A} E^{(k)},
+    \label{eq:matrix_propagation}
 \end{equation}
-where \(E^{(k)} \in \mathbb{R}^{(|\mathcal{U}| + |\mathcal{I}|) \times d}\) is the concatenated user-item embedding matrix at layer \(k\), and \(\mathcal{A} = D^{-1/2} A D^{-1/2}\) is the symmetric normalized adjacency matrix.
+where \(E^{(k)} \in \mathbb{R}^{(|\mathcal{U}| + |\mathcal{I}|) \times d}\) is the concatenated user-item embedding matrix at layer \(k\), and \(\tilde{A} = D^{-1/2} A D^{-1/2}\) is the symmetric normalized adjacency matrix.
 
 \subsubsection{Layer Combination and Score Prediction}
 
 After propagating for \(K\) layers, LightGCN aggregates the representations from each layer to obtain the final user and item embeddings:
 \begin{equation}
     \mathbf{e}_u = \sum_{k=0}^{K} \alpha_k \mathbf{e}_u^{(k)}, \quad \mathbf{e}_i = \sum_{k=0}^{K} \alpha_k \mathbf{e}_i^{(k)},
+    \label{eq:layer_comb}
 \end{equation}
 where \(\alpha_k \ge 0\) is a layer-importance coefficient. Typically, a uniform distribution is used, setting \(\alpha_k = \frac{1}{K + 1}\). Taking the weighted sum of all layer embeddings prevents over-smoothing while capturing distinct structural signals across different hops.
 
 The predicted preference score \(\hat{r}_{ui}\) is then computed as the inner product of the final embeddings:
 \begin{equation}
     \hat{r}_{ui} = \mathbf{e}_u^{T} \mathbf{e}_i.
+    \label{eq:score_prediction}
 \end{equation}
 
 \subsubsection{Model Optimization}
@@ -80,6 +88,7 @@ The predicted preference score \(\hat{r}_{ui}\) is then computed as the inner pr
 To learn the initial embeddings \(E^{(0)}\) (which are the only trainable parameters), LightGCN optimizes the pairwise Bayesian Personalized Ranking (BPR) loss, which assumes that a user prefers observed items over unobserved ones:
 \begin{equation}
     \mathcal{L}_{\text{BPR}} = -\sum_{(u, i, j) \in \mathcal{D}} \ln \sigma(\hat{r}_{ui} - \hat{r}_{uj}) + \lambda \|E^{(0)}\|^2_F,
+    \label{eq:bpr_loss}
 \end{equation}
 where \(\mathcal{D} = \{(u, i, j) \mid r_{ui} = 1 \land r_{uj} = 0\}\) is the training dataset consisting of observed positive interaction pairs \((u, i)\) and randomly sampled negative pairs \((u, j)\), \(\sigma(\cdot)\) is the sigmoid function, and \(\lambda\) is a regularization hyperparameter. This pairwise loss directly guides the representation learning process discussed in Chapter 3.
 

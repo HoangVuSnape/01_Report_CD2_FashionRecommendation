@@ -7,7 +7,7 @@ This section defines the core subjects under investigation and delineates the op
 The primary research subjects of this study include:
 \begin{itemize}
     \item Graph neural network collaborative filtering architectures for personalized recommendation.
-    \item Multimodal feature extraction techniques for clothing items, specifically visual encoders (MobileNetV2 and CLIP) and textual representation models (TF-IDF and BERT).
+    \item Multimodal feature extraction techniques for clothing items, specifically visual encoders (MobileNetV2 and CLIP) and textual representation models (TF-IDF).
     \item Modal integration and fusion strategies, including offline data-level similarity propagation, online model-level late fusion, and dynamic weighted attention gating.
 \end{itemize}
 
@@ -17,6 +17,6 @@ The boundaries of the research are defined as follows:
 \begin{itemize}
     \item \textbf{Dataset Scope}: All experiments are conducted on the public Vibrent Clothes Rental (VCR) dataset. Preprocessing is restricted to primary display images and a standard 5-core filter, resulting in a dataset of 553 users, 2,194 items, and 9,455 transactions.
     \item \textbf{Algorithmic Scope}: We evaluate four GNN collaborative filtering architectures (LightGCN, CombiGCN adapted, BM3, and FREEDOM). We do not investigate sequence-aware recommendation or real-time conversational agents, which are reserved for future work.
-    \item \textbf{Feature Scope}: Visual features are extracted using pre-trained, frozen MobileNetV2 and CLIP models, and textual features are extracted using pre-trained BERT and TF-IDF vectors, without fine-tuning the raw encoders.
+    \item \textbf{Feature Scope}: Visual features are extracted using pre-trained, frozen MobileNetV2 and CLIP models, and textual features are extracted using TF-IDF vectors, without fine-tuning the raw encoders.
     \item \textbf{Evaluation Scope}: Performance is measured using six offline top-$N$ ranking metrics (Recall, Precision, NDCG, MRR, MAP, Hit Ratio) evaluated at $K \in \{1, 5, 10, 20\}$.
 \end{itemize}

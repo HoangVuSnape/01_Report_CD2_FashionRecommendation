@@ -20,16 +20,11 @@ The trade-off between these encoders is clear: CLIP provides richer semantic rep
 
 \subsection{Textual Features}
 
-Textual metadata, such as product titles, descriptions, categories, and tags, provides explicit, descriptive information about fashion items. In this study, text features are extracted and stored as \texttt{text\_embeddings.npy} using two distinct modeling paradigms:
+Textual metadata, such as product titles, descriptions, categories, and tags, provides explicit, descriptive information about fashion items. In this study, text features are extracted and stored as \texttt{text\_embeddings.npy} using Term Frequency-Inverse Document Frequency (TF-IDF):
 \begin{itemize}
     \item \textit{TF-IDF (Term Frequency-Inverse Document Frequency)}: A statistical approach that constructs sparse, high-dimensional lexical vectors based on term occurrence. For item description text \(T_i\), the TF-IDF representation \(\mathbf{x}_i^{\text{txt}} \in \mathbb{R}^{V}\) (where \(V\) is the vocabulary size) is effective for capturing exact keyword matches and constructing computationally efficient item-item text similarity matrices.
-    \item \textit{BERT (Bidirectional Encoder Representations from Transformers)}: A pre-trained transformer model that captures contextual semantic meanings. The BERT encoder processes the text \(T_i\) to output a dense semantic embedding:
-    \begin{equation}
-        \mathbf{x}_i^{\text{txt}} = \text{BERT}(T_i) \in \mathbb{R}^{d_t},
-    \end{equation}
-    where \(d_t\) is the text embedding dimension. BERT effectively handles synonyms and semantic similarity, although it is computationally intensive and can suffer from domain shift when applied to specialized e-commerce fashion vocabularies.
 \end{itemize}
-In this study, TF-IDF and BERT are compared as alternative textual encoders to analyze the impact of lexical matches versus deep semantic representations on recommendation quality.
+In this study, TF-IDF is used as the textual encoder to analyze the impact of lexical matches on recommendation quality.
 
 
 \subsection{Multimodal Fusion}
@@ -37,7 +32,7 @@ In this study, TF-IDF and BERT are compared as alternative textual encoders to a
 To leverage both visual aesthetics and textual attributes, multimodal recommender systems employ fusion strategies to integrate features from different modalities into a unified item representation. In the proposed pipeline, the choice of fusion is parameterized by the \texttt{sim\_type} variable, evaluating the following configurations:
 \begin{itemize}
     \item \textit{Visual-only (\texttt{img\_only})}: The item representation is constructed solely from the visual embedding: \(\mathbf{x}_i = \mathbf{x}_i^{\text{vis}}\).
-    \item \textit{Textual-only (\texttt{tfidf} or \texttt{bert})}: The item representation is constructed solely from the textual embedding: \(\mathbf{x}_i = \mathbf{x}_i^{\text{txt}}\).
+    \item \textit{Textual-only (\texttt{tfidf})}: The item representation is constructed solely from the textual embedding: \(\mathbf{x}_i = \mathbf{x}_i^{\text{txt}}\).
     \item \textit{Late Fusion (\texttt{multimodal})}: A parameter-free fusion approach that serves as a stable baseline. It directly combines the visual and textual representations (e.g., via vector concatenation or element-wise averaging) without requiring additional learnable parameters:
     \begin{equation}
         \mathbf{x}_i = \mathbf{x}_i^{\text{vis}} \oplus \mathbf{x}_i^{\text{txt}},

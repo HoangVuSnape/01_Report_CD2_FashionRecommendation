@@ -29,7 +29,7 @@ Content-based (CB) recommendation systems operate on the premise that a user's f
 
 The workflow of a typical content-based recommender system consists of three main phases:
 \begin{enumerate}
-    \item \textit{Feature Extraction}: Items are represented as numerical feature vectors. Let \(\mathbf{x}_i \in \mathbb{R}^{d_f}\) denote the feature vector of item \(i\), which can be extracted from textual metadata (e.g., titles, descriptions using TF-IDF or transformer-based models like BERT), or visual content (e.g., clothing images processed via convolutional neural networks).
+    \item \textit{Feature Extraction}: Items are represented as numerical feature vectors. Let \(\mathbf{x}_i \in \mathbb{R}^{d_f}\) denote the feature vector of item \(i\), which can be extracted from textual metadata (e.g., titles, descriptions using TF-IDF), or visual content (e.g., clothing images processed via convolutional neural networks).
     \item \textit{Similarity Computation}: The similarity between two items \(i\) and \(j\) is measured using a distance metric over their feature vectors. A common choice is cosine similarity:
     \begin{equation}
         s(i, j) = \frac{\mathbf{x}_i^{T} \mathbf{x}_j}{\|\mathbf{x}_i\| \|\mathbf{x}_j\|},

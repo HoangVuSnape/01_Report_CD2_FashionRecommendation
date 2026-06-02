@@ -8,7 +8,7 @@ Specifically, this study compares four distinct models: LightGCN \parencite{he20
 
 As established in Section 2.2, LightGCN \parencite{he2020lightgcnsimplifyingpoweringgraph} serves as our foundational baseline for collaborative filtering. It operates exclusively on the bipartite user-item interaction graph $\mathcal{G}_{ui} = (\mathcal{U} \cup \mathcal{I}, \mathcal{E})$ and simplifies standard Graph Convolutional Networks (GNNs) by discarding feature transformation matrices and non-linear activations. In this study, LightGCN is implemented as a special parametric configuration of the evaluation framework. When the similarity-type parameter \texttt{sim\_type} is set to \texttt{none}, CombiGCN degenerates into a standard LightGCN model. 
 
-For the collaborative filtering branch in all compared architectures, LightGCN performs neighborhood aggregation to learn structural representations. The propagation rule, layer combination, and Bayesian Personalized Ranking (BPR) loss optimization follow the mathematical formulations defined in Equations (2.7), (2.8), and (2.10) respectively. This model serves to establish a baseline performance level where recommendation relies solely on collaborative signals, without leveraging visual aesthetics or textual metadata.
+For the collaborative filtering branch in all compared architectures, LightGCN performs neighborhood aggregation to learn structural representations. The propagation rule, layer combination, and Bayesian Personalized Ranking (BPR) loss optimization follow the mathematical formulations defined in Equations (\ref{eq:prop_user}), (\ref{eq:prop_item}), (\ref{eq:layer_comb}), and (\ref{eq:bpr_loss}) respectively. This model serves to establish a baseline performance level where recommendation relies solely on collaborative signals, without leveraging visual aesthetics or textual metadata.
 
 \subsection{CombiGCN}
 
@@ -23,29 +23,29 @@ CombiGCN \parencite{10.1007/978-981-97-0669-3_11} originally extends the single 
 
 The workflow of CombiGCN is executed in the following steps:
 \begin{enumerate}
-    \item \textbf{Precomputed Similarity Graph}: Prior to training, an item-item similarity matrix $W \in \mathbb{R}^{|\mathcal{I}| \times |\mathcal{I}|}$ is constructed at the data layer. Depending on the configuration of \texttt{sim\_type} (\texttt{img\_only}, \texttt{tfidf}, or \texttt{multimodal}), cosine similarities are computed between the item features. To eliminate noisy connections and enforce sparsity, a threshold filter is applied such that $W_{ij} = 0$ if the cosine similarity is below $0.5$. The matrix is then symmetrically normalized as:
+    \item \textbf{Precomputed Similarity Graph}: Prior to training, an item-item similarity matrix $\mathbf{W} \in \mathbb{R}^{|\mathcal{I}| \times |\mathcal{I}|}$ is constructed at the data layer. Depending on the configuration of \texttt{sim\_type} (\texttt{img\_only}, \texttt{tfidf}, or \texttt{multimodal}), cosine similarities are computed between the item features. To eliminate noisy connections and enforce sparsity, a threshold filter is applied such that $W_{ij} = 0$ if the cosine similarity is below $0.5$. The matrix is then symmetrically normalized as:
     \begin{equation}
-        S = D_s^{-1/2} W D_s^{-1/2},
+        \mathbf{S} = \mathbf{D}_s^{-1/2} \mathbf{W} \mathbf{D}_s^{-1/2},
     \end{equation}
-    where $D_s$ is the diagonal degree matrix of $W$.
+    where $\mathbf{D}_s$ is the diagonal degree matrix of $\mathbf{W}$.
     \item \textbf{Dual-Graph Propagation}: In each GCN layer $k+1$, user representations are updated solely by aggregating observed item embeddings from the user-item interaction graph:
     \begin{equation}
-        e_u^{(k+1)} = \sum_{i \in \mathcal{N}_u} \frac{1}{\sqrt{|\mathcal{N}_u| |\mathcal{N}_i|}} e_i^{(k)}.
+        \mathbf{e}_u^{(k+1)} = \sum_{i \in \mathcal{N}_u} \frac{1}{\sqrt{|\mathcal{N}_u| |\mathcal{N}_i|}} \mathbf{e}_i^{(k)}.
     \end{equation}
     Conversely, item representations are updated by fusing signals from both the user-item interaction graph (CF branch) and the item-item similarity graph (similarity branch):
     \begin{equation}
-        e_i^{(k+1)} = e_{i, CF}^{(k+1)} + e_{i, Sim}^{(k+1)},
+        \mathbf{e}_i^{(k+1)} = \mathbf{e}_{i, \text{CF}}^{(k+1)} + \mathbf{e}_{i, \text{Sim}}^{(k+1)},
     \end{equation}
     where the collaborative signal is propagated from user nodes:
     \begin{equation}
-        e_{i, CF}^{(k+1)} = \sum_{u \in \mathcal{N}_i} \frac{1}{\sqrt{|\mathcal{N}_i| |\mathcal{N}_u|}} e_u^{(k)},
+        \mathbf{e}_{i, \text{CF}}^{(k+1)} = \sum_{u \in \mathcal{N}_i} \frac{1}{\sqrt{|\mathcal{N}_i| |\mathcal{N}_u|}} \mathbf{e}_u^{(k)},
     \end{equation}
     and the content-similarity signal is propagated from neighboring items:
     \begin{equation}
-        e_{i, Sim}^{(k+1)} = \sum_{j \in \mathcal{S}_i} S_{ij} e_j^{(k)},
+        \mathbf{e}_{i, \text{Sim}}^{(k+1)} = \sum_{j \in \mathcal{S}_i} S_{ij} \mathbf{e}_j^{(k)},
     \end{equation}
     where $\mathcal{S}_i$ denotes the set of similar items connected to item $i$ in the similarity graph.
-    \item \textbf{Layer Aggregation and Optimization}: After propagating through a stack of $N$ CombiGCN layers, the layer outputs are combined via mean pooling to generate the final user and item embeddings. The model parameters (initial ID embeddings $E^{(0)}$) are optimized using the standard pairwise BPR loss defined in Equation (2.10).
+    \item \textbf{Layer Aggregation and Optimization}: After propagating through a stack of $N$ CombiGCN layers, the layer outputs are combined via mean pooling to generate the final user and item embeddings. The model parameters (initial ID embeddings $\mathbf{E}^{(0)}$) are optimized using the standard pairwise BPR loss defined in Equation (\ref{eq:bpr_loss}).
 \end{enumerate}
 
 By performing fusion at the graph propagation level, CombiGCN leverages precomputed similarity graphs to guide the collaborative filtering process, enabling smoother embeddings for items with shared multimodal features.
@@ -63,34 +63,34 @@ BM3 \parencite{10.1145/3543507.3583251} is a self-supervised multimodal recommen
 
 The workflow of BM3 consists of the following components:
 \begin{enumerate}
-    \item \textbf{ID Embedding and CF Branch}: The model initializes learnable user ID embeddings $h_u^0 \in \mathbb{R}^{N_u \times d}$ and item ID embeddings $h_i^0 \in \mathbb{R}^{N_i \times d}$ (with $d = 512$, $N_u = 553$, and $N_i = 2194$ in this study). The initial ego embedding matrix is constructed by concatenating these matrices ($E^{(0)} \in \mathbb{R}^{(N_u + N_i) \times d}$, size $2747 \times 512$). It is propagated through a 4-layer GCN over the user-item interaction graph (augmented with edge dropout) to yield the collaborative representations $e_{u, CF} \in \mathbb{R}^{553 \times 512}$ and $e_{i, CF} \in \mathbb{R}^{2194 \times 512}$.
-    \item \textbf{Modal Projection and Fusion}: Raw multimodal features, including item image embeddings $x_i^{vis} \in \mathbb{R}^{2194 \times 512}$ and text embeddings $x_i^{txt} \in \mathbb{R}^{2194 \times 768}$, are processed through linear projection layers to align their dimensionality with the CF space:
+    \item \textbf{ID Embedding and CF Branch}: The model initializes learnable user ID embeddings $\mathbf{h}_u^0 \in \mathbb{R}^{N_u \times d}$ and item ID embeddings $\mathbf{h}_i^0 \in \mathbb{R}^{N_i \times d}$ (with $d = 512$, $N_u = 553$, and $N_i = 2194$ in this study). The initial ego embedding matrix is constructed by concatenating these matrices ($\mathbf{E}^{(0)} \in \mathbb{R}^{(N_u + N_i) \times d}$, size $2747 \times 512$). It is propagated through a 4-layer GCN over the user-item interaction graph (augmented with edge dropout) to yield the collaborative representations $\mathbf{e}_{u, \text{CF}} \in \mathbb{R}^{553 \times 512}$ and $\mathbf{e}_{i, \text{CF}} \in \mathbb{R}^{2194 \times 512}$.
+    \item \textbf{Modal Projection and Fusion}: Raw multimodal features, including item image embeddings $\mathbf{x}_{vis,i} \in \mathbb{R}^{2194 \times 512}$ and text embeddings $\mathbf{x}_{txt,i} \in \mathbb{R}^{2194 \times 768}$, are processed through linear projection layers to align their dimensionality with the CF space:
     \begin{equation}
-        h_i^v = W_v x_i^{vis} + b_v, \quad h_i^t = W_t x_i^{txt} + b_t,
+        \mathbf{h}_{v,i} = \mathbf{W}_v \mathbf{x}_{vis,i} + \mathbf{b}_v, \quad \mathbf{h}_{t,i} = \mathbf{W}_t \mathbf{x}_{txt,i} + \mathbf{b}_t,
     \end{equation}
-    where $W_v \in \mathbb{R}^{512 \times 512}$ and $W_t \in \mathbb{R}^{512 \times 768}$ are trainable matrices. The projected features are fused according to the \texttt{sim\_type} parameter to obtain the modal representation $e_{i, modal} \in \mathbb{R}^{2194 \times 512}$ (e.g., $e_{i, modal} = (h_i^v + h_i^t)/2$ for the \texttt{multimodal} configuration, or via an attention layer for \texttt{mm\_attention}).
-    \item \textbf{Bootstrap Contrastive Learning}: To align the collaborative and content-based item spaces without negative samples, BM3 utilizes a bootstrap alignment objective. An online predictor head $q(\cdot)$ (consisting of a two-layer MLP with ReLU activation) is applied to the online representations to break symmetry and prevent representation collapse. A target item encoder maintains target embeddings $h_{i\_target}^0 \in \mathbb{R}^{2194 \times 512}$ and is updated using Exponential Moving Average (EMA) from the online encoder:
+    where $\mathbf{W}_v \in \mathbb{R}^{512 \times 512}$ and $\mathbf{W}_t \in \mathbb{R}^{512 \times 768}$ are trainable matrices. The projected features are fused according to the \texttt{sim\_type} parameter to obtain the modal representation $\mathbf{e}_{i, \text{modal}} \in \mathbb{R}^{2194 \times 512}$ (e.g., $\mathbf{e}_{i, \text{modal}} = (\mathbf{h}_{v,i} + \mathbf{h}_{t,i})/2$ for the \texttt{multimodal} configuration, or via an attention layer for \texttt{mm\_attention}).
+    \item \textbf{Bootstrap Contrastive Learning}: To align the collaborative and content-based item spaces without negative samples, BM3 utilizes a bootstrap alignment objective. An online predictor head $q(\cdot)$ (consisting of a two-layer MLP with ReLU activation) is applied to the online representations to break symmetry and prevent representation collapse. A target item encoder maintains target embeddings $\mathbf{h}_{i\_target}^0 \in \mathbb{R}^{2194 \times 512}$ and is updated using Exponential Moving Average (EMA) from the online encoder:
     \begin{equation}
-        \Theta_{target} \leftarrow m \Theta_{target} + (1 - m) \Theta_{online},
+        \mathbf{\Theta}_{target} \leftarrow m \mathbf{\Theta}_{target} + (1 - m) \mathbf{\Theta}_{online},
     \end{equation}
     where $m = 0.995$ is the momentum parameter, and gradients are not backpropagated through the target branch. The bootstrap loss evaluates the cosine similarity between the online and target representations:
     \begin{equation}
-        \mathcal{L}_{boot}(p, z) = 2 - 2 \frac{p^T z}{\|p\| \|z\|}.
+        \mathcal{L}_{boot}(\mathbf{p}, \mathbf{z}) = 2 - 2 \frac{\mathbf{p}^T \mathbf{z}}{\|\mathbf{p}\| \|\mathbf{z}\|}.
     \end{equation}
     The self-supervised contrastive objective is formulated as:
     \begin{equation}
-        \mathcal{L}_{CL} = \frac{1}{2} \left[ \mathcal{L}_{boot}(q(e_{i, CF}), sg(e_{i, modal})) + \mathcal{L}_{boot}(q(e_{i, modal}), sg(e_{i, target})) \right],
+        \mathcal{L}_{CL} = \frac{1}{2} \left[ \mathcal{L}_{boot}(q(\mathbf{e}_{i, \text{CF}}), sg(\mathbf{e}_{i, \text{modal}})) + \mathcal{L}_{boot}(q(\mathbf{e}_{i, \text{modal}}), sg(\mathbf{e}_{i, \text{target}})) \right],
     \end{equation}
     where $sg(\cdot)$ is the stop-gradient operator.
     \item \textbf{Representation Fusion and Objective}: The final item embedding for user preference scoring is computed as the sum of the collaborative and modal representations:
     \begin{equation}
-        h_i = e_{i, CF} + e_{i, modal}.
+        \mathbf{h}_i = \mathbf{e}_{i, \text{CF}} + \mathbf{e}_{i, \text{modal}}.
     \end{equation}
     The model is optimized using a joint training objective:
     \begin{equation}
         \mathcal{L}_{total} = \mathcal{L}_{BPR} + \lambda_1 \mathcal{L}_{reg} + \lambda_2 \mathcal{L}_{CL},
     \end{equation}
-    where $\mathcal{L}_{BPR}$ is the Bayesian Personalized Ranking loss computed on the fused embeddings ($h_u^T h_i$), $\mathcal{L}_{reg}$ is $L_2$ regularization, and $\lambda_2$ is the contrastive loss weight (set to $0.2$ in our configuration).
+    where $\mathcal{L}_{BPR}$ is the Bayesian Personalized Ranking loss computed on the fused embeddings ($\mathbf{h}_u^T \mathbf{h}_i$), $\mathcal{L}_{reg}$ is $L_2$ regularization, and $\lambda_2$ is the contrastive loss weight (set to $0.2$ in our configuration).
 \end{enumerate}
 
 \subsection{FREEDOM}
@@ -106,21 +106,21 @@ FREEDOM \parencite{Zhou_2023} proposes a decoupled graph structure learning fram
 
 The operational workflow of FREEDOM is detailed below:
 \begin{enumerate}
-    \item \textbf{Decoupled CF Branch}: Learnable user ID embeddings $h_u$ and item ID embeddings $h_i$ are initialized via Xavier initialization. The collaborative filtering representations (interactive view) are learned by propagating these embeddings through a 4-layer LightGCN over the user-item interaction graph with edge dropout, followed by mean pooling to produce final representations $e_{u, CF}$ and $e_{i, CF}$.
-    \item \textbf{Frozen kNN Graph Construction}: Raw image features (CLIP) and text features (TF-IDF) are projected and fused to generate initial modal representations $e_{i, modal}^{(0)}$. At initialization, the cosine similarities between these modal vectors are computed. For each item, only the top-$k$ nearest neighbors (default $k=10$) are retained, and diagonal self-loops are set to zero. The resulting graph is symmetrized and normalized as $A^{knn} = D_{knn}^{-1/2} W^{knn} D_{knn}^{-1/2}$. This graph structure is frozen (i.e., registers no gradients) during the training phase, serving as a denoised structural prior.
+    \item \textbf{Decoupled CF Branch}: Learnable user ID embeddings $\mathbf{h}_u$ and item ID embeddings $\mathbf{h}_i$ are initialized via Xavier initialization. The collaborative filtering representations (interactive view) are learned by propagating these embeddings through a 4-layer LightGCN over the user-item interaction graph with edge dropout, followed by mean pooling to produce final representations $\mathbf{e}_{u, \text{CF}}$ and $\mathbf{e}_{i, \text{CF}}$.
+    \item \textbf{Frozen kNN Graph Construction}: Raw image features (CLIP) and text features (TF-IDF) are projected and fused to generate initial modal representations $\mathbf{e}_{i, \text{modal}}^{(0)}$. At initialization, the cosine similarities between these modal vectors are computed. For each item, only the top-$k$ nearest neighbors (default $k=10$) are retained, and diagonal self-loops are set to zero. The resulting graph is symmetrized and normalized as $\mathbf{A}^{knn} = \mathbf{D}_{knn}^{-1/2} \mathbf{W}^{knn} \mathbf{D}_{knn}^{-1/2}$. This graph structure is frozen (i.e., registers no gradients) during the training phase, serving as a denoised structural prior.
     \item \textbf{Content Propagation}: Item content representations (semantic view) are computed by propagating the projected modal embeddings over the frozen kNN graph $\mathcal{G}_{knn}$ for 4 layers:
     \begin{equation}
-        e_{i, content}^{(k+1)} = \sum_{j \in \mathcal{N}_k(i)} A^{knn}_{ij} e_{j, content}^{(k)},
+        \mathbf{e}_{i, \text{content}}^{(k+1)} = \sum_{j \in \mathcal{N}_k(i)} A^{knn}_{ij} \mathbf{e}_{j, \text{content}}^{(k)},
     \end{equation}
-    where $e_{i, content}^{(0)} = e_{i, modal}$. The final semantic representations $e_{i, content}$ are obtained via mean pooling across all layers.
+    where $\mathbf{e}_{i, \text{content}}^{(0)} = \mathbf{e}_{i, \text{modal}}$. The final semantic representations $\mathbf{e}_{i, \text{content}}$ are obtained via mean pooling across all layers.
     \item \textbf{InfoNCE Contrastive Alignment}: To align the collaborative interactive view and the semantic content view, FREEDOM applies an InfoNCE loss over positive item pairs (the same item under different views) and negative pairs (different items within the mini-batch $\mathcal{B}$):
     \begin{equation}
-        \mathcal{L}_{CL} = -\sum_{i \in \mathcal{B}} \ln \frac{\exp\left(s(e_{i, CF}, e_{i, content}) / \tau\right)}{\sum_{j \in \mathcal{B}} \exp\left(s(e_{i, CF}, e_{j, content}) / \tau\right)},
+        \mathcal{L}_{CL} = -\sum_{i \in \mathcal{B}} \ln \frac{\exp\left(s(\mathbf{e}_{i, \text{CF}}, \mathbf{e}_{i, \text{content}}) / \tau\right)}{\sum_{j \in \mathcal{B}} \exp\left(s(\mathbf{e}_{i, \text{CF}}, \mathbf{e}_{j, \text{content}}) / \tau\right)},
     \end{equation}
     where $s(\cdot, \cdot)$ is the cosine similarity function, and $\tau = 0.2$ is the temperature hyperparameter.
     \item \textbf{Model Fusion and Training Loss}: The final item representation is the sum of the interactive and semantic views:
     \begin{equation}
-        e_i = e_{i, CF} + e_{i, content}.
+        \mathbf{e}_i = \mathbf{e}_{i, \text{CF}} + \mathbf{e}_{i, \text{content}}.
     \end{equation}
     The overall model parameters are optimized via:
     \begin{equation}
