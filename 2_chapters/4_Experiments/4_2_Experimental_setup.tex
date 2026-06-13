@@ -6,7 +6,7 @@ This section details the experimental configuration, hyperparameter selections, 
 
 To systematically evaluate the impact of different visual/textual encoders and modal fusion strategies across different graph structures, we define a grid of 24 model configurations. Specifically, the configuration space is spanned by three dimensions:
 \begin{itemize}
-    \item \textbf{Recommendation Models}: We evaluate three graph collaborative filtering architectures: CombiGCN (adapted) \parencite{10.1007/978-981-97-0669-3_11}, BM3 \parencite{10.1145/3543507.3583251}, and FREEDOM \parencite{Zhou_2023}. LightGCN \parencite{he2020lightgcnsimplifyingpoweringgraph} is evaluated as a pure collaborative filtering baseline.
+    \item \textbf{Recommendation Models}: We evaluate three graph collaborative filtering architectures: CombiGCN (adapted) \parencite{10.1007/978-981-97-0669-3_11}, BM3 \parencite{10.1145/3543507.3583251}, and FREEDOM \parencite{Zhou_2023}. All three build on the LightGCN \parencite{he2020lightgcnsimplifyingpoweringgraph} propagation scheme as their shared collaborative-filtering backbone; LightGCN itself is not run as a standalone configuration.
     \item \textbf{Feature Encoders}: We evaluate two vision encoders (MobileNetV2 vs. CLIP) and a textual encoder (TF-IDF) to extract raw features. These features are stored as \texttt{image\_embeddings.npy} and \texttt{text\_embeddings.npy} respectively.
     \item \textbf{Fusion and Similarity Types (\texttt{sim\_type})}: We evaluate four settings:
     \begin{itemize}

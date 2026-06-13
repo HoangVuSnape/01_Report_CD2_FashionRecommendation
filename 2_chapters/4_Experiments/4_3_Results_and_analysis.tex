@@ -1,10 +1,36 @@
 \section{Results and analysis}
 
-This section presents the empirical evaluation results and comparative analysis of the proposed multimodal recommendation frameworks. We evaluate 24 distinct configurations across three GNN models (BM3, CombiGCN, and FREEDOM) and one collaborative filtering baseline (LightGCN) under varying encoders and modal fusion strategies. The results are structured to systematically address the four research questions (RQs) defined in Section 4.2.
+This section presents the empirical evaluation results and comparative analysis of the proposed multimodal recommendation frameworks. We evaluate 24 distinct configurations across three GNN models (BM3, CombiGCN, and FREEDOM)---all built upon the LightGCN collaborative-filtering backbone---under varying encoders and modal fusion strategies. The results are structured to systematically address the four research questions (RQs) defined in Section 4.2.
 
 \subsection{Encoder Comparison}
 
 We first evaluate the impact of different visual feature extractors---CLIP versus MobileNetV2 (MBNv2)---on top-$N$ recommendation accuracy. Visual features represent a critical modality in the fashion rental domain, conveying compatibility and aesthetic styling information. To examine how each encoder influences collaborative filtering under different configurations, we analyze performance along two dimensions: metric consistency across $K$ retrieval levels and multi-dimensional balance across all six evaluation metrics.
+
+Table~\ref{tab:encoder_comparison} reports the NDCG@10 of both encoders across all twelve model--fusion configurations, together with the relative change obtained by switching from CLIP to MobileNetV2. The table shows that the encoder ranking is strongly configuration-dependent: MobileNetV2 yields the best result within each model's optimal fusion setting (e.g., BM3 \texttt{multimodal} $0.0186$ versus $0.0142$, FREEDOM \texttt{mm\_attention} $0.0088$ versus $0.0033$), yet CLIP wins decisively in several visual-only and textual-only settings (most notably \texttt{combigcn\_img\_only}, $0.0155$ versus $0.0085$).
+
+\begin{table}[H]
+\centering
+\caption{Impact of the visual encoder on NDCG@10 across all model--fusion configurations (CLIP vs.\ MobileNetV2). The final column reports the relative change when switching from CLIP to MobileNetV2.}
+\label{tab:encoder_comparison}
+\small
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{llccc}
+\hline
+\textbf{Model} & \textbf{Sim Type} & \textbf{NDCG@10 (CLIP)} & \textbf{NDCG@10 (MBNv2)} & \textbf{MBNv2 $\Delta$ (\%)} \\ \hline
+BM3 & img\_only & 0.0129 & 0.0150 & $+16.3$ \\
+BM3 & tfidf & \textbf{0.0158} & 0.0149 & $-6.1$ \\
+BM3 & multimodal & 0.0142 & \textbf{0.0186} & $+30.8$ \\
+BM3 & mm\_attention & 0.0059 & 0.0101 & $+72.2$ \\ \hline
+CombiGCN & img\_only & \textbf{0.0155} & 0.0085 & $-45.2$ \\
+CombiGCN & tfidf & \textbf{0.0077} & 0.0071 & $-7.5$ \\
+CombiGCN & multimodal & 0.0174 & \textbf{0.0175} & $+0.7$ \\
+CombiGCN & mm\_attention & \textbf{0.0153} & 0.0151 & $-1.6$ \\ \hline
+FREEDOM & img\_only & 0.0060 & 0.0062 & $+3.7$ \\
+FREEDOM & tfidf & \textbf{0.0049} & 0.0031 & $-36.1$ \\
+FREEDOM & multimodal & 0.0049 & \textbf{0.0081} & $+63.7$ \\
+FREEDOM & mm\_attention & 0.0033 & \textbf{0.0088} & $+165.3$ \\ \hline
+\end{tabular}
+\end{table}
 
 \subsubsection{Stability and Peak Performance (Line Plot Analysis)}
 
@@ -163,10 +189,29 @@ The best configurations of BM3, CombiGCN, and FREEDOM are compared across all si
     \label{fig:best_config_overview}
 \end{figure}
 
-Detailed analysis of Figure~\ref{fig:best_config_overview} reveals the following performance trade-offs:
+The corresponding numerical values are consolidated in Table~\ref{tab:best_vs_best}, where the best configuration of each architecture is selected by NDCG@10.
+
+\begin{table}[H]
+\centering
+\caption{Best-performing configuration of each architecture across ranking metrics (best configuration selected by NDCG@10). Bold marks the highest value in each column.}
+\label{tab:best_vs_best}
+\scriptsize
+\setlength{\tabcolsep}{4pt}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llcccccccc}
+\hline
+\textbf{Model} & \textbf{Best Config} & \textbf{NDCG@5} & \textbf{NDCG@10} & \textbf{Recall@5} & \textbf{Recall@10} & \textbf{Prec@5} & \textbf{Prec@10} & \textbf{MRR@5} & \textbf{MRR@10} \\ \hline
+BM3 & MBNv2 $\cdot$ multimodal & \textbf{0.0162} & \textbf{0.0186} & \textbf{0.0166} & \textbf{0.0250} & \textbf{0.0105} & 0.0078 & \textbf{0.0259} & \textbf{0.0291} \\
+CombiGCN & MBNv2 $\cdot$ multimodal & 0.0137 & 0.0175 & 0.0127 & 0.0244 & 0.0090 & \textbf{0.0081} & 0.0242 & 0.0290 \\
+FREEDOM & MBNv2 $\cdot$ mm\_attention & 0.0084 & 0.0088 & 0.0105 & 0.0132 & 0.0054 & 0.0031 & 0.0118 & 0.0124 \\ \hline
+\end{tabular}%
+}
+\end{table}
+
+Detailed analysis of Figure~\ref{fig:best_config_overview} and Table~\ref{tab:best_vs_best} reveals the following performance trade-offs:
 \begin{itemize}
     \item \textbf{BM3 vs. CombiGCN Performance Gap}: The performance gap between BM3 and CombiGCN is highly dependent on the ranking size $K$. At $K=10$, the performance gap is narrow, with BM3 leading by only $+6.3\%$ (NDCG of $0.0186$ versus $0.0175$). However, at $K=5$, the gap widens to $+18.4\%$ in favor of BM3 (NDCG of $0.0162$ versus $0.0137$). This demonstrates that BM3 possesses a significantly stronger ranking capability at top positions. Evaluating at $K=5$ is crucial because the test set contains only $3.81$ items per user on average; at $K=10$, recall saturation obscures these structural advantages.
-    \item \textbf{Inverse performance at $K=1$}: We observe an important exception at $K=1$, where CombiGCN outperforms BM3 in both NDCG@1 and Precision@1. This implies that if a recommendation interface has a strict single-item constraint (demanding a precise first suggestion), CombiGCN is the superior choice. However, BM3 dominates from $K \ge 5$.
+    \item \textbf{Parity at $K=1$ and CombiGCN's precision niche}: At the strict top-1 setting, BM3 and CombiGCN are effectively tied, both attaining NDCG@1 $=$ Precision@1 $= 0.0127$. CombiGCN's only metric advantage over BM3 appears at Precision@10 ($0.0081$ versus $0.0078$), indicating a marginal edge in densely placing relevant items within the top-10 list. From $K \ge 5$, however, BM3 leads across all ranking-quality metrics, so its overall advantage is best characterized as emerging at moderate retrieval depths rather than at the single-item extreme.
     \item \textbf{Underperformance of FREEDOM}: FREEDOM's best configuration is highly uncompetitive, achieving an NDCG@10 of only $0.0088$, which is $53\%$ lower than BM3. This shows that constructing an item-item kNN graph from raw visual/textual features introduces too much noise in sparse, small-scale datasets, unlike CombiGCN's stable precomputed similarity graph or BM3's contrastive bootstrap alignment.
 \end{itemize}
 
@@ -186,3 +231,31 @@ As shown in Figure~\ref{fig:best_overall_per_metric}, the optimal configuration 
 We observe a notable anomaly in the Hit Ratio metric: the CLIP-based CombiGCN configuration (\texttt{combigcn\_clip\_multimodal}) wins the highest mean Hit Ratio of $0.0737$. This indicates that CombiGCN + CLIP is highly sensitive to placing at least one correct recommendation in the top list, though its actual ranking quality (as measured by NDCG, MRR, and MAP) remains inferior to BM3.
 
 In summary, the performance hierarchy \texttt{BM3 > CombiGCN > FREEDOM} remains consistent across all ranking depths and metrics. The combination of MobileNetV2 visual embeddings with the multimodal late fusion strategy on the BM3 architecture represents the best-performing configuration among those evaluated on this fashion recommendation benchmark.
+
+\subsection{Training Convergence and Overfitting Behavior}
+
+Beyond final ranking accuracy, the training dynamics of each architecture provide complementary insight into their stability and overfitting tendencies. For the best-performing configuration of each model, we record the epoch at which peak validation performance is reached (\texttt{best\_epoch}, monitored via Recall@20) and contrast the training loss at that epoch against the loss at the final epoch ($1{,}000$). These statistics are summarized in Table~\ref{tab:convergence_analysis}.
+
+\begin{table}[H]
+\centering
+\caption{Convergence statistics of the best configuration of each architecture: peak-performance epoch and training-loss evolution from the best epoch to the final epoch.}
+\label{tab:convergence_analysis}
+\small
+\setlength{\tabcolsep}{6pt}
+\begin{tabular}{llccc}
+\hline
+\textbf{Model} & \textbf{Best Config} & \textbf{Best Epoch} & \textbf{Loss@Best} & \textbf{Loss@1000} \\ \hline
+BM3 & MBNv2 $\cdot$ multimodal & 720 & 0.0369 & 0.0290 \\
+CombiGCN & MBNv2 $\cdot$ multimodal & 280 & 0.0406 & 0.0119 \\
+FREEDOM & MBNv2 $\cdot$ mm\_attention & 960 & 0.4683 & 0.4698 \\ \hline
+\end{tabular}
+\end{table}
+
+We emphasize that these observations derive from a single training run per configuration and should therefore be read as qualitative trends rather than precise convergence guarantees. Three patterns emerge:
+\begin{enumerate}
+    \item \textbf{CombiGCN converges rapidly but overfits.} CombiGCN reaches peak validation performance very early, at epoch $280$. Beyond this point, its training loss continues to fall steeply---by roughly $70\%$ (from $0.0406$ to $0.0119$)---while test-set ranking quality begins to decline. Because CombiGCN injects visual and textual features directly into a static item--item adjacency matrix, optimization proceeds quickly but is prone to overfitting the training graph structure when trained for many epochs without strong regularization.
+    \item \textbf{BM3 converges more slowly but resists overfitting.} BM3 requires until epoch $720$ to peak, after which its training loss decreases only modestly (about $21\%$). Aligning the collaborative and multimodal embedding spaces through bootstrap contrastive learning requires more iterations to reach equilibrium, but the self-supervised objective acts as a strong implicit regularizer that preserves the generalization of the learned representations even under prolonged training.
+    \item \textbf{FREEDOM converges late and flatly.} FREEDOM reaches its best epoch very late ($960$), and its training loss is essentially stationary thereafter (a $+0.3\%$ fluctuation). This nearly flat trajectory suggests that its decoupled graph-structure learning struggles to find an effective optimization direction on this small, sparse dataset, consistent with its weak overall ranking performance.
+\end{enumerate}
+
+These dynamics carry a practical implication: when the training budget is constrained or the model must be refreshed frequently, CombiGCN offers competitive ranking quality at roughly $2.5\times$ faster convergence than BM3 (epoch $280$ versus $720$), provided early stopping is applied to curb its overfitting tendency.
