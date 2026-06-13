@@ -36,7 +36,7 @@ FREEDOM & mm\_attention & 0.0033 & \textbf{0.0088} & $+165.3$ \\ \hline
 
 The top-$N$ metric line plots in Figure~\ref{fig:encoder_line_comparison} display the performance curves of the evaluated configurations across recommendation list sizes $K \in \{1, 5, 10, 20\}$ under the CLIP encoder (Figure~\ref{fig:metrics_clip}) and the MobileNetV2 encoder (Figure~\ref{fig:metrics_mbnv2}). Red stars highlight the optimal configuration for each metric at each $K$ level.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
     \centering
     \begin{subfigure}[b]{0.48\textwidth}
         \centering
@@ -63,7 +63,7 @@ Conversely, the MobileNetV2 encoder (Figure~\ref{fig:metrics_mbnv2}) exhibits ro
 
 The radar plots in Figure~\ref{fig:encoder_radar_comparison} provide a multi-dimensional perspective across all six evaluation metrics (Recall, Precision, NDCG, MRR, MAP, and Hit Ratio), highlighting the structural balance of the two encoders.
 
-\begin{figure}[H]
+\begin{figure}[htbp]
     \centering
     \begin{subfigure}[b]{0.48\textwidth}
         \centering
@@ -100,7 +100,7 @@ We perform an ablation study to analyze the impact of different feature integrat
 
 The ablation performance is analyzed individually for each of the three graphcollaborative filtering models. Figure~\ref{fig:ablation_heatmaps} displays the NDCG@K ablation heatmaps for BM3 (Figure~\ref{fig:ablation_bm3}), CombiGCN (Figure~\ref{fig:ablation_combigcn}), and FREEDOM (Figure~\ref{fig:ablation_freedom}).
 
-\begin{figure}[H]
+\begin{figure}[htbp]
     \centering
     \begin{subfigure}[b]{0.6\textwidth}
         \centering

@@ -40,6 +40,9 @@
 \usepackage{enumitem}
 \newlist{abbrv}{itemize}{1}
 \setlist[abbrv,1]{label=,labelwidth=1in,align=parleft,itemsep=0.1\baselineskip,leftmargin=!}
+% Tighten bullet/number list spacing so items are not spread out by the 1.5 line stretch
+\setlist[itemize]{topsep=2pt,itemsep=1pt,parsep=0pt,partopsep=0pt}
+\setlist[enumerate]{topsep=2pt,itemsep=1pt,parsep=0pt,partopsep=0pt}
 
 \usepackage[amsmath,thmmarks]{ntheorem}
 
@@ -81,6 +84,9 @@
 \emergencystretch=3em
 \tolerance=2000
 \hbadness=2000
+% Avoid orphan/widow lines (a single line stranded at the bottom/top of a page)
+\widowpenalty=10000
+\clubpenalty=10000
 
 \usepackage[labelfont=bf]{caption}
 \numberwithin{figure}{chapter}
