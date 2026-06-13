@@ -38,7 +38,7 @@ To leverage both visual aesthetics and textual attributes, multimodal recommende
         \mathbf{x}_i = \mathbf{x}_i^{\text{vis}} \oplus \mathbf{x}_i^{\text{txt}},
     \end{equation}
     where \(\oplus\) denotes the concatenation operator.
-    \item \textit{Weighted Attention Fusion (\texttt{multimodal\_attention})}: An adaptive fusion mechanism that dynamically learns attention weights to balance the contributions of visual and textual modalities on a per-item basis. This approach utilizes trainable projection layers and an attention gating network to automatically prioritize the most descriptive modality, yielding the highest recommendation accuracy:
+    \item \textit{Weighted Attention Fusion (\texttt{multimodal\_attention})}: An adaptive fusion mechanism that dynamically learns attention weights to balance the contributions of visual and textual modalities on a per-item basis. This approach utilizes trainable projection layers and an attention gating network to automatically prioritize the most descriptive modality. As analyzed in Chapter 4, however, the additional trainable parameters introduced by this mechanism do not consistently improve recommendation accuracy under sparse interaction data:
     \begin{equation}
         \mathbf{x}_i = \beta_{v,i} W_v \mathbf{x}_i^{\text{vis}} + \beta_{t,i} W_t \mathbf{x}_i^{\text{txt}},
     \end{equation}

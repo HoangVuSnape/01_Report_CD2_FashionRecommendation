@@ -17,6 +17,18 @@ To systematically evaluate the impact of different visual/textual encoders and m
     \end{itemize}
 \end{itemize}
 
+Note that the \texttt{tfidf} setting is textual-only and therefore independent of the choice of vision encoder; for presentation symmetry it is reported under both the CLIP and MobileNetV2 encoder groups, so the $24$ reported cells correspond to $18$ distinct model--feature combinations.
+
+\subsection{Research Questions}
+
+The experimental analysis in Section 4.3 is organized around four research questions (RQs), each isolating one design factor (encoder, modal fusion strategy, and architecture) to determine which factor governs recommendation quality:
+\begin{itemize}
+    \item \textbf{RQ1 (Encoder)}: Which visual encoder, CLIP or MobileNetV2, is more suitable for the fashion recommendation domain?
+    \item \textbf{RQ2 (Fusion strategy)}: Which feature integration strategy is most effective? In particular, does trainable weighted attention gating (\texttt{multimodal\_attention}) actually improve upon parameter-free late fusion (\texttt{multimodal})?
+    \item \textbf{RQ3 (Model)}: Among the three architectures (BM3, CombiGCN, and FREEDOM), which performs best when each is evaluated under its own optimal configuration?
+    \item \textbf{RQ4 (Consistency)}: Is the resulting performance ranking stable across different cut-off depths $K$ and across evaluation metrics?
+\end{itemize}
+
 \subsection{Key Hyperparameters}
 
 To ensure reproducibility, all models are trained using uniform optimization hyperparameters where applicable. The common parameters are defined as follows:
