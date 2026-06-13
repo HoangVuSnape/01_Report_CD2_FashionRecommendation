@@ -129,22 +129,3 @@ The operational workflow of FREEDOM is detailed below:
     where the contrastive weight $\lambda_2$ is set to $0.1$.
 \end{enumerate}
 
-\subsection{Summary of Model Architectures}
-
-To conclude the methodological overview of the models used in this study, Table~\ref{tab:model_comparison} summarizes their key structural and optimization differences, highlighting how they manage multimodal integration and self-supervised learning.
-
-\begin{table}[H]
-\centering
-\scriptsize
-\setlength{\tabcolsep}{2pt}
-\caption{Architectural Comparison of the Graph Neural Collaborative Filtering Models.}
-\label{tab:model_comparison}
-\begin{tabularx}{\textwidth}{>{\raggedright\arraybackslash}p{2.2cm}>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X>{\raggedright\arraybackslash}X}
-\hline
-\textbf{Model} & \textbf{Item-Item Graph} & \textbf{Multimodal Fusion Level} & \textbf{Self-Supervised Learning} & \textbf{Parameter Updates} \\ \hline
-LightGCN \parencite{he2020lightgcnsimplifyingpoweringgraph} & None & None & None & Gradient descent \\
-CombiGCN (adapted) \parencite{10.1007/978-981-97-0669-3_11} & Precomputed similarity matrix & Data layer (adapted) & None & Gradient descent \\
-BM3 \parencite{10.1145/3543507.3583251} & None & Model layer & Bootstrap CL & Online gradient / target EMA \\
-FREEDOM \parencite{Zhou_2023} & Frozen kNN graph & Model layer & InfoNCE CL & Gradient descent \\ \hline
-\end{tabularx}
-\end{table}
