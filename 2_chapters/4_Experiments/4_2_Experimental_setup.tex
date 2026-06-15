@@ -17,7 +17,7 @@ To systematically evaluate the impact of different visual/textual encoders and m
     \end{itemize}
 \end{itemize}
 
-Note that the \texttt{text\_only} setting is textual-only and therefore independent of the choice of vision encoder; for presentation symmetry it is reported under both the CLIP and MobileNetV2 encoder groups, so the $24$ reported cells correspond to $18$ distinct model--feature combinations.
+Note that the \texttt{text\_only} setting uses the same textual input regardless of the vision encoder (no image features are involved); it is nonetheless reported under both the CLIP and MobileNetV2 encoder groups as two independent training runs. Consequently, the small differences between these paired \texttt{text\_only} runs reflect run-to-run stochasticity (random initialization, edge dropout, and negative sampling) rather than any encoder effect, and they provide an incidental indication of the run-to-run variance acknowledged in the limitations (Section~5.2).
 
 \subsection{Research Questions}
 
