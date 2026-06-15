@@ -20,11 +20,12 @@ The trade-off between these encoders is clear: CLIP provides richer semantic rep
 
 \subsection{Textual Features}
 
-Textual metadata, such as product titles, descriptions, categories, and tags, provides explicit, descriptive information about fashion items. In this study, text features are extracted and stored as \texttt{text\_embeddings.npy} using Term Frequency-Inverse Document Frequency (TF-IDF):
+Textual metadata, such as product titles, descriptions, categories, and tags, provides explicit, descriptive information about fashion items. In this study, the textual modality is represented in two complementary ways depending on the integration paradigm:
 \begin{itemize}
-    \item \textit{TF-IDF (Term Frequency-Inverse Document Frequency)}: A statistical approach that constructs sparse, high-dimensional lexical vectors based on term occurrence. For item description text \(T_i\), the TF-IDF representation \(\mathbf{x}_i^{\text{txt}} \in \mathbb{R}^{V}\) (where \(V\) is the vocabulary size) is effective for capturing exact keyword matches and constructing computationally efficient item-item text similarity matrices.
+    \item \textit{BERT (Bidirectional Encoder Representations from Transformers)}: For the model-level architectures (BM3 and FREEDOM), item text is encoded by a pre-trained \texttt{bert-base-uncased} model into a dense semantic embedding \(\mathbf{x}_i^{\text{txt}} \in \mathbb{R}^{768}\), stored as \texttt{text\_embeddings.npy}. These contextual embeddings capture semantic relatedness beyond exact keyword overlap (e.g., associating ``dress'' with ``gown'').
+    \item \textit{TF-IDF (Term Frequency-Inverse Document Frequency)}: For the data-level architecture (CombiGCN), item text is instead represented by sparse lexical vectors \(\in \mathbb{R}^{V}\) (where \(V\) is the vocabulary size), used only to construct the item-item textual similarity graph via cosine similarity.
 \end{itemize}
-In this study, TF-IDF is used as the textual encoder to analyze the impact of lexical matches on recommendation quality.
+Thus BERT provides the dense textual feature consumed directly by the model-level encoders, while TF-IDF provides the lexical similarity prior used by CombiGCN's similarity graph.
 
 
 \subsection{Multimodal Fusion}
@@ -32,7 +33,7 @@ In this study, TF-IDF is used as the textual encoder to analyze the impact of le
 To leverage both visual aesthetics and textual attributes, multimodal recommender systems employ fusion strategies to integrate features from different modalities into a unified item representation. In the proposed pipeline, the choice of fusion is parameterized by the \texttt{sim\_type} variable, evaluating the following configurations:
 \begin{itemize}
     \item \textit{Visual-only (\texttt{img\_only})}: The item representation is constructed solely from the visual embedding: \(\mathbf{x}_i = \mathbf{x}_i^{\text{vis}}\).
-    \item \textit{Textual-only (\texttt{tfidf})}: The item representation is constructed solely from the textual embedding: \(\mathbf{x}_i = \mathbf{x}_i^{\text{txt}}\).
+    \item \textit{Textual-only (\texttt{text\_only})}: The item representation is constructed solely from the textual embedding: \(\mathbf{x}_i = \mathbf{x}_i^{\text{txt}}\). This setting corresponds to the \texttt{tfidf} flag in the implementation; it is realized as the BERT text embedding for BM3/FREEDOM and as TF-IDF lexical similarity for CombiGCN.
     \item \textit{Late Fusion (\texttt{multimodal})}: A parameter-free fusion approach that serves as a stable baseline. It directly combines the visual and textual representations (e.g., via vector concatenation or element-wise averaging) without requiring additional learnable parameters:
     \begin{equation}
         \mathbf{x}_i = \mathbf{x}_i^{\text{vis}} \oplus \mathbf{x}_i^{\text{txt}},
@@ -51,4 +52,4 @@ Advanced multimodal recommendation models integrate these fused features directl
     \item \textit{FREEDOM}: Constructs a frozen item-item kNN similarity graph using item multimodal features, and propagates content embeddings over this static structure, alleviating the computational burden of dynamic graph convolutions on user-item bipartite graphs.
 \end{itemize}
 
-Despite the variety of multimodal fusion and graph-based models, there remains a lack of systematic evaluation comparing different fusion configurations (\texttt{img\_only}, \texttt{tfidf}, \texttt{multimodal}, \texttt{multimodal\_attention}) across graph neural collaborative filtering architectures built on the LightGCN scheme (CombiGCN, BM3, and FREEDOM) in the fashion domain. This study addresses this gap by conducting a comprehensive comparative analysis of these modalities and fusion mechanisms under diverse structural propagation environments.
+Despite the variety of multimodal fusion and graph-based models, there remains a lack of systematic evaluation comparing different fusion configurations (\texttt{img\_only}, \texttt{text\_only}, \texttt{multimodal}, \texttt{multimodal\_attention}) across graph neural collaborative filtering architectures built on the LightGCN scheme (CombiGCN, BM3, and FREEDOM) in the fashion domain. This study addresses this gap by conducting a comprehensive comparative analysis of these modalities and fusion mechanisms under diverse structural propagation environments.

@@ -18,15 +18,15 @@ Table~\ref{tab:encoder_comparison} reports the NDCG@10 of both encoders across a
 \hline
 \textbf{Model} & \textbf{Sim Type} & \textbf{NDCG@10 (CLIP)} & \textbf{NDCG@10 (MBNv2)} & \textbf{MBNv2 $\Delta$ (\%)} \\ \hline
 BM3 & img\_only & 0.0129 & 0.0150 & $+16.3$ \\
-BM3 & tfidf & \textbf{0.0158} & 0.0149 & $-6.1$ \\
+BM3 & text\_only & \textbf{0.0158} & 0.0149 & $-6.1$ \\
 BM3 & multimodal & 0.0142 & \textbf{0.0186} & $+30.8$ \\
 BM3 & mm\_attention & 0.0059 & 0.0101 & $+72.2$ \\ \hline
 CombiGCN & img\_only & \textbf{0.0155} & 0.0085 & $-45.2$ \\
-CombiGCN & tfidf & \textbf{0.0077} & 0.0071 & $-7.5$ \\
+CombiGCN & text\_only & \textbf{0.0077} & 0.0071 & $-7.5$ \\
 CombiGCN & multimodal & 0.0174 & \textbf{0.0175} & $+0.7$ \\
 CombiGCN & mm\_attention & \textbf{0.0153} & 0.0151 & $-1.6$ \\ \hline
 FREEDOM & img\_only & 0.0060 & 0.0062 & $+3.7$ \\
-FREEDOM & tfidf & \textbf{0.0049} & 0.0031 & $-36.1$ \\
+FREEDOM & text\_only & \textbf{0.0049} & 0.0031 & $-36.1$ \\
 FREEDOM & multimodal & 0.0049 & \textbf{0.0081} & $+63.7$ \\
 FREEDOM & mm\_attention & 0.0033 & \textbf{0.0088} & $+165.3$ \\ \hline
 \end{tabular}
@@ -55,7 +55,7 @@ The top-$N$ metric line plots in Figure~\ref{fig:encoder_line_comparison} displa
     \label{fig:encoder_line_comparison}
 \end{figure}
 
-Under the CLIP encoder (Figure~\ref{fig:metrics_clip}), we observe a significant lack of configuration consistency. The best-performing model setup shifts frequently as the ranking size $K$ changes. For instance, on the Recall metric, the hybrid collaborative filtering model CombiGCN under the \texttt{multimodal} late fusion setting leads at lower recall thresholds ($K \in \{1, 5, 10\}$) but is surpassed by the text-only configuration of BM3 using TF-IDF (\texttt{bm3\_tfidf}) at $K=20$. Similarly, for the Precision metric, the optimal configuration shifts from the visual-only BM3 (\texttt{bm3\_img\_only}) at $K=1$ to the late-fusion CombiGCN (\texttt{combigcn\_multimodal}) at higher $K$ values. On the NDCG metric, the top configuration changes dynamically across almost all evaluation points (e.g., \texttt{combigcn\_img\_only} at $K=5$, \texttt{combigcn\_multimodal} at $K=10$, and \texttt{bm3\_tfidf} at $K=20$). This performance volatility suggests that CLIP's joint text-image representations do not establish a stable synergy with the collaborative recommendation models for this specific dataset.
+Under the CLIP encoder (Figure~\ref{fig:metrics_clip}), we observe a significant lack of configuration consistency. The best-performing model setup shifts frequently as the ranking size $K$ changes. For instance, on the Recall metric, the hybrid collaborative filtering model CombiGCN under the \texttt{multimodal} late fusion setting leads at lower recall thresholds ($K \in \{1, 5, 10\}$) but is surpassed by the text-only configuration of BM3 (\texttt{bm3\_text\_only}) at $K=20$. Similarly, for the Precision metric, the optimal configuration shifts from the visual-only BM3 (\texttt{bm3\_img\_only}) at $K=1$ to the late-fusion CombiGCN (\texttt{combigcn\_multimodal}) at higher $K$ values. On the NDCG metric, the top configuration changes dynamically across almost all evaluation points (e.g., \texttt{combigcn\_img\_only} at $K=5$, \texttt{combigcn\_multimodal} at $K=10$, and \texttt{bm3\_text\_only} at $K=20$). This performance volatility suggests that CLIP's joint text-image representations do not establish a stable synergy with the collaborative recommendation models for this specific dataset.
 
 Conversely, the MobileNetV2 encoder (Figure~\ref{fig:metrics_mbnv2}) exhibits robust stability and clear convergence towards a single dominant configuration: \texttt{bm3\_multimodal} (highlighted by the bold red line). For both the Recall and NDCG metrics, \texttt{bm3\_multimodal} consistently maintains the lead across all values of $K$. For example, the NDCG@20 of the MBNv2-based \texttt{bm3\_multimodal} exceeds $0.025$, whereas the best CLIP-based configuration peaks at only approximately $0.023$. On the Precision metric, although \texttt{bm3\_multimodal} faces minor competition from \texttt{combigcn\_multimodal} at $K=10$ and \texttt{combigcn\_multimodal\_attention} at $K=20$, it remains highly competitive and stable, showcasing a consistent learning capability.
 
@@ -82,7 +82,7 @@ The radar plots in Figure~\ref{fig:encoder_radar_comparison} provide a multi-dim
     \label{fig:encoder_radar_comparison}
 \end{figure}
 
-For the CLIP encoder (Figure~\ref{fig:radar_clip}), the performance is highly fragmented. No single configuration dominates across all dimensions, resulting in asymmetrical, collapsed shapes. For instance, while the late-fusion CombiGCN (\texttt{combigcn\_multimodal}) achieves a high Hit Ratio (exceeding $0.07$), its polygon is severely compressed along other metrics. On the other hand, the text-only BM3 (\texttt{bm3\_tfidf}) shows a strong Recall projection (touching $0.05$) but performs poorly on ranking-sensitive metrics such as MAP and MRR. The overall CLIP polygon is heavily compressed in deep ranking metrics (MAP, MRR, and NDCG remaining within the $0.01$--$0.02$ range).
+For the CLIP encoder (Figure~\ref{fig:radar_clip}), the performance is highly fragmented. No single configuration dominates across all dimensions, resulting in asymmetrical, collapsed shapes. For instance, while the late-fusion CombiGCN (\texttt{combigcn\_multimodal}) achieves a high Hit Ratio (exceeding $0.07$), its polygon is severely compressed along other metrics. On the other hand, the text-only BM3 (\texttt{bm3\_text\_only}) shows a strong Recall projection (touching $0.05$) but performs poorly on ranking-sensitive metrics such as MAP and MRR. The overall CLIP polygon is heavily compressed in deep ranking metrics (MAP, MRR, and NDCG remaining within the $0.01$--$0.02$ range).
 
 Under the MobileNetV2 encoder (Figure~\ref{fig:radar_mbnv2}), we observe a striking contrast. The polygon representing \texttt{bm3\_multimodal} (red line) is widely expanded and completely encompasses the other configurations. It overcomes the fragmentation issue seen with CLIP by achieving the highest scores not only on the Hit Ratio metric (touching near $0.08$) but also across all core ranking quality metrics, including NDCG, MAP, and MRR.
 
@@ -94,7 +94,7 @@ However, fashion styling and item compatibility depend on fine-grained visual fe
 
 \subsection{Fusion Strategy Comparison}
 
-We perform an ablation study to analyze the impact of different feature integration strategies---visual-only (\texttt{img\_only}), textual-only (\texttt{tfidf}), multimodal late fusion (\texttt{multimodal}), and weighted attention gating (\texttt{multimodal\_attention})---across the three graph recommendation models.
+We perform an ablation study to analyze the impact of different feature integration strategies---visual-only (\texttt{img\_only}), textual-only (\texttt{text\_only}), multimodal late fusion (\texttt{multimodal}), and weighted attention gating (\texttt{multimodal\_attention})---across the three graph recommendation models.
 
 \subsubsection{Architecture-Specific Ablation Performance}
 
@@ -129,7 +129,7 @@ The ablation performance is analyzed individually for each of the three graphcol
 \end{figure}
 
 \paragraph{BM3 Architecture}
-As shown in the NDCG@K heatmap (Figure~\ref{fig:ablation_bm3}) and the NDCG@10 comparison (Figure~\ref{fig:bm3_sim_comparison}), the late-fusion \texttt{multimodal} strategy combined with the MBNv2 visual encoder achieves the highest performance. At $K=20$, this configuration reaches an NDCG of $0.0259$ (marked as the darkest red cell), leading all other configurations. An interesting anomaly occurs in the CLIP-based configurations: the traditional textual features (\texttt{tfidf}) outperform the late-fusion \texttt{multimodal} strategy at $K=10$ (NDCG of $0.0158$ for \texttt{tfidf} versus $0.0142$ for \texttt{multimodal}). However, when switching to the MBNv2 encoder, the late fusion strategy resumes its dominant position.
+As shown in the NDCG@K heatmap (Figure~\ref{fig:ablation_bm3}) and the NDCG@10 comparison (Figure~\ref{fig:bm3_sim_comparison}), the late-fusion \texttt{multimodal} strategy combined with the MBNv2 visual encoder achieves the highest performance. At $K=20$, this configuration reaches an NDCG of $0.0259$ (marked as the darkest red cell), leading all other configurations. An interesting anomaly occurs in the CLIP-based configurations: the text-only setting (\texttt{text\_only}) outperforms the late-fusion \texttt{multimodal} strategy at $K=10$ (NDCG of $0.0158$ for \texttt{text\_only} versus $0.0142$ for \texttt{multimodal}). However, when switching to the MBNv2 encoder, the late fusion strategy resumes its dominant position.
 
 \begin{figure}[H]
     \centering
@@ -143,10 +143,10 @@ Crucially, the trainable weighted attention gating strategy (\texttt{multimodal\
 \paragraph{CombiGCN Architecture}
 As shown in Figure~\ref{fig:ablation_combigcn}, CombiGCN exhibits highly consistent performance under the late-fusion \texttt{multimodal} strategy. Both CLIP and MBNv2 visual encoders achieve their peak performance under this setting (with the MBNv2-based multimodal setting peaking at an NDCG of $0.0240$ at $K=20$). 
 
-However, we observe a notable paradox in the visual-only (\texttt{img\_only}) setting. When only visual embeddings are utilized, the CLIP encoder significantly outperforms MBNv2. For example, at $K=20$, CLIP \texttt{img\_only} achieves an NDCG@20 of $0.0220$, whereas MBNv2 \texttt{img\_only} drops to $0.0119$. Additionally, CombiGCN shows a high level of incompatibility with textual-only features (\texttt{tfidf}). The NDCG scores for CombiGCN \texttt{tfidf} configurations collapse to the bottom of the scale, as shown by the pale yellow band at the bottom of the heatmap in Figure~\ref{fig:ablation_combigcn}.
+However, we observe a notable paradox in the visual-only (\texttt{img\_only}) setting. When only visual embeddings are utilized, the CLIP encoder significantly outperforms MBNv2. For example, at $K=20$, CLIP \texttt{img\_only} achieves an NDCG@20 of $0.0220$, whereas MBNv2 \texttt{img\_only} drops to $0.0119$. Additionally, CombiGCN shows a high level of incompatibility with textual-only features (\texttt{text\_only}). The NDCG scores for CombiGCN \texttt{text\_only} configurations collapse to the bottom of the scale, as shown by the pale yellow band at the bottom of the heatmap in Figure~\ref{fig:ablation_combigcn}.
 
 \paragraph{FREEDOM Architecture}
-The overall NDCG values for FREEDOM (Figure~\ref{fig:ablation_freedom}) are significantly lower than those of BM3 and CombiGCN, peaking at only $0.0115$ at $K=20$. Under this architecture, the MBNv2 encoder shows a much stronger performance than CLIP when handling complex settings. For instance, at $K=20$, MBNv2 achieves an NDCG of $0.0115$ and $0.0112$ for \texttt{multimodal} and \texttt{multimodal\_attention} respectively, whereas CLIP drops to $0.0070$ and $0.0041$. The CLIP encoder only outperforms MBNv2 in the textual-only (\texttt{tfidf}) configuration, though the absolute performance remains very low.
+The overall NDCG values for FREEDOM (Figure~\ref{fig:ablation_freedom}) are significantly lower than those of BM3 and CombiGCN, peaking at only $0.0115$ at $K=20$. Under this architecture, the MBNv2 encoder shows a much stronger performance than CLIP when handling complex settings. For instance, at $K=20$, MBNv2 achieves an NDCG of $0.0115$ and $0.0112$ for \texttt{multimodal} and \texttt{multimodal\_attention} respectively, whereas CLIP drops to $0.0070$ and $0.0041$. The CLIP encoder only outperforms MBNv2 in the textual-only (\texttt{text\_only}) configuration, though the absolute performance remains very low.
 
 \subsubsection{Ablation Synthesis and Discussion}
 
@@ -160,7 +160,7 @@ We summarize the NDCG@10 results in Table~\ref{tab:ablation_summary}, reporting 
 \setlength{\tabcolsep}{6pt}
 \begin{tabular}{lcccc}
 \hline
-\textbf{Model} & \textbf{img\_only} & \textbf{tfidf} & \textbf{multimodal} & \shortstack[c]{\textbf{multimodal\_}\\\textbf{attention}} \\ \hline
+\textbf{Model} & \textbf{img\_only} & \textbf{text\_only} & \textbf{multimodal} & \shortstack[c]{\textbf{multimodal\_}\\\textbf{attention}} \\ \hline
 BM3 (MBNv2) & 0.0150 & 0.0149 & \textbf{0.0186} & 0.0101 \\
 CombiGCN (MBNv2) & 0.0085 & 0.0071 & \textbf{0.0175} & 0.0151 \\
 FREEDOM (MBNv2) & 0.0062 & 0.0031 & 0.0081 & \textbf{0.0088} \\ \hline
@@ -169,9 +169,9 @@ FREEDOM (MBNv2) & 0.0062 & 0.0031 & 0.0081 & \textbf{0.0088} \\ \hline
 
 From the ablation experiments, we derive three key insights:
 \begin{enumerate}
-    \item \textbf{Late Fusion (\texttt{multimodal}) is the optimal strategy}: For robust GNN models (BM3 and CombiGCN), combining visual and textual features via late fusion outperforms single-modality setups. The poor performance of textual-only (\texttt{tfidf}) configurations indicates that visual features act as the dominant modality in this fashion recommendation setting, consistent with the intuition that consumers prioritize visual aesthetics and styling compatibility.
+    \item \textbf{Late Fusion (\texttt{multimodal}) is the optimal strategy}: For robust GNN models (BM3 and CombiGCN), combining visual and textual features via late fusion outperforms single-modality setups. The poor performance of textual-only (\texttt{text\_only}) configurations indicates that visual features act as the dominant modality in this fashion recommendation setting, consistent with the intuition that consumers prioritize visual aesthetics and styling compatibility.
     \item \textbf{Weighted attention gating (\texttt{multimodal\_attention}) is not a universal improvement}: Attention gating degrades BM3 by $46\%$ and CombiGCN by $14\%$. It only improves FREEDOM by $+8\%$. This indicates that for models with strong modal representation learning (such as contrastive alignment in BM3 or dual-graph propagation in CombiGCN), adding a trainable attention gating layer increases model complexity and introduces overfitting and noise on this smaller dataset (9,455 interactions). FREEDOM is weaker overall, so the attention gating provides a small regularization/guidance benefit, but it remains far below the other architectures.
-    \item \textbf{No universal configuration (no silver bullet)}: Configuration choices are highly architecture-dependent. BM3 remains relatively robust under textual-only (\texttt{tfidf}) features, whereas CombiGCN is largely incompatible with \texttt{tfidf} yet achieves strong performance with CLIP-based visual-only embeddings. Therefore, encoder and fusion settings must be optimized locally for each specific recommender structure.
+    \item \textbf{No universal configuration (no silver bullet)}: Configuration choices are highly architecture-dependent. BM3 remains relatively robust under textual-only (\texttt{text\_only}) features, whereas CombiGCN is largely incompatible with \texttt{text\_only} yet achieves strong performance with CLIP-based visual-only embeddings. Therefore, encoder and fusion settings must be optimized locally for each specific recommender structure.
 \end{enumerate}
 
 \subsection{Model Comparison}

@@ -7,17 +7,17 @@ This section details the experimental configuration, hyperparameter selections, 
 To systematically evaluate the impact of different visual/textual encoders and modal fusion strategies across different graph structures, we define a grid of 24 model configurations. Specifically, the configuration space is spanned by three dimensions:
 \begin{itemize}
     \item \textbf{Recommendation Models}: We evaluate three graph collaborative filtering architectures: CombiGCN (adapted) \parencite{10.1007/978-981-97-0669-3_11}, BM3 \parencite{10.1145/3543507.3583251}, and FREEDOM \parencite{Zhou_2023}. All three build on the LightGCN \parencite{he2020lightgcnsimplifyingpoweringgraph} propagation scheme as their shared collaborative-filtering backbone; LightGCN itself is not run as a standalone configuration.
-    \item \textbf{Feature Encoders}: We evaluate two vision encoders (MobileNetV2 vs. CLIP) and a textual encoder (TF-IDF) to extract raw features. These features are stored as \texttt{image\_embeddings.npy} and \texttt{text\_embeddings.npy} respectively.
+    \item \textbf{Feature Encoders}: We evaluate two vision encoders (MobileNetV2 vs. CLIP) for the visual modality. The textual modality is encoded by BERT (\texttt{bert-base-uncased}, $768$-d) as dense embeddings for the model-level architectures (BM3, FREEDOM), and by TF-IDF lexical similarity for the data-level CombiGCN graph. Raw features are stored as \texttt{image\_embeddings.npy} and \texttt{text\_embeddings.npy} respectively.
     \item \textbf{Fusion and Similarity Types (\texttt{sim\_type})}: We evaluate four settings:
     \begin{itemize}
         \item \texttt{img\_only}: Item representation uses visual embeddings only.
-        \item \texttt{tfidf}: Item representation uses textual embeddings only.
+        \item \texttt{text\_only}: Item representation uses textual embeddings only (BERT for BM3/FREEDOM; TF-IDF similarity for CombiGCN). This setting is labelled \texttt{tfidf} in the implementation.
         \item \texttt{multimodal}: Late fusion combining visual and textual features via average pooling or concatenation.
         \item \texttt{multimodal\_attention}: Trainable weighted attention fusion dynamically gating visual and textual contributions.
     \end{itemize}
 \end{itemize}
 
-Note that the \texttt{tfidf} setting is textual-only and therefore independent of the choice of vision encoder; for presentation symmetry it is reported under both the CLIP and MobileNetV2 encoder groups, so the $24$ reported cells correspond to $18$ distinct model--feature combinations.
+Note that the \texttt{text\_only} setting is textual-only and therefore independent of the choice of vision encoder; for presentation symmetry it is reported under both the CLIP and MobileNetV2 encoder groups, so the $24$ reported cells correspond to $18$ distinct model--feature combinations.
 
 \subsection{Research Questions}
 

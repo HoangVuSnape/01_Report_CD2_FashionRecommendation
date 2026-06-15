@@ -1,0 +1,2 @@
+- tẠI SAO DATA Vcr lớn mà em chỉ lấy đi có khoảng 10k Data cần trả lời
+- 
