@@ -91,14 +91,17 @@
 - Đến: 19/4/2026
 - **📋 Báo cáo giữa kỳ: 13/04 - 19/04/2026**
 - Công việc cần làm: 
-  - Cấu hình tăng tốc xử lý ảnh (GPU acceleration hoặc Optimize Model ONNX/TensorRT)
+  - Cấu hình tăng tốc xử lý ảnh (GPU acceleration)
   - Đánh giá model qua Precision@K, Recall@K
-  - Điều chỉnh thuật toán Hybrid (kết hợp metadata)
+  - Xây dựng, tích hợp logic CF/CBF/hybrid và API recommendation
+  - Refactor frontend Next.js v2 & backend FastAPI/.NET
 - Công việc đã làm: 
-  - ✅ Cấu hình tăng tốc xử lý ảnh (GPU acceleration)
-  - ✅ Đánh giá model qua Precision@K, Recall@K
-  - ✅ Điều chỉnh thuật toán Hybrid (kết hợp metadata)
-- % hoàn thành: 95% 
+  - ✅ Tích hợp logic CF/CBF/hybrid và API recommendation (nhánh `se_recomendation`)
+  - ✅ Viết script export checkpoint LightGCN phục vụ pipeline offline
+  - ✅ Cập nhật frontend Next.js v2, dashboard admin và backend FastAPI/.NET (nhánh `refact_code_v2`)
+  - ✅ Đánh giá model qua Precision@K, Recall@K và tối ưu tăng tốc GPU
+  - ⚠️ Hạn chế: Dữ liệu đầu vào cần điều chỉnh theo schema mới, cần chuẩn hóa code Python theo mô hình Domain/Service/Repository
+- % hoàn thành: 90% 
 
 ---
 
@@ -106,15 +109,15 @@
 - Từ: 20/4/2026
 - Đến: 26/4/2026
 - Công việc cần làm: 
-  - Hoàn thiện API lưu trữ lịch sử người dùng
-  - Lưu trữ Cache cho các kết quả tìm kiếm phổ biến
-  - Cấu hình SuperBase cho lưu trữ user login
-  - Demo: workflow về Upload, gợi ý, recommend của model
+  - Hoàn thiện API lưu trữ lịch sử người dùng và cache kết quả tìm kiếm phổ biến
+  - Cấu hình Supabase lưu trữ user login
+  - Chỉnh sửa schema, data mapping & thiết kế pipeline agentic fashion
+  - Demo workflow upload, gợi ý, recommend của model
 - Công việc đã làm: 
-  - ✅ Hoàn thiện API lưu trữ lịch sử người dùng
-  - ✅ Lưu trữ Cache cho các kết quả tìm kiếm phổ biến
-  - ✅ Cấu hình SuperBase cho lưu trữ user login
-  - ✅ Demo: workflow về Upload, gợi ý, recommend của model
+  - ✅ Hoàn thiện API lưu trữ lịch sử và cơ chế cache kết quả tìm kiếm
+  - ✅ Cấu hình Supabase cho xác thực người dùng (login)
+  - ✅ Chỉnh sửa schema, data mapping và phác thảo pipeline agentic fashion
+  - ✅ Demo thành công workflow upload và recommendation
 - % hoàn thành: 90% 
 
 ---
@@ -123,14 +126,16 @@
 - Từ: 27/4/2026
 - Đến: 3/5/2026
 - Công việc cần làm: 
-  - Thiết lập API Gateway (Nginx)
-  - Xử lý phân quyền người dùng (JWT)
-  - Kiểm tra bảo mật cơ bản
+  - Viết tài liệu thiết kế API và tài liệu định hướng luồng Offline/Online Recommendation
+  - Thiết lập API Gateway (Nginx) và cấu hình phân quyền JWT (CUSTOMER, ADMIN)
+  - Cập nhật DB (Complaint, Request Withdraw, Voucher) và tối ưu Dockerfile/docker-compose
+  - 🔴 **ĐIỂM QUAY**: Đánh giá hướng đi theo ý kiến GVHD (tập trung đào sâu recommendation thực nghiệm thay vì ứng dụng)
 - Công việc đã làm: 
-  - ⏳ Thiết lập API Gateway (Nginx)
-  - ⏳ Xử lý phân quyền & Security
-  - 🔴 **ĐIỂM QUAY**: Đánh giá hướng đi (ứng dụng vs. recommendation đào sâu)
-- % hoàn thành: 55%
+  - ✅ Hoàn thành bộ tài liệu: API Design, API Gap Analysis, Router Refactoring Guide, Implementation Plan
+  - ✅ Phân tích luồng Offline (tính toán trước embeddings, FAISS index, LightGCN weights) & Online (giảm độ trễ)
+  - ✅ Cấu hình phân quyền JWT và tinh chỉnh Docker/docker-compose
+  - ⏳ Đang cập nhật DB theo schema mới và debug lỗi API gateway
+- % hoàn thành: 75%
 - **Ghi chú**: Sau ngày 5/5, GVHD đề nghị tập trung vào "recommendation đào sâu thực nghiệm" thay vì ứng dụng 
 
 ---
@@ -139,11 +144,14 @@
 - Từ: 4/5/2026
 - Đến: 10/5/2026
 - Công việc cần làm: 
-  - Testing toàn bộ hệ thống
-  - Cải thiện hiệu năng
-  - Tối ưu code
+  - Xây dựng và hoàn thiện pipeline xử lý dữ liệu mẫu 10k (User-Centric Sampling)
+  - Trích xuất đặc trưng hình ảnh (MobileNetV2, CLIP) và tiền xử lý dữ liệu chuẩn hóa
+  - Thiết kế các cơ chế fusion (Mean, Max, Weight Attention) kết hợp đặc trưng hình ảnh và văn bản trên LightGCN
 - Công việc đã làm: 
-- % hoàn thành: 
+  - ✅ Hoàn thành pipeline trích xuất đặc trưng ảnh (1280-D bằng MobileNetV2 và CLIP) và chuẩn hóa ảnh trực diện
+  - ✅ Tối ưu hóa dữ liệu: chuyển đổi ID sang số nguyên và Datetime sang UNIX timestamp
+  - ✅ Tích hợp kiến trúc LightGCN cốt lõi và thiết lập các chiến lược fusion đa phương thức
+- % hoàn thành: 90%
 
 ---
 
@@ -151,11 +159,16 @@
 - Từ: 11/5/2026
 - Đến: 17/5/2026
 - Công việc cần làm: 
-  - Fix bugs phát hiện
-  - Hoàn thiện tính năng
-  - Chuẩn bị documentation
+  - Thực thi huấn luyện và đánh giá thực nghiệm các mô hình
+  - So sánh 24 cấu hình thử nghiệm khác nhau
+  - Phân tích các câu hỏi nghiên cứu (RQ1 - RQ4) để tìm ra mô hình tối ưu
 - Công việc đã làm: 
-- % hoàn thành: 
+  - ✅ Đánh giá thực nghiệm 3 mô hình (BM3, CombiGCN, FREEDOM) và 2 encoder (MobileNetV2, CLIP) với 4 cơ chế fusion trên tập dữ liệu (553 users, 2.194 items)
+  - ✅ Xác định MobileNetV2 trích xuất đặc trưng thời trang tốt hơn CLIP
+  - ✅ Xác định cơ chế Multimodal (Late Fusion) là tốt nhất; attention gây nhiễu trên tập dữ liệu nhỏ
+  - ✅ Kết luận BM3 là mô hình hiệu quả nhất (vượt CombiGCN +18% ở K=5, gấp đôi FREEDOM)
+  - ✅ Chọn cấu hình tối ưu: BM3 + MobileNetV2 + Multimodal (Late Fusion)
+- % hoàn thành: 95%
 
 ---
 
@@ -163,10 +176,15 @@
 - Từ: 18/5/2026
 - Đến: 24/5/2026
 - Công việc cần làm: 
-  - Hoàn thiện báo cáo chi tiết
-  - Chuẩn bị tài liệu hỗ trợ
+  - Viết các chương cốt lõi của báo cáo (Chương 2, 3, 4)
+  - Thiết kế sơ đồ quy trình hệ thống (workflow diagrams) cho Chương 3
+  - Tổng hợp, lọc dữ liệu thực nghiệm cho Chương 4
 - Công việc đã làm: 
-- % hoàn thành: 
+  - ✅ Hoàn thành bản nháp Chương 2 (Cơ sở lý thuyết)
+  - ✅ Vẽ sơ đồ quy trình hệ thống và pipeline dữ liệu cho Chương 3
+  - ✅ Lọc và chuẩn bị dữ liệu thực nghiệm để đưa vào Chương 4
+  - ✅ Chuyển repository báo cáo sang GitHub cục bộ do giới hạn biên dịch của Overleaf
+- % hoàn thành: 90%
 
 ---
 
@@ -174,10 +192,14 @@
 - Từ: 25/5/2026
 - Đến: 31/5/2026
 - Công việc cần làm: 
-  - Review lại toàn bộ dự án
-  - Hoàn thiện báo cáo chính
+  - Hoàn thiện nội dung chi tiết của cả 5 chương trong báo cáo nghiên cứu
+  - Tối ưu hóa cấu trúc tài liệu và rà soát kỹ thuật
 - Công việc đã làm: 
-- % hoàn thành: 
+  - ✅ Hoàn thành Chương 1 (Thách thức, mục tiêu & phạm vi nghiên cứu)
+  - ✅ Hoàn thành Chương 3 (Pipeline tiền xử lý với bộ lọc N-core N=5, Temporal Split và lý thuyết 3 mô hình)
+  - ✅ Hoàn thành Chương 4 (Cấu hình thực nghiệm, bảng kết quả, biểu đồ radar K=1,5,10,20 và Ablation study)
+  - ✅ Hoàn thành Chương 5 (Tổng hợp kết luận: MobileNetV2 > CLIP, Late Fusion ổn định và các hạn chế)
+- % hoàn thành: 95%
 
 ---
 
@@ -185,10 +207,14 @@
 - Từ: 1/6/2026
 - Đến: 7/6/2026
 - Công việc cần làm: 
-  - Chuẩn bị slide thuyết trình
-  - Tập thuyết trình
+  - Rà soát toán học, lỗi chính tả và định dạng báo cáo
+  - Chuẩn bị chương trình chạy thử nghiệm (Demo)
+  - Xây dựng slide thuyết trình thử nghiệm
 - Công việc đã làm: 
-- % hoàn thành: 
+  - ✅ Rà soát toàn diện công thức toán học, lỗi chính tả, định dạng báo cáo 5 chương
+  - ✅ Hoàn thiện chương trình Demo chạy thử nghiệm hệ thống
+  - ✅ Thiết kế slide thuyết trình phục vụ báo cáo
+- % hoàn thành: 95%
 
 ---
 
