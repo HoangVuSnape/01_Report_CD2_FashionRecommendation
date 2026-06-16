@@ -1,7 +1,7 @@
 # BÁO CÁO PHÂN TÍCH THỰC NGHIỆM CHI TIẾT
 ## Đánh giá hệ thống gợi ý thời trang đa phương thức (24 Model Configs)
 
-*   **Đề tài Capstone Project 3:** Integrating Multimodal Representations into Graph-based Fashion Recommender Systems
+*   **Đề tài Research Topic 2:** Integrating Multimodal Representations into Graph-based Fashion Recommender Systems
 *   **Dữ liệu thực nghiệm:** Trích xuất tự động và tính toán từ log của 24 runs Weights & Biases (WandB) lưu tại `data_evaluate/data_wandb`.
 *   **Dataset:** 553 users, 2.194 items, 7.350 tương tác huấn luyện, 2.105 tương tác kiểm thử (~3.8 test items/user).
 
@@ -190,7 +190,7 @@ Chúng tôi trích xuất giá trị epoch đạt hiệu năng tối ưu trên t
 
 ## 5. Kết Luận Và Đề Xuất Thiết Kế Hệ Thống Khuyến Nghị Thời Trang
 
-Từ những phát hiện thực nghiệm đắt giá trên, chúng tôi đề xuất các hướng dẫn thiết kế sau cho Capstone Project:
+Từ những phát hiện thực nghiệm đắt giá trên, chúng tôi đề xuất các hướng dẫn thiết kế sau cho Research Topic 2:
 
 1.  **Cấu hình khuyến nghị chính thức:** Triển khai mô hình **`BM3` kết hợp với visual encoder `MobileNetV2` và cơ chế liên kết Late Fusion (`multimodal`)**. Đây là cấu hình cho ra hiệu năng xếp hạng chiều sâu Top-5 và Top-10 tối ưu nhất trong môi trường dữ liệu thưa thớt thực tế.
 2.  **Giải pháp thay thế ưu tiên tốc độ huấn luyện:** Nếu tài nguyên tính toán bị hạn chế hoặc cần cập nhật mô hình liên tục (real-time training), chọn **`CombiGCN` kết hợp với MobileNetV2 và Late Fusion**. CombiGCN cho kết quả xếp hạng rất tốt, đạt độ chính xác Top-1 ngang ngửa BM3 nhưng thời gian hội tụ nhanh hơn **2.5 lần** (epoch 280 so với 720).

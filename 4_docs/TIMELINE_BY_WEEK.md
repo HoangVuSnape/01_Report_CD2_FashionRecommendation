@@ -1,5 +1,25 @@
-# KỲ HOẠCH THỰC HIỆN THEO TUẦN - HK2/2025-2026
+# KẾ HOẠCH THỰC HIỆN THEO TUẦN - HK2/2025-2026
 
+## 📌 THÔNG TIN ĐỀ TÀI & HỌC VIÊN
+* **Tên đề tài (English):** *Integrating Multimodal Representations into Graph-based Fashion Recommender Systems*
+* **Học viên thực hiện:** Hoàng Đình Quý Vũ
+  * **MSSV:** 252805008
+  * **Email:** hoangdinhquyvu.snape.22@gmail.com
+  * **SĐT:** 0868245465
+* **Giảng viên hướng dẫn (GVHD):** Thầy Trần Trung Tín
+  * **Email:** trantin84@gmail.com
+* **Thời gian thực hiện đề tài:** 17/03/2026 - 15/06/2026 (2.5 tháng)
+
+### 📅 CÁC CỘT MỐC QUAN TRỌNG
+| STT | Nội dung công việc | Thời gian thực hiện |
+| :--- | :--- | :--- |
+| 1 | Báo cáo giữa kỳ | 13/04/2026 - 19/04/2026 |
+| 2 | Kiểm tra đạo văn bài làm | 13/06/2026 - 18/06/2026 |
+| 3 | Nộp báo cáo có xác nhận của GVHD | 16/06/2026 - 23/06/2026 |
+| 4 | Bộ môn phân công hội đồng phản biện | 16/06/2026 - 21/06/2026 |
+| 5 | Báo cáo hội đồng | 23/06/2026 - 30/06/2026 |
+
+---
 # Tuần 1
 - Từ: 9/3/2026
 - Đến: 15/3/2026
