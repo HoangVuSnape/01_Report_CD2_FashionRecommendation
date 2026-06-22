@@ -55,21 +55,21 @@ The table below outlines the chapters, their corresponding LaTeX source files, a
    - **Content:** Decoupled structural graph learning showing collaborative interaction view and semantic view over a frozen kNN graph, aligned via InfoNCE.
 
 5. **Figure 4.1: Top-N Recommendation Performance (Recall, Precision, NDCG)**
-   - **File:** [4_3_Results_and_analysis.tex](file:///e:/DoCode/CD2/01_Report_CD2_FashionRecommendation/2_chapters/4_Experiments/4_3_Results_and_analysis.tex#L39-L56)
+   - **File:** [4_3_Results_and_analysis.tex](file:///e:/DoCode/CD2/01_Report_CD2_FashionRecommendation/2_chapters/4_Experiments/4_3_Results_and_analysis.tex#L39-L54)
    - **Assets:** 
      - (a) CLIP: [Figure_46_Recall_Precision_NDCG_K_CLIP.png](file:///e:/DoCode/CD2/01_Report_CD2_FashionRecommendation/figs/chap4/Figure_46_Recall_Precision_NDCG_K_CLIP.png)
      - (b) MobileNetV2: [Figure_47_Recall_Precision_NDCG_K_MBNV2.png](file:///e:/DoCode/CD2/01_Report_CD2_FashionRecommendation/figs/chap4/Figure_47_Recall_Precision_NDCG_K_MBNV2.png)
    - **Content:** Performance curves for multiple model configurations showing Recall@K, Precision@K, and NDCG@K for $K \in \{1, 5, 10, 20\}$.
 
 6. **Figure 4.2: Performance Radar Charts**
-   - **File:** [4_3_Results_and_analysis.tex](file:///e:/DoCode/CD2/01_Report_CD2_FashionRecommendation/2_chapters/4_Experiments/4_3_Results_and_analysis.tex#L66-L83)
+   - **File:** [4_3_Results_and_analysis.tex](file:///e:/DoCode/CD2/01_Report_CD2_FashionRecommendation/2_chapters/4_Experiments/4_3_Results_and_analysis.tex#L66-L81)
    - **Assets:**
      - (a) CLIP: [Figure_74_Radar_Overview_CLIP_12_Configs.png](file:///e:/DoCode/CD2/01_Report_CD2_FashionRecommendation/figs/chap4/Figure_74_Radar_Overview_CLIP_12_Configs.png)
      - (b) MobileNetV2: [Figure_75_Radar_Overview_MBNv2_12_Configs.png](file:///e:/DoCode/CD2/01_Report_CD2_FashionRecommendation/figs/chap4/Figure_75_Radar_Overview_MBNv2_12_Configs.png)
    - **Content:** Multi-dimensional charts comparing the structural balance across six recommendation metrics.
 
 7. **Figure 4.3: NDCG@K Ablation Heatmaps**
-   - **File:** [4_3_Results_and_analysis.tex](file:///e:/DoCode/CD2/01_Report_CD2_FashionRecommendation/2_chapters/4_Experiments/4_3_Results_and_analysis.tex#L103-L129)
+   - **File:** [4_3_Results_and_analysis.tex](file:///e:/DoCode/CD2/01_Report_CD2_FashionRecommendation/2_chapters/4_Experiments/4_3_Results_and_analysis.tex#L103-L128)
    - **Assets:**
      - (a) BM3 Ablation: [Figure_48_NDCG_K_BM3_ablation.png](file:///e:/DoCode/CD2/01_Report_CD2_FashionRecommendation/figs/chap4/Figure_48_NDCG_K_BM3_ablation.png)
      - (b) CombiGCN Ablation: [Figure_56_NDCG_K_COMBIGCN_ablation.png](file:///e:/DoCode/CD2/01_Report_CD2_FashionRecommendation/figs/chap4/Figure_56_NDCG_K_COMBIGCN_ablation.png)
@@ -105,7 +105,7 @@ The table below outlines the chapters, their corresponding LaTeX source files, a
 
 3. **Table 4.3: Similarity and Fusion Ablation comparison (NDCG@10)**
    - **File:** [4_3_Results_and_analysis.tex](file:///e:/DoCode/CD2/01_Report_CD2_FashionRecommendation/2_chapters/4_Experiments/4_3_Results_and_analysis.tex#L155-L168)
-   - **Content:** NDCG@10 scores of BM3, CombiGCN, and FREEDOM under `img_only`, `tfidf`, `multimodal`, and `multimodal_attention` with the optimal encoder.
+   - **Content:** NDCG@10 scores of BM3, CombiGCN, and FREEDOM under `img_only`, `text_only`, `multimodal`, and `multimodal_attention` with the optimal encoder.
 
 4. **Table 4.4: Best-Performing Configurations Comparison**
    - **File:** [4_3_Results_and_analysis.tex](file:///e:/DoCode/CD2/01_Report_CD2_FashionRecommendation/2_chapters/4_Experiments/4_3_Results_and_analysis.tex#L194-L209)

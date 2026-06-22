@@ -71,7 +71,7 @@ This document contains the raw code extraction and markdown representations of a
 ---
 
 ### Figure 4.1
-* **Source LaTeX File:** [4_3_Results_and_analysis.tex](file:///e:/DoCode/CD2/01_Report_CD2_FashionRecommendation/2_chapters/4_Experiments/4_3_Results_and_analysis.tex#L39-L56)
+* **Source LaTeX File:** [4_3_Results_and_analysis.tex](file:///e:/DoCode/CD2/01_Report_CD2_FashionRecommendation/2_chapters/4_Experiments/4_3_Results_and_analysis.tex#L39-L54)
 * **Local Asset Paths:**
   - Subfigure (a) CLIP: `E:\DoCode\CD2\01_Report_CD2_FashionRecommendation\figs\chap4\Figure_46_Recall_Precision_NDCG_K_CLIP.png`
   - Subfigure (b) MobileNetV2: `E:\DoCode\CD2\01_Report_CD2_FashionRecommendation\figs\chap4\Figure_47_Recall_Precision_NDCG_K_MBNV2.png`
@@ -101,7 +101,7 @@ This document contains the raw code extraction and markdown representations of a
 ---
 
 ### Figure 4.2
-* **Source LaTeX File:** [4_3_Results_and_analysis.tex](file:///e:/DoCode/CD2/01_Report_CD2_FashionRecommendation/2_chapters/4_Experiments/4_3_Results_and_analysis.tex#L66-L83)
+* **Source LaTeX File:** [4_3_Results_and_analysis.tex](file:///e:/DoCode/CD2/01_Report_CD2_FashionRecommendation/2_chapters/4_Experiments/4_3_Results_and_analysis.tex#L66-L81)
 * **Local Asset Paths:**
   - Subfigure (a) CLIP: `E:\DoCode\CD2\01_Report_CD2_FashionRecommendation\figs\chap4\Figure_74_Radar_Overview_CLIP_12_Configs.png`
   - Subfigure (b) MobileNetV2: `E:\DoCode\CD2\01_Report_CD2_FashionRecommendation\figs\chap4\Figure_75_Radar_Overview_MBNv2_12_Configs.png`
@@ -131,7 +131,7 @@ This document contains the raw code extraction and markdown representations of a
 ---
 
 ### Figure 4.3
-* **Source LaTeX File:** [4_3_Results_and_analysis.tex](file:///e:/DoCode/CD2/01_Report_CD2_FashionRecommendation/2_chapters/4_Experiments/4_3_Results_and_analysis.tex#L103-L129)
+* **Source LaTeX File:** [4_3_Results_and_analysis.tex](file:///e:/DoCode/CD2/01_Report_CD2_FashionRecommendation/2_chapters/4_Experiments/4_3_Results_and_analysis.tex#L103-L128)
 * **Local Asset Paths:**
   - Subfigure (a) BM3: `E:\DoCode\CD2\01_Report_CD2_FashionRecommendation\figs\chap4\Figure_48_NDCG_K_BM3_ablation.png`
   - Subfigure (b) CombiGCN: `E:\DoCode\CD2\01_Report_CD2_FashionRecommendation\figs\chap4\Figure_56_NDCG_K_COMBIGCN_ablation.png`
@@ -273,15 +273,15 @@ Average testing interactions per user & 3.81 \\ \hline
 \hline
 \textbf{Model} & \textbf{Sim Type} & \textbf{NDCG@10 (CLIP)} & \textbf{NDCG@10 (MBNv2)} & \textbf{MBNv2 $\Delta$ (\%)} \\ \hline
 BM3 & img\_only & 0.0129 & 0.0150 & $+16.3$ \\
-BM3 & tfidf & \textbf{0.0158} & 0.0149 & $-6.1$ \\
+BM3 & text\_only & \textbf{0.0158} & 0.0149 & $-6.1$ \\
 BM3 & multimodal & 0.0142 & \textbf{0.0186} & $+30.8$ \\
 BM3 & mm\_attention & 0.0059 & 0.0101 & $+72.2$ \\ \hline
 CombiGCN & img\_only & \textbf{0.0155} & 0.0085 & $-45.2$ \\
-CombiGCN & tfidf & \textbf{0.0077} & 0.0071 & $-7.5$ \\
+CombiGCN & text\_only & \textbf{0.0077} & 0.0071 & $-7.5$ \\
 CombiGCN & multimodal & 0.0174 & \textbf{0.0175} & $+0.7$ \\
 CombiGCN & mm\_attention & \textbf{0.0153} & 0.0151 & $-1.6$ \\ \hline
 FREEDOM & img\_only & 0.0060 & 0.0062 & $+3.7$ \\
-FREEDOM & tfidf & \textbf{0.0049} & 0.0031 & $-36.1$ \\
+FREEDOM & text\_only & \textbf{0.0049} & 0.0031 & $-36.1$ \\
 FREEDOM & multimodal & 0.0049 & \textbf{0.0081} & $+63.7$ \\
 FREEDOM & mm\_attention & 0.0033 & \textbf{0.0088} & $+165.3$ \\ \hline
 \end{tabular}
@@ -292,15 +292,15 @@ FREEDOM & mm\_attention & 0.0033 & \textbf{0.0088} & $+165.3$ \\ \hline
 | Model | Sim Type | NDCG@10 (CLIP) | NDCG@10 (MBNv2) | MBNv2 $\Delta$ (%) |
 | :--- | :--- | :---: | :---: | :---: |
 | **BM3** | img_only | 0.0129 | 0.0150 | $+16.3\%$ |
-| **BM3** | tfidf | **0.0158** | 0.0149 | $-6.1\%$ |
+| **BM3** | text_only | **0.0158** | 0.0149 | $-6.1\%$ |
 | **BM3** | multimodal | 0.0142 | **0.0186** | $+30.8\%$ |
 | **BM3** | mm_attention | 0.0059 | 0.0101 | $+72.2\%$ |
 | **CombiGCN** | img_only | **0.0155** | 0.0085 | $-45.2\%$ |
-| **CombiGCN** | tfidf | **0.0077** | 0.0071 | $-7.5\%$ |
+| **CombiGCN** | text_only | **0.0077** | 0.0071 | $-7.5\%$ |
 | **CombiGCN** | multimodal | 0.0174 | **0.0175** | $+0.7\%$ |
 | **CombiGCN** | mm_attention | **0.0153** | 0.0151 | $-1.6\%$ |
 | **FREEDOM** | img_only | 0.0060 | 0.0062 | $+3.7\%$ |
-| **FREEDOM** | tfidf | **0.0049** | 0.0031 | $-36.1\%$ |
+| **FREEDOM** | text_only | **0.0049** | 0.0031 | $-36.1\%$ |
 | **FREEDOM** | multimodal | 0.0049 | **0.0081** | $+63.7\%$ |
 | **FREEDOM** | mm_attention | 0.0033 | **0.0088** | $+165.3\%$ |
 
@@ -318,7 +318,7 @@ FREEDOM & mm\_attention & 0.0033 & \textbf{0.0088} & $+165.3$ \\ \hline
 \setlength{\tabcolsep}{6pt}
 \begin{tabular}{lcccc}
 \hline
-\textbf{Model} & \textbf{img\_only} & \textbf{tfidf} & \textbf{multimodal} & \shortstack[c]{\textbf{multimodal\_}\\\textbf{attention}} \\ \hline
+\textbf{Model} & \textbf{img\_only} & \textbf{text\_only} & \textbf{multimodal} & \shortstack[c]{\textbf{multimodal\_}\\\textbf{attention}} \\ \hline
 BM3 (MBNv2) & 0.0150 & 0.0149 & \textbf{0.0186} & 0.0101 \\
 CombiGCN (MBNv2) & 0.0085 & 0.0071 & \textbf{0.0175} & 0.0151 \\
 FREEDOM (MBNv2) & 0.0062 & 0.0031 & 0.0081 & \textbf{0.0088} \\ \hline
@@ -327,7 +327,7 @@ FREEDOM (MBNv2) & 0.0062 & 0.0031 & 0.0081 & \textbf{0.0088} \\ \hline
 ```
 * **Markdown Representation:**
 
-| Model (Best Encoder) | img_only | tfidf | multimodal | multimodal_attention |
+| Model (Best Encoder) | img_only | text_only | multimodal | multimodal_attention |
 | :--- | :---: | :---: | :---: | :---: |
 | **BM3 (MBNv2)** | 0.0150 | 0.0149 | **0.0186** | 0.0101 |
 | **CombiGCN (MBNv2)** | 0.0085 | 0.0071 | **0.0175** | 0.0151 |
