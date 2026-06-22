@@ -18,8 +18,14 @@
 !*.yaml
 !*.yml
 !*.json
+!*.pptx
+!*.html
+!*.js
+!*.png
+
 4_docs/Docs_Code
 4_docs/02_Present/node_modules
 5_elit/raw
 5_elit/figs_fix
 5_elit/raw/pdf_raw
+/4_docs/02_Present/exported_slides

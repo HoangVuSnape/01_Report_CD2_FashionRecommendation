@@ -1,0 +1,1595 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="./support.js"></script>
+  <!-- MathJax Configuration for beautiful LaTeX math rendering -->
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+</head>
+
+<body>
+  <x-dc>
+    <helmet>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+      <style>
+        :root {
+          --navy: #0D1B3E;
+          --navy2: #1a3060;
+          --blue: #1464B4;
+          --red: #C1272D;
+          --white: #fff;
+          --off: #EEF3FA;
+          --lt: #E4EAF4;
+          --muted: #8899BB;
+          --dark: #1A1E2E;
+          --serif: 'Playfair Display', Georgia, serif;
+          --sans: 'DM Sans', system-ui, sans-serif;
+          --mono: 'JetBrains Mono', monospace;
+        }
+
+        .s {
+          display: flex;
+          flex-direction: column;
+          padding: 116px 96px 52px;
+          position: relative;
+        }
+
+        .s-dark {
+          background: var(--navy);
+        }
+
+        .s-w {
+          background: var(--white);
+        }
+
+        .cols {
+          display: flex;
+          gap: 52px;
+          flex: 1;
+          min-height: 0;
+        }
+
+        .col {
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+        }
+
+        .eye {
+          font: 600 24px/1 var(--sans);
+          letter-spacing: .1em;
+          text-transform: uppercase;
+          margin-bottom: 8px;
+        }
+
+        .eye-b {
+          color: var(--blue);
+        }
+
+        .eye-r {
+          color: var(--red);
+        }
+
+        .h2 {
+          font: 700 50px/1.2 var(--serif);
+          color: var(--navy);
+          margin-bottom: 40px;
+        }
+
+        .h2-d {
+          color: var(--white);
+        }
+
+        .h3 {
+          font: 600 30px/1.3 var(--sans);
+          color: var(--navy);
+          margin-bottom: 6px;
+        }
+
+        .h3-b {
+          color: var(--blue);
+        }
+
+        .body {
+          font: 400 28px/1.55 var(--sans);
+          color: var(--dark);
+        }
+
+        .sm {
+          font: 400 24px/1.45 var(--sans);
+          color: var(--muted);
+        }
+
+        .tag {
+          display: inline-flex;
+          align-items: center;
+          padding: 5px 13px;
+          border-radius: 3px;
+          font: 600 24px var(--sans);
+        }
+
+        .tb {
+          background: #deeaf9;
+          color: var(--blue);
+        }
+
+        .tr {
+          background: #fae5e5;
+          color: var(--red);
+        }
+
+        .tg {
+          background: #d8f0e8;
+          color: #1a7a50;
+        }
+
+        .tn {
+          background: #e8e9ef;
+          color: var(--navy);
+        }
+
+        .box {
+          background: var(--off);
+          border-radius: 6px;
+          padding: 20px 24px;
+        }
+
+        .bbl {
+          border-left: 4px solid var(--blue);
+        }
+
+        .bbr {
+          border-left: 4px solid var(--red);
+        }
+
+        .bul {
+          display: flex;
+          gap: 10px;
+          align-items: flex-start;
+        }
+
+        .dot {
+          width: 7px;
+          height: 7px;
+          border-radius: 50%;
+          background: var(--blue);
+          margin-top: 12px;
+          flex-shrink: 0;
+        }
+
+        .dot-r {
+          background: var(--red);
+        }
+
+        .sn {
+          font: 700 72px/1 var(--serif);
+          color: var(--blue);
+        }
+
+        .sl {
+          font: 400 24px var(--sans);
+          color: var(--muted);
+          margin-top: 4px;
+        }
+
+        .ft {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-top: auto;
+          padding-top: 18px;
+          border-top: 1px solid #dde3f0;
+        }
+
+        .ft-d {
+          border-top-color: rgba(255, 255, 255, .1);
+        }
+
+        .fn {
+          font: 400 24px var(--sans);
+          color: var(--muted);
+        }
+
+        .fp {
+          font: 600 24px var(--sans);
+          color: var(--navy);
+        }
+
+        .fn-d {
+          color: rgba(255, 255, 255, .3);
+        }
+
+        .fp-d {
+          color: rgba(255, 255, 255, .5);
+        }
+
+        .mono {
+          font: 500 24px var(--mono);
+          color: #1a5c3a;
+          background: #e8f5ee;
+          padding: 2px 8px;
+          border-radius: 3px;
+          display: inline-block;
+        }
+
+        .mono-d {
+          color: #7ecba5;
+          background: rgba(126, 203, 165, .12);
+        }
+
+        .bar {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          margin-bottom: 5px;
+        }
+
+        .blbl {
+          font: 400 24px var(--sans);
+          color: var(--dark);
+          width: 248px;
+          flex-shrink: 0;
+        }
+
+        .btrk {
+          flex: 1;
+          height: 28px;
+          background: #e4eaf4;
+          border-radius: 3px;
+          overflow: hidden;
+        }
+
+        .bfil {
+          height: 100%;
+          border-radius: 3px;
+          transition: width .6s;
+        }
+
+        .bval {
+          font: 600 24px var(--sans);
+          color: var(--navy);
+          width: 72px;
+          text-align: right;
+        }
+
+        .vbox {
+          background: var(--navy);
+          border-radius: 6px;
+          padding: 18px 22px;
+        }
+
+        .vt {
+          font: 700 24px var(--sans);
+          letter-spacing: .06em;
+          text-transform: uppercase;
+          color: rgba(255, 255, 255, .45);
+          margin-bottom: 7px;
+        }
+
+        .vb {
+          font: 400 26px/1.5 var(--sans);
+          color: var(--white);
+        }
+
+        .vbox-lt {
+          background: var(--off);
+          border-left: 4px solid var(--red);
+        }
+
+        .vt-lt {
+          color: var(--red);
+        }
+
+        .vb-lt {
+          color: var(--dark);
+        }
+
+        .tbl {
+          width: 100%;
+          border-collapse: collapse;
+        }
+
+        .tbl th {
+          font: 600 24px var(--sans);
+          color: var(--navy);
+          padding: 11px 14px;
+          border-bottom: 2px solid var(--navy);
+          text-align: left;
+        }
+
+        .tbl td {
+          font: 400 24px var(--sans);
+          color: var(--dark);
+          padding: 11px 14px;
+          border-bottom: 1px solid #e0e6f0;
+        }
+
+        .tbl .best {
+          color: var(--blue);
+          font-weight: 600;
+        }
+
+        .tbl .dim {
+          color: #aaa;
+        }
+
+        .step {
+          display: flex;
+          gap: 14px;
+          align-items: flex-start;
+        }
+
+        .stn {
+          width: 44px;
+          height: 44px;
+          border-radius: 50%;
+          background: var(--blue);
+          color: var(--white);
+          font: 700 24px var(--sans);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          margin-top: 2px;
+        }
+      </style>
+    </helmet>
+
+    <x-import component-from-global-scope="deck-stage" from="./deck-stage.js" width="1920" height="1080"
+      hint-size="100%,100%">
+
+      <!-- ── 01 COVER ─────────────────────────────────────── -->
+      <section data-label="01 · Cover" class="s s-dark"
+        style="justify-content:space-between;position:relative;overflow:hidden;"
+        data-speaker-notes="Kính thưa quý thầy cô trong Hội đồng và các bạn sinh viên. Em tên là Hoàng Đình Quý Vũ, mã số sinh viên 252805008, là sinh viên khoa Công nghệ Thông tin, trường Đại học Tôn Đức Thắng. Sau đây, em xin phép được trình bày báo cáo đề tài Capstone 3 của mình với tên gọi: 'Tích hợp biểu diễn đa phương thức vào hệ thống gợi ý thời trang dựa trên đồ thị' (Integrating Multimodal Representations into Graph-based Fashion Recommender Systems). Đề tài này được thực hiện dưới sự hướng dẫn khoa học của Tiến sĩ Trần Trung Tín. Mục tiêu chính của nghiên cứu là đánh giá hiệu năng của 24 cấu hình mạng đồ thị đa phương thức khác nhau trên tập dữ liệu thuê quần áo thực tế Vibrent Clothes Rental. Sau đây, em xin phép bắt đầu phần trình bày.">
+        <div
+          style="position:absolute;right:0;top:0;width:640px;height:100%;background:linear-gradient(135deg,transparent 40%,rgba(20,100,180,.09));pointer-events:none;">
+        </div>
+        <div>
+          <div style="font:400 24px var(--sans);color:var(--muted);letter-spacing:.06em;text-transform:uppercase;">Ton
+            Duc Thang University · Faculty of Information Technology</div>
+          <div style="font:400 24px var(--sans);color:rgba(136,153,187,.45);margin-top:3px;">research topic 3 · Computer
+            Science · Ho Chi Minh City, 2026</div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:20px;max-width:1280px;">
+          <div style="display:flex;gap:7px;">
+            <div style="width:44px;height:4px;background:var(--red);border-radius:2px;"></div>
+            <div style="width:14px;height:4px;background:var(--blue);border-radius:2px;"></div>
+          </div>
+          <h1 style="font:700 64px/1.15 var(--serif);color:var(--white);">Integrating Multimodal Representations<br>into
+            Graph-based Fashion Recommender Systems</h1>
+          <p style="font:300 30px/1 var(--sans);color:var(--muted);">Benchmarking 24 multimodal GNN configurations on
+            the Vibrent Clothes Rental dataset</p>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-end;">
+          <div style="display:flex;gap:44px;align-items:center;">
+            <div>
+              <div style="font:400 24px var(--sans);color:rgba(136,153,187,.5);margin-bottom:5px;">Presented by</div>
+              <div style="font:600 26px var(--serif);color:var(--white);">Hoang Dinh Quy Vu · 252805008</div>
+            </div>
+            <div style="width:1px;height:48px;background:rgba(255,255,255,.1);"></div>
+            <div>
+              <div style="font:400 24px var(--sans);color:rgba(136,153,187,.5);margin-bottom:5px;">Advised by</div>
+              <div style="font:600 26px var(--serif);color:var(--white);">Dr. Tran Trung Tin</div>
+            </div>
+          </div>
+          <div style="display:flex;gap:7px;flex-wrap:wrap;justify-content:flex-end;max-width:520px;">
+            <span class="mono mono-d">BM3</span><span class="mono mono-d">CombiGCN</span><span
+              class="mono mono-d">FREEDOM</span>
+            <span class="mono mono-d" style="margin-top:7px;">CLIP</span><span class="mono mono-d"
+              style="margin-top:7px;">MobileNetV2</span><span class="mono mono-d" style="margin-top:7px;">BERT</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── 02 TABLE OF CONTENTS ──────────────────────────── -->
+      <section data-label="02 · Table of Contents" class="s s-dark"
+        data-speaker-notes="Để quý thầy cô tiện theo dõi, bài thuyết trình của em hôm nay sẽ bao gồm 5 phần nội dung chính như lộ trình hiển thị trên slide: Phần thứ nhất là Đặt vấn đề và Động lực nghiên cứu, nơi em làm rõ các thách thức hiện tại. Phần thứ hai là Các câu hỏi nghiên cứu, xác định mục tiêu và phạm vi của đề tài. Phần thứ ba là Phương pháp nghiên cứu và Pipeline xử lý, trình bày chi tiết về quy trình xử lý dữ liệu và cấu trúc của 3 mô hình mạng đồ thị. Phần thứ tư giới thiệu về Cấu hình thực nghiệm và Tập dữ liệu VCR. Cuối cùng, phần thứ năm là Kết quả thực nghiệm và Thảo luận, đưa ra các câu trả lời cụ thể cho các câu hỏi nghiên cứu và rút ra kết luận.">
+        <div class="eye" style="color:var(--muted);">Roadmap · 5 Sections</div>
+        <div class="h2 h2-d" style="margin-bottom:32px;">Table of Contents</div>
+        <div style="display:flex;gap:0;flex:1;align-items:stretch;">
+          <div
+            style="flex:1;border-left:2px solid rgba(255,255,255,.12);padding:20px 28px;display:flex;flex-direction:column;">
+            <div style="font:700 96px/1 var(--serif);color:var(--blue);">01</div>
+            <div style="font:600 28px/1.25 var(--sans);color:var(--white);margin-top:14px;">Problem &amp;<br>Motivation
+            </div>
+            <div style="font:400 24px/1.4 var(--sans);color:var(--muted);margin-top:10px;">Sparsity · Cold-start ·
+              Bottlenecks</div>
+          </div>
+          <div
+            style="flex:1;border-left:2px solid rgba(255,255,255,.12);padding:20px 28px;display:flex;flex-direction:column;">
+            <div style="font:700 96px/1 var(--serif);color:var(--blue);">02</div>
+            <div style="font:600 28px/1.25 var(--sans);color:var(--white);margin-top:14px;">Research<br>Questions</div>
+            <div style="font:400 24px/1.4 var(--sans);color:var(--muted);margin-top:10px;">Four RQs · Objectives · Scope
+            </div>
+          </div>
+          <div
+            style="flex:1;border-left:2px solid rgba(255,255,255,.12);padding:20px 28px;display:flex;flex-direction:column;">
+            <div style="font:700 96px/1 var(--serif);color:var(--blue);">03</div>
+            <div style="font:600 28px/1.25 var(--sans);color:var(--white);margin-top:14px;">Methodology<br>&amp;
+              Pipeline</div>
+            <div style="font:400 24px/1.4 var(--sans);color:var(--muted);margin-top:10px;">Architecture · CombiGCN · BM3
+              · FREEDOM</div>
+          </div>
+          <div
+            style="flex:1;border-left:2px solid rgba(255,255,255,.12);padding:20px 28px;display:flex;flex-direction:column;">
+            <div style="font:700 96px/1 var(--serif);color:var(--blue);">04</div>
+            <div style="font:600 28px/1.25 var(--sans);color:var(--white);margin-top:14px;">Model Config<br>&amp; Data
+            </div>
+            <div style="font:400 24px/1.4 var(--sans);color:var(--muted);margin-top:10px;">VCR Dataset · 24 Configs ·
+              Features</div>
+          </div>
+          <div
+            style="flex:1;border-left:2px solid rgba(255,255,255,.12);border-right:2px solid rgba(255,255,255,.12);padding:20px 28px;display:flex;flex-direction:column;">
+            <div style="font:700 96px/1 var(--serif);color:var(--blue);">05</div>
+            <div style="font:600 28px/1.25 var(--sans);color:var(--white);margin-top:14px;">Experiments</div>
+            <div style="font:400 24px/1.4 var(--sans);color:var(--muted);margin-top:10px;">RQ1 · RQ2 · RQ3 · Training ·
+              Conclusion</div>
+          </div>
+        </div>
+        <div class="ft ft-d"><span class="fn fn-d">Hoang Dinh Quy Vu · research topic 3</span><span class="fp fp-d">02 /
+            20</span></div>
+      </section>
+
+      <!-- ── 03 CF / CB / HYBRID ─────────────────────────────── -->
+      <section data-label="03 · CF / CB / Hybrid" class="s s-w"
+        data-speaker-notes="Trước khi đi vào bài toán chính, em xin trình bày ngắn gọn 3 triết lý gợi ý nền tảng làm cơ sở cho toàn bộ nghiên cứu. Thứ nhất là Collaborative Filtering (CF) - Lọc cộng tác: gợi ý dựa trên hành vi tương tác. Nếu User A và User B cùng mua Sản phẩm 1, hệ thống sẽ gợi ý Sản phẩm 2 (mà B đã mua) cho A. Điểm yếu của CF là bài toán Cold-Start: khi có Sản phẩm Mới chưa có ai tương tác, sản phẩm đó bị cô lập hoàn toàn - CF không thể gợi ý được. Thứ hai là Content-Based (CB) - Lọc dựa trên nội dung: đo lường độ tương đồng giữa các sản phẩm qua đặc trưng nội dung như màu sắc, chất liệu, kiểu dáng. CB giải quyết được Cold-Start vì sản phẩm mới vẫn có thể kết nối với sản phẩm khác qua nội dung. Thứ ba là Hybrid (Lai) trong GCN: kết hợp cả hai nguồn tín hiệu - item_next = item_interaction từ CF + item_similar từ CB - để CB bù đắp điểm yếu Cold-Start của CF và tận dụng thế mạnh cả hai phía trong một mô hình GCN thống nhất.">
+        <div class="eye eye-b">Background · Recommender Paradigms</div>
+        <div class="h2">CF, Content-Based &amp; Hybrid —<br>three paradigms underlying this work</div>
+        <div
+          style="flex:1;display:flex;align-items:center;justify-content:center;background:#f5f7fb;border-radius:8px;padding:16px;margin-top:8px;">
+          <img src="uploads/Cf_CB_Hybrid.png" style="width:100%;max-height:680px;object-fit:contain;"
+            alt="CF CB Hybrid Diagram">
+        </div>
+        <div class="ft"><span class="fn">Hoang Dinh Quy Vu · research topic 3</span><span class="fp">03 / 20</span>
+        </div>
+      </section>
+
+      <!-- ── 04 PROBLEM & MOTIVATION ───────────────────────── -->
+      <section data-label="04 · Problem" class="s s-w"
+        data-speaker-notes="Đầu tiên, em xin phép đi vào phần Đặt vấn đề và Động lực nghiên cứu. Trong lĩnh vực gợi ý thời trang, chúng ta đối mặt với hai nút thắt cổ chai lớn luôn song hành và tác động lẫn nhau. Thứ nhất là sự thưa thớt của dữ liệu tương tác: đối với tập dữ liệu thời trang thực tế, ma trận tương tác người dùng - sản phẩm cực kỳ thưa, lên tới hơn 99%. Điều này khiến các mô hình lọc cộng tác truyền thống gặp khó khăn lớn do thiếu tín hiệu. Thứ hai là sự phụ thuộc hoàn toàn vào ID sản phẩm (ID-bound CF). Các mô hình truyền thống chỉ học từ lịch sử click hay mua hàng qua ID mà hoàn toàn bỏ qua các yếu tố cực kỳ quan trọng trong thời trang như hình ảnh thẩm mỹ, màu sắc, kiểu dáng, hay mô tả chi tiết của sản phẩm. Ý tưởng của đề tài này là tích hợp các đặc trưng đa phương thức (gồm hình ảnh và văn bản) vào mạng đồ thị để truyền dẫn tín hiệu sở thích thông qua các cạnh tương đồng về mặt hình ảnh và ngữ nghĩa giữa các sản phẩm, từ đó giải quyết bài toán khởi đầu lạnh và dữ liệu thưa.">
+        <div class="eye eye-b">01 · Problem &amp; Motivation</div>
+        <div class="h2">Sparse interactions expose two coupled<br>bottlenecks in ID-bound collaborative filtering</div>
+        <div class="cols">
+          <div class="col">
+            <div class="h3">Fashion recommendation is hard</div>
+            <div class="bul">
+              <div class="dot"></div>
+              <div class="body">Users interact with very few items, leaving the user–item graph <strong>extremely
+                  sparse</strong></div>
+            </div>
+            <div class="bul">
+              <div class="dot"></div>
+              <div class="body">Short per-user history = near-zero signal for cold &amp; tail items</div>
+            </div>
+            <div style="margin-top:8px;" class="h3">Two coupled bottlenecks</div>
+            <div class="bul">
+              <div class="dot dot-r"></div>
+              <div class="body"><strong>ID-bound CF</strong> — cold / tail items have no interaction signal to learn
+                from</div>
+            </div>
+            <div class="bul">
+              <div class="dot dot-r"></div>
+              <div class="body"><strong>Style is visual &amp; textual</strong> — pure interaction IDs ignore aesthetics
+                &amp; descriptions entirely</div>
+            </div>
+          </div>
+          <div class="col" style="justify-content:flex-start;gap:20px;">
+            <div class="box bbl">
+              <div class="eye eye-b" style="margin-bottom:6px;">Our Angle</div>
+              <div class="body">Inject multimodal item content (visual + textual features) into graph collaborative
+                filtering to propagate preference signals along <strong>visual and semantic similarity edges</strong>
+              </div>
+            </div>
+            <div class="box" style="background:#fdf3f3;border-left:4px solid var(--red);">
+              <div class="eye eye-r" style="margin-bottom:6px;">Key Challenge</div>
+              <div class="body">Bridging the gap between rich item <em>content</em> and sparse <em>interaction</em>
+                graphs without overfitting a 9,455-interaction log</div>
+            </div>
+          </div>
+        </div>
+        <div class="ft"><span class="fn">Hoang Dinh Quy Vu · research topic 3</span><span class="fp">04 / 20</span>
+        </div>
+      </section>
+
+      <!-- ── 04 RESEARCH QUESTIONS ─────────────────────────── -->
+      <section data-label="05 · Research Questions" class="s s-w"
+        data-speaker-notes="Để định hướng rõ ràng cho nghiên cứu, em đặt ra 4 câu hỏi nghiên cứu (RQs) chính: RQ1 tập trung vào việc so sánh xem bộ mã hóa hình ảnh nào phù hợp hơn cho thời trang: CLIP với ngữ nghĩa mức cao hay MobileNetV2 với các đặc trưng cục bộ. RQ2 nghiên cứu về chiến lược hợp nhất đa phương thức nào (hợp nhất muộn hay attention gating) sẽ mang lại chất lượng xếp hạng tốt nhất. RQ3 so sánh trực tiếp hiệu năng của 3 kiến trúc GNN là CombiGCN, BM3 và FREEDOM trên cùng một tập dữ liệu. Và RQ4 đánh giá xem liệu việc kết hợp đa phương thức có thực sự tốt hơn so với việc chỉ sử dụng một phương thức đơn lẻ hay không. Để trả lời các câu hỏi này, nghiên cứu đặt ra 5 mục tiêu từ O1 đến O5, bao quát từ khâu tiền xử lý dữ liệu, trích xuất đặc trưng, huấn luyện mô hình cho đến khâu đánh giá hiệu năng xếp hạng ở các ngưỡng K khác nhau.">
+        <div class="eye eye-b">02 · Research Questions &amp; Objectives</div>
+        <div class="h2">Four RQs probe encoder, fusion strategy,<br>architecture depth, and cross-modal effects</div>
+        <div class="cols">
+          <div class="col">
+            <div class="h3 h3-b">Objectives</div>
+            <div class="step">
+              <div class="stn">O1</div>
+              <div class="body">Preprocess VCR dataset (5-core, per-user 80/20 temporal split)</div>
+            </div>
+            <div class="step">
+              <div class="stn">O2</div>
+              <div class="body">Extract visual <span class="mono">CLIP</span> <span class="mono">MBNv2</span> &amp;
+                textual <span class="mono">BERT</span> features</div>
+            </div>
+            <div class="step">
+              <div class="stn">O3</div>
+              <div class="body">Adapt 3 multimodal GNNs on a shared LightGCN backbone</div>
+            </div>
+            <div class="step">
+              <div class="stn">O4</div>
+              <div class="body">Benchmark 24 configs across encoders &amp; fusion strategies</div>
+            </div>
+            <div class="step">
+              <div class="stn">O5</div>
+              <div class="body">Analyse ranking quality across K ∈ {1, 5, 10, 20}</div>
+            </div>
+          </div>
+          <div class="col" style="gap:8px;">
+            <div class="h3 h3-b">Four Research Questions</div>
+            <div class="box bbl">
+              <div class="eye eye-b" style="margin-bottom:4px;">RQ1</div>
+              <div class="body">Which visual encoder — CLIP or MobileNetV2 — suits fashion recommendation better?</div>
+            </div>
+            <div class="box bbl">
+              <div class="eye eye-b" style="margin-bottom:4px;">RQ2</div>
+              <div class="body">Which multimodal fusion strategy (late, attention, weighted) maximises ranking quality
+                on sparse logs?</div>
+            </div>
+            <div class="box bbl">
+              <div class="eye eye-b" style="margin-bottom:4px;">RQ3</div>
+              <div class="body">Which GNN architecture (CombiGCN, BM3, FREEDOM) performs best on the VCR dataset?</div>
+            </div>
+            <div class="box bbl">
+              <div class="eye eye-b" style="margin-bottom:4px;">RQ4</div>
+              <div class="body">Do single-modality features outperform cross-modal fusion?</div>
+            </div>
+          </div>
+        </div>
+        <div class="ft"><span class="fn">Hoang Dinh Quy Vu · research topic 3</span><span class="fp">05 / 20</span>
+        </div>
+      </section>
+
+      <!-- ── 06 DATASET ────────────────────────────────────── -->
+      <section data-label="06 · Dataset" class="s s-w"
+        data-speaker-notes="Về tập dữ liệu thực nghiệm, nghiên cứu sử dụng tập dữ liệu thực tế Vibrent Clothes Rental (gọi tắt là VCR) - một tập dữ liệu thuê quần áo có độ thưa cực kỳ cao, lên tới 99.22% với 553 người dùng, 2,194 sản phẩm và chỉ 9,455 lượt tương tác. Đây là một môi trường lý tưởng để thử nghiệm độ bền của các mô hình gợi ý trước thách thức khởi đầu lạnh. Để đánh giá mô hình một cách khách quan nhất, em áp dụng chiến lược phân chia dữ liệu theo thời gian (temporal split) 80/20 cho từng người dùng, tức là huấn luyện trên 80% lượt tương tác đầu tiên và kiểm tra trên 20% tương tác muộn hơn. Trung bình mỗi người dùng chỉ có 3.81 sản phẩm trong tập kiểm tra, vì thế em chọn K=5 làm chỉ số đánh giá chính để tránh hiện tượng bão hòa Recall ở các K lớn hơn như 10 hay 20.">
+        <div class="eye eye-b">03 · Dataset · Vibrent Clothes Rental (VCR)</div>
+        <div class="h2">99.22% sparsity makes VCR an ideal<br>cold-start stress test for recommender systems</div>
+        <div class="cols">
+          <div
+            style="flex:1.4;display:flex;align-items:center;justify-content:center;background:#f5f7fb;border-radius:8px;padding:12px;">
+            <img src="uploads/data_pipeline.3.1.png" style="width:100%;max-height:560px;object-fit:contain;"
+              alt="Data Pipeline Overview">
+          </div>
+          <div class="col" style="gap:14px;">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+              <div class="box bbl">
+                <div class="sn">553</div>
+                <div class="sl">Users</div>
+              </div>
+              <div class="box bbl">
+                <div class="sn">2,194</div>
+                <div class="sl">Items</div>
+              </div>
+              <div class="box bbl">
+                <div class="sn">9,455</div>
+                <div class="sl">Interactions</div>
+              </div>
+              <div class="box" style="border-left:4px solid var(--red);background:#fdf3f3;">
+                <div style="font:700 72px/1 var(--serif);color:var(--red);">99.22%</div>
+                <div class="sl">Sparsity</div>
+              </div>
+            </div>
+            <div class="box bbl">
+              <div class="h3">Split Strategy</div>
+              <div class="body">Per-user <strong>temporal 80/20</strong> split — training on earlier interactions,
+                testing on more recent ones</div>
+            </div>
+            <div class="box" style="background:#fdf8e8;border-left:4px solid #c89a00;">
+              <div class="eye" style="color:#9a7600;margin-bottom:6px;">Why K = 5 is primary</div>
+              <div class="body">With only <strong>3.81 ground-truth items / user</strong> on average, top-K beyond 5
+                saturates Recall — K ∈ {1, 5, 10, 20} are all reported for comparison</div>
+            </div>
+            <div class="box bbr">
+              <div class="eye eye-r" style="margin-bottom:6px;">What this means</div>
+              <div class="body">A clothes-rental log with highly sparse, short per-user history — a realistic stress
+                test for <strong>cold-start</strong> recommendation</div>
+            </div>
+          </div>
+        </div>
+        <div class="ft"><span class="fn">Hoang Dinh Quy Vu · research topic 3</span><span class="fp">06 / 20</span>
+        </div>
+      </section>
+
+      <!-- ── 06 PIPELINE ───────────────────────────────────── -->
+      <section data-label="07 · Pipeline" class="s s-w"
+        data-speaker-notes="Quy trình xử lý dữ liệu (data pipeline) đề xuất của em gồm 5 giai đoạn liên tục nhằm biến đổi nhật ký tương tác thô thành cấu trúc đồ thị sẵn sàng cho mô hình. Giai đoạn 1 là Lọc 5-core (Initial Filtering) nhằm loại bỏ các người dùng và sản phẩm có ít hơn 5 tương tác. Giai đoạn 2 là Ánh xạ ID (ID Remapping), chuyển các chuỗi ID thô thưa thớt thành chỉ số nguyên liên tục để dựng ma trận kề. Giai đoạn 3 là Phân chia theo thời gian (Temporal Split) theo tỷ lệ 80% train và 20% test cho từng người dùng. Giai đoạn 4 thực hiện Trích xuất đặc trưng (Feature Extraction) đa phương thức: sử dụng CLIP và MobileNetV2 (sau khi giảm chiều bằng PCA về 768) cho hình ảnh, và BERT cho văn bản. Giai đoạn 5 là Huấn luyện & Đánh giá GNN (GNN Training & Evaluation) 24 cấu hình với các siêu tham số nền tảng dùng chung.">
+        <div class="eye eye-b">04 · Methodology · Proposed Data Pipeline</div>
+        <div class="h2">Five stages distill raw rental logs<br>into model-ready multimodal graphs</div>
+        <div class="cols">
+          <div class="col">
+            <div class="step">
+              <div class="stn">1</div>
+              <div>
+                <div class="h3">Initial Filtering</div>
+                <div class="body">Apply <span class="mono">5-core</span> filtering iteratively — remove users &amp;
+                  items with fewer than 5 interactions</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="stn">2</div>
+              <div>
+                <div class="h3">ID Remapping</div>
+                <div class="body">Map sparse raw IDs → dense sequential indices; build clean adjacency matrix</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="stn">3</div>
+              <div>
+                <div class="h3">Temporal Split</div>
+                <div class="body">Per-user chronological partition: <strong>80% train · 20% test</strong></div>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="step">
+              <div class="stn">4</div>
+              <div>
+                <div class="h3">Feature Extraction</div>
+                <div class="body">Visual: <span class="mono">CLIP</span> 512-d · <span class="mono">MobileNetV2</span>
+                  1280→768 PCA<br>Textual: <span class="mono">BERT</span> 768-d · <span class="mono">TF-IDF</span>
+                  (CombiGCN graph)</div>
+              </div>
+            </div>
+            <div class="step">
+              <div class="stn">5</div>
+              <div>
+                <div class="h3">GNN Training &amp; Evaluation</div>
+                <div class="body">Train 24 configurations; evaluate on NDCG, HR, Precision, Recall @ K ∈ {1,5,10,20}
+                </div>
+              </div>
+            </div>
+            <div class="box bbl" style="margin-top:8px;">
+              <div class="sm">Common settings: <span class="mono">d = 512</span> · <span class="mono">4 GCN
+                  layers</span> · <span class="mono">lr 1e-3</span> · <span class="mono">early stop patience 40</span> ·
+                monitor Recall@20</div>
+            </div>
+          </div>
+        </div>
+        <div class="ft"><span class="fn">Hoang Dinh Quy Vu · research topic 3</span><span class="fp">07 / 20</span>
+        </div>
+      </section>
+
+      <!-- ── 07 CONFIG SPACE ───────────────────────────────── -->
+      <section data-label="08 · Config Space" class="s s-w"
+        data-speaker-notes="Để thực hiện một nghiên cứu thực nghiệm toàn diện, em đã xây dựng một không gian cấu hình gồm 24 phiên bản khác nhau. Đây là kết quả của sự kết hợp chéo giữa 3 mô hình GNN (CombiGCN, BM3, FREEDOM), 2 bộ mã hóa hình ảnh (CLIP, MobileNetV2) và 4 chiến lược hợp nhất thông tin (chỉ hình ảnh, chỉ văn bản, hợp nhất muộn bằng trung bình cộng, và cơ chế attention gating có thể học). Mỗi cấu hình trong số 24 cấu hình này đều được huấn luyện tối đa 1,000 epochs với cơ chế early stopping dựa trên chỉ số Recall@20 của tập validation để tìm ra điểm tối ưu nhất.">
+        <div class="eye eye-b">04 · Methodology · Configuration Space</div>
+        <div class="h2">24 configs: 3 models × 2 encoders × 4 fusions<br>— a fully crossed benchmark</div>
+        <div class="cols" style="align-items:flex-start;">
+          <div class="col" style="gap:14px;">
+            <div class="h3 h3-b">Dimensions</div>
+            <div class="box bbl">
+              <div class="eye eye-b" style="margin-bottom:6px;">Models (× 3)</div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <span class="tag tb">CombiGCN</span><span class="tag tb">BM3</span><span class="tag tb">FREEDOM</span>
+              </div>
+            </div>
+            <div class="box bbl">
+              <div class="eye eye-b" style="margin-bottom:6px;">Visual Encoders (× 2)</div>
+              <div style="display:flex;gap:8px;">
+                <span class="tag tn">CLIP 512-d</span><span class="tag tn">MobileNetV2 768-d</span>
+              </div>
+            </div>
+            <div class="box bbl">
+              <div class="eye eye-b" style="margin-bottom:6px;">Fusion Strategies (× 4)</div>
+              <div style="display:flex;gap:8px;flex-wrap:wrap;">
+                <span class="tag tg">img_only</span><span class="tag tg">text_only</span><span class="tag tg">late
+                  (avg)</span><span class="tag tg">attention</span>
+              </div>
+            </div>
+          </div>
+          <div class="col" style="gap:16px;">
+            <div class="h3 h3-b">Pipeline Overview</div>
+            <div style="display:flex;align-items:center;gap:0;flex-wrap:wrap;">
+              <div class="box" style="flex:1;text-align:center;border-radius:6px 0 0 6px;border-right:0;">
+                <div class="eye eye-b" style="margin-bottom:4px;">INPUT</div>
+                <div class="sm">VCR Log</div>
+              </div>
+              <div style="font:600 24px var(--sans);color:var(--blue);padding:0 4px;">→</div>
+              <div class="box" style="flex:1;text-align:center;border-radius:0;">
+                <div class="eye eye-b" style="margin-bottom:4px;">FILTER</div>
+                <div class="sm">5-core</div>
+              </div>
+              <div style="font:600 24px var(--sans);color:var(--blue);padding:0 4px;">→</div>
+              <div class="box" style="flex:1;text-align:center;border-radius:0;">
+                <div class="eye eye-b" style="margin-bottom:4px;">FEATURES</div>
+                <div class="sm">CLIP/MBNv2/BERT</div>
+              </div>
+              <div style="font:600 24px var(--sans);color:var(--blue);padding:0 4px;">→</div>
+              <div class="box" style="flex:1;text-align:center;border-radius:0;">
+                <div class="eye eye-b" style="margin-bottom:4px;">GNN</div>
+                <div class="sm">LightGCN core</div>
+              </div>
+              <div style="font:600 24px var(--sans);color:var(--blue);padding:0 4px;">→</div>
+              <div class="box" style="flex:1;text-align:center;border-radius:0 6px 6px 0;">
+                <div class="eye eye-b" style="margin-bottom:4px;">EVAL</div>
+                <div class="sm">6 metrics @ K</div>
+              </div>
+            </div>
+            <div class="vbox" style="margin-top:4px;">
+              <div class="vt">Total Runs</div>
+              <div class="vb"><span style="font:700 44px/1 var(--serif);">24</span> configurations · each trained up to
+                1,000 epochs with early stopping · 6 ranking metrics reported</div>
+            </div>
+          </div>
+        </div>
+        <div class="ft"><span class="fn">Hoang Dinh Quy Vu · research topic 3</span><span class="fp">08 / 20</span>
+        </div>
+      </section>
+
+      <!-- ── 08 THREE MODELS ───────────────────────────────── -->
+      <section data-label="09 · Three Models" class="s s-w"
+        data-speaker-notes="Trong nghiên cứu này, em chọn ra 3 kiến trúc mô hình tiêu biểu đại diện cho các triết lý thiết kế mạng đồ thị đa phương thức khác nhau, nhưng đều sử dụng chung một xương sống collaborative filtering là LightGCN. Mô hình thứ nhất là CombiGCN đại diện cho phương pháp hợp nhất ở mức dữ liệu (data-level fusion), truyền dẫn tín hiệu trên cả đồ thị tương tác user-item và đồ thị tương đồng item-item. Mô hình thứ hai là BM3, thực hiện hợp nhất ở mức mô hình (model-level fusion) thông qua mục tiêu tự giám sát bootstrap contrastive loss mà không cần mẫu âm. Mô hình thứ ba là FREEDOM, cũng hợp nhất ở mức mô hình nhưng duy trì hai view độc lập hoàn toàn (tương tác và ngữ nghĩa kNN) và liên kết chúng lại bằng InfoNCE loss truyền thống.">
+        <div class="eye eye-b">05 · Models · Three Architectures, One Backbone</div>
+        <div class="h2">Three architectures, one LightGCN backbone —<br>differing in multimodal injection strategy</div>
+        <div class="cols">
+          <div class="col">
+            <div class="box bbl" style="flex:1;">
+              <div class="eye eye-b" style="margin-bottom:8px;">CombiGCN</div>
+              <div class="h3">Dual-graph propagation</div>
+              <div class="body" style="margin-top:8px;">Pre-computes item–item similarity graph from content features.
+                Fuses CF branch + similarity branch at each GCN layer.</div>
+              <div style="margin-top:12px;"><span class="tag tb">Data-level fusion</span></div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="box" style="flex:1;border-left:4px solid var(--red);background:#fdf3f3;">
+              <div class="eye eye-r" style="margin-bottom:8px;">BM3</div>
+              <div class="h3">Self-supervised bootstrap</div>
+              <div class="body" style="margin-top:8px;">Single LightGCN + raw modal projectors. Bootstrap contrastive
+                loss with EMA target encoder. <strong>No negative samples needed.</strong></div>
+              <div style="margin-top:12px;"><span class="tag tr">Model-level fusion</span></div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="box" style="flex:1;border-left:4px solid #1a7a50;background:#f0faf5;">
+              <div class="eye" style="color:#1a7a50;margin-bottom:8px;">FREEDOM</div>
+              <div class="h3">Decoupled GNN + InfoNCE</div>
+              <div class="body" style="margin-top:8px;">Maintains two independent views (CF + semantic). Aligns them via
+                InfoNCE loss over a frozen kNN graph.</div>
+              <div style="margin-top:12px;"><span class="tag tg">Model-level fusion</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="ft"><span class="fn">Hoang Dinh Quy Vu · research topic 3</span><span class="fp">09 / 20</span>
+        </div>
+      </section>
+
+      <!-- ── 09 COMBIGCN ──────────────────────────────────── -->
+      <section data-label="10 · CombiGCN" class="s s-w"
+        data-speaker-notes="Đi sâu vào kiến trúc thứ nhất là CombiGCN. Quy trình của mô hình này bắt đầu bằng việc tính toán trước ma trận tương đồng item-item S từ các đặc trưng đa phương thức ngoại tuyến (offline). Tín hiệu sở thích của người dùng sau đó được lan truyền đồng thời trên hai đồ thị: đồ thị tương tác user-item để học tín hiệu cộng tác, và đồ thị tương đồng item-item để học các tín hiệu ngữ nghĩa. Tại mỗi lớp GCN, các biểu diễn từ hai đồ thị này được cộng trực tiếp lại để cập nhật biểu diễn cho sản phẩm. Điểm mạnh của CombiGCN là hội tụ rất nhanh nhờ đồ thị tương đồng tĩnh đóng vai trò là một tiên nghiệm cấu trúc mạnh mẽ. Tuy nhiên, mô hình này đối mặt với nguy cơ quá khớp (overfitting) rất cao nếu huấn luyện quá lâu.">
+        <div class="eye eye-b">05 · Models · CombiGCN Architecture</div>
+        <div class="h2">CombiGCN fuses content at data level via<br>a pre-computed item similarity graph</div>
+        <div class="cols">
+          <div class="col">
+            <div class="h3 h3-b">Dual-Graph Propagation</div>
+            <div class="bul">
+              <div class="dot"></div>
+              <div class="body">Propagates representations on <strong>two graphs simultaneously</strong></div>
+            </div>
+            <div style="margin-left:32px;display:flex;flex-direction:column;gap:8px;margin-top:4px;">
+              <div class="box bbl">
+                <div class="sm">① User–Item Collaborative Graph (CF branch)</div>
+              </div>
+              <div class="box bbl">
+                <div class="sm">② Item–Item Content Similarity Graph (semantic branch)</div>
+              </div>
+            </div>
+            <div class="bul" style="margin-top:4px;">
+              <div class="dot"></div>
+              <div class="body"><strong>Layer-wise fusion</strong> — CF + semantic representations merged at each GCN
+                layer</div>
+            </div>
+          </div>
+          <div
+            style="flex:1.8;display:flex;align-items:center;justify-content:center;background:#f5f7fb;border-radius:8px;padding:12px;">
+            <img src="uploads/pasted-1781801152776-0.png" style="width:100%;max-height:600px;object-fit:contain;"
+              alt="CombiGCN Architecture">
+          </div>
+        </div>
+        <div class="ft"><span class="fn">Hoang Dinh Quy Vu · research topic 3</span><span class="fp">10 / 20</span>
+        </div>
+      </section>
+
+      <!-- ── 10 BM3 ────────────────────────────────────────── -->
+      <section data-label="11 · BM3" class="s s-w"
+        data-speaker-notes="Kiến trúc thứ hai là BM3, hoạt động dựa trên cơ chế tự giám sát bootstrap. Khác với CombiGCN, BM3 chỉ thực hiện lan truyền LightGCN trên một đồ thị bipartite tương tác duy nhất. Sau đó, nó sử dụng các projector tuyến tính để chiếu các đặc trưng hình ảnh và văn bản vào không gian embedding chung và sử dụng hàm mất mát bootstrap contrastive loss để căn chỉnh biểu diễn giữa nhánh cộng tác và nhánh đa phương thức. Một ưu điểm vượt trội của BM3 là không cần sử dụng các mẫu âm (negative samples), từ đó loại bỏ sự phụ thuộc vào kích thước batch và tiết kiệm tài nguyên. Cơ chế bootstrap này hoạt động như một bộ điều chuẩn ngầm rất mạnh, giúp BM3 kiểm soát tốt hiện tượng overfitting trên tập dữ liệu thưa thớt như VCR.">
+        <div class="eye eye-r">05 · Models · BM3 Architecture</div>
+        <div class="h2">BM3 aligns modalities via bootstrap loss —<br>no negatives, strong implicit regularizer</div>
+        <div class="cols">
+          <div class="col">
+            <div class="h3 h3-b">Bootstrap Contrastive Learning</div>
+            <div class="bul">
+              <div class="dot dot-r"></div>
+              <div class="body">Aligns collaborative branch &amp; modal projectors via <strong>self-supervised bootstrap
+                  loss</strong></div>
+            </div>
+            <div class="bul">
+              <div class="dot dot-r"></div>
+              <div class="body">EMA (Exponential Moving Average) target encoder stabilizes training — no gradient on
+                target</div>
+            </div>
+            <div class="bul">
+              <div class="dot dot-r"></div>
+              <div class="body">Requires <strong>no negative samples</strong> → eliminates batch-size dependency</div>
+            </div>
+            <div class="bul">
+              <div class="dot dot-r"></div>
+              <div class="body">Acts as a strong regularizer — explains why BM3 resists overfitting on VCR's sparse log
+              </div>
+            </div>
+          </div>
+          <div
+            style="flex:1.8;display:flex;align-items:center;justify-content:center;background:#f5f7fb;border-radius:8px;padding:12px;">
+            <img src="uploads/bm3.png" style="width:100%;max-height:600px;object-fit:contain;" alt="BM3 Architecture">
+          </div>
+        </div>
+        <div class="ft"><span class="fn">Hoang Dinh Quy Vu · research topic 3</span><span class="fp">11 / 20</span>
+        </div>
+      </section>
+
+
+      <!-- ── 11 FREEDOM ──────────────────────────────────── -->
+      <section data-label="12 · FREEDOM" class="s s-w"
+        data-speaker-notes="Kiến trúc thứ ba là FREEDOM. Mô hình này tách biệt hoàn toàn quá trình lan truyền thông tin của nhánh tương tác và nhánh ngữ nghĩa trong suốt quá trình huấn luyện. Nhánh ngữ nghĩa được thực hiện trên một đồ thị kNN tương đồng sản phẩm được đóng băng (frozen) tại thời điểm khởi tạo. FREEDOM sử dụng hàm mất mát InfoNCE để căn chỉnh biểu diễn giữa hai nhánh này bằng cách kéo gần biểu diễn của cùng một sản phẩm dưới hai view và đẩy xa biểu diễn của các sản phẩm khác nhau. Kết quả thực nghiệm cho thấy FREEDOM có hiệu năng xếp hạng kém nhất trên tập VCR, thấp hơn BM3 tới 53% NDCG@10. Nguyên nhân chính là do trên một danh mục sản phẩm nhỏ (2,194 items), đồ thị kNN tĩnh xây dựng từ đặc trưng thô chứa nhiều nhiễu, làm sai lệch các mối quan hệ tương đồng ngữ nghĩa.">
+        <div class="eye" style="color:#1a7a50;">05 · Models · FREEDOM Architecture</div>
+        <div class="h2">FREEDOM decouples CF and semantic views,<br>aligned via frozen kNN + InfoNCE loss</div>
+        <div class="cols">
+          <div class="col">
+            <div class="h3" style="color:#1a7a50;">Decoupled GNN Architecture</div>
+            <div class="bul">
+              <div class="dot" style="background:#1a7a50;"></div>
+              <div class="body">Maintains <strong>two independent views</strong> during training</div>
+            </div>
+            <div style="margin-left:32px;display:flex;flex-direction:column;gap:8px;margin-top:4px;">
+              <div class="box" style="border-left:4px solid #1a7a50;">
+                <div class="sm">① Collaborative View (CF): user–item interaction graph</div>
+              </div>
+              <div class="box" style="border-left:4px solid #1a7a50;">
+                <div class="sm">② Semantic View: item–item kNN similarity graph</div>
+              </div>
+            </div>
+            <div class="bul" style="margin-top:4px;">
+              <div class="dot" style="background:#1a7a50;"></div>
+              <div class="body"><strong>InfoNCE alignment</strong> — contrastive loss aligns GNN representations with
+                frozen kNN graph</div>
+            </div>
+          </div>
+          <div
+            style="flex:1.8;display:flex;align-items:center;justify-content:center;background:#f5f7fb;border-radius:8px;padding:12px;">
+            <img src="uploads/pasted-1781801166860-0.png" style="width:100%;max-height:600px;object-fit:contain;"
+              alt="FREEDOM Architecture">
+          </div>
+        </div>
+        <div class="ft"><span class="fn">Hoang Dinh Quy Vu · research topic 3</span><span class="fp">12 / 20</span>
+        </div>
+      </section>
+
+      <!-- ── 12 MULTIMODAL INTEGRATION ─────────────────────── -->
+      <section data-label="13 · Multimodal Integration" class="s s-w"
+        data-speaker-notes="Ở đây, em xin so sánh chi tiết hai triết lý hợp nhất đa phương thức: Hợp nhất mức dữ liệu (Data-level) và Hợp nhất mức mô hình (Model-level). Với CombiGCN, quá trình hợp nhất diễn ra offline trước khi huấn luyện mô hình. Ma trận tương đồng S đóng vai trò như một cấu trúc tĩnh hướng dẫn lan truyền, giúp mô hình dễ giải thích và tách biệt khỏi số chiều của đặc trưng. Ngược lại, với BM3 và FREEDOM, các đặc trưng được chiếu trực tiếp và hợp nhất end-to-end trong quá trình huấn luyện. Ở mức mô hình, chúng ta ablate giữa: Hợp nhất muộn (Late fusion) sử dụng trung bình cộng đơn giản, và Attention gating sử dụng trọng số có thể học. Trọng số có thể học mang lại tính linh hoạt nhưng lại tăng nguy cơ overfitting khi tương tác quá ít.">
+        <div class="eye eye-b">06 · Multimodal Integration Design</div>
+        <div class="h2">Data-level vs. model-level: two fundamentally<br>different philosophies for injecting content
+        </div>
+        <div class="cols">
+          <div class="col">
+            <div class="box bbl" style="flex:1;gap:14px;display:flex;flex-direction:column;">
+              <div class="eye eye-b">DATA-LEVEL · CombiGCN</div>
+              <div class="body">Fusion happens <strong>offline</strong> at the data layer — before any model sees the
+                data</div>
+              <div class="bul">
+                <div class="dot"></div>
+                <div class="body">Visual + textual → item–item similarity matrix <span class="mono">S</span> (cosine,
+                  thresholded, normalised, cached)</div>
+              </div>
+              <div class="bul">
+                <div class="dot"></div>
+                <div class="body"><span class="mono">S</span> acts as a <strong>static structural prior</strong> guiding
+                  graph propagation — decoupled from feature dimensionality</div>
+              </div>
+              <div style="margin-top:auto;"><span class="tag tb">Offline · Static · Interpretable</span></div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="box"
+              style="flex:1;border-left:4px solid var(--red);background:#fdf3f3;gap:14px;display:flex;flex-direction:column;">
+              <div class="eye eye-r">MODEL-LEVEL · BM3 · FREEDOM</div>
+              <div class="body">Raw embeddings projected into CF space and fused <strong>end-to-end</strong></div>
+              <div class="bul">
+                <div class="dot dot-r"></div>
+                <div class="body"><strong>Late fusion (multimodal):</strong> element-wise average <span class="mono">e =
+                    (hᵥ + hₜ) / 2</span></div>
+              </div>
+              <div class="bul">
+                <div class="dot dot-r"></div>
+                <div class="body"><strong>Attention gating:</strong> learnable α weights each modality — risks
+                  overfitting on sparse data</div>
+              </div>
+              <div class="bul">
+                <div class="dot dot-r"></div>
+                <div class="body"><strong>img_only / text_only:</strong> single-modality ablation baselines</div>
+              </div>
+              <div style="margin-top:auto;"><span class="tag tr">Online · Learnable · End-to-end</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="ft"><span class="fn">Hoang Dinh Quy Vu · research topic 3</span><span class="fp">13 / 20</span>
+        </div>
+      </section>
+
+      <!-- ── 13 RQ1 ─────────────────────────────────────────── -->
+      <section data-label="14 · RQ1 Visual Encoder" class="s s-w"
+        data-speaker-notes="Sau đây em xin trả lời Câu hỏi nghiên cứu thứ nhất (RQ1) về vai trò của bộ mã hóa hình ảnh. Kết quả thực nghiệm cho thấy MobileNetV2 giành chiến thắng trong cấu hình hợp nhất tốt nhất của mỗi mô hình (ví dụ BM3 đạt NDCG@10 là 0.0186 với MobileNetV2 so với 0.0142 với CLIP). Lý do là vì MobileNetV2 giữ lại các đặc trưng không gian cục bộ như hoa văn, chất liệu vải và đường may - đây là những yếu tố quyết định tính thẩm mỹ và khả năng phối đồ trong thời trang. Trong khi đó, CLIP được tối ưu hóa cho việc căn chỉnh ngữ nghĩa mức cao nên chỉ nhận diện được các khái niệm trừu tượng (như 'áo đỏ'). Tuy nhiên, CLIP lại thắng thế trong các cấu hình chỉ dùng đơn lẻ một phương thức (img_only). Điều này chứng minh rằng việc lựa chọn bộ mã hóa phụ thuộc chặt chẽ vào cấu hình mô hình chứ không có bộ mã hóa nào vượt trội hoàn toàn.">
+        <div class="eye eye-b">07 · RQ1 — Visual Encoder</div>
+        <div class="h2">MobileNetV2 leads in late-fusion configs;<br>CLIP dominates modal-only — no universal winner
+        </div>
+        <div class="cols">
+          <div class="col">
+            <div class="h3 h3-b">NDCG@10 — Late Fusion configs</div>
+            <div style="margin-top:8px;">
+              <div class="sm" style="margin-bottom:8px;">MobileNetV2 <span style="color:var(--blue);">■</span> vs CLIP
+                <span style="color:#aab8d0;">■</span>
+              </div>
+              <div class="bar">
+                <div class="blbl">BM3 · MBNv2</div>
+                <div class="btrk">
+                  <div class="bfil" style="width:93%;background:var(--blue);"></div>
+                </div>
+                <div class="bval">0.0186</div>
+              </div>
+              <div class="bar">
+                <div class="blbl">BM3 · CLIP</div>
+                <div class="btrk">
+                  <div class="bfil" style="width:71%;background:#aab8d0;"></div>
+                </div>
+                <div class="bval">0.0142</div>
+              </div>
+              <div style="height:10px;"></div>
+              <div class="bar">
+                <div class="blbl">CombiGCN · MBNv2</div>
+                <div class="btrk">
+                  <div class="bfil" style="width:88%;background:var(--blue);"></div>
+                </div>
+                <div class="bval">0.0175</div>
+              </div>
+              <div class="bar">
+                <div class="blbl">CombiGCN · CLIP</div>
+                <div class="btrk">
+                  <div class="bfil" style="width:87%;background:#aab8d0;"></div>
+                </div>
+                <div class="bval">0.0174</div>
+              </div>
+              <div style="height:10px;"></div>
+              <div class="bar">
+                <div class="blbl">FREEDOM · MBNv2</div>
+                <div class="btrk">
+                  <div class="bfil" style="width:41%;background:var(--blue);"></div>
+                </div>
+                <div class="bval">0.0081</div>
+              </div>
+              <div class="bar">
+                <div class="blbl">FREEDOM · CLIP</div>
+                <div class="btrk">
+                  <div class="bfil" style="width:25%;background:#aab8d0;"></div>
+                </div>
+                <div class="bval">0.0049</div>
+              </div>
+            </div>
+          </div>
+          <div class="col" style="justify-content:flex-start;gap:16px;">
+            <div class="vbox">
+              <div class="vt">Verdict</div>
+              <div class="vb"><strong>MobileNetV2 wins</strong> inside each model's best (late-fusion) config — local
+                texture beats CLIP's coarse semantics for styling</div>
+            </div>
+            <div class="box bbl">
+              <div class="eye eye-b" style="margin-bottom:5px;">But CLIP wins img_only &amp; text_only</div>
+              <div class="body">Encoder superiority is <strong>configuration-dependent</strong>, not universal — CLIP's
+                semantic richness helps when only one modality is active</div>
+            </div>
+            <div class="box bbr" style="background:#fdf3f3;">
+              <div class="eye eye-r" style="margin-bottom:5px;">Why MBNv2 wins late-fusion</div>
+              <div class="body">MobileNetV2 captures fine-grained local texture patterns (fabric, pattern, cut) that
+                matter for fashion styling, complementing BERT's textual signals</div>
+            </div>
+          </div>
+        </div>
+        <div class="ft"><span class="fn">Hoang Dinh Quy Vu · research topic 3</span><span class="fp">14 / 20</span>
+        </div>
+      </section>
+
+      <!-- ── 14 RQ2 ─────────────────────────────────────────── -->
+      <section data-label="15 · RQ2 &amp; RQ4 Fusion and Ablation" class="s s-w"
+        data-speaker-notes="Đối với Câu hỏi nghiên cứu thứ hai (RQ2) về chiến lược hợp nhất và Câu hỏi thứ tư (RQ4) về hiệu quả của đa phương thức so với đơn phương thức. Kết quả từ bảng Ablation Study ở góc dưới bên trái chỉ ra hai kết luận quan trọng: Thứ nhất, việc kết hợp đa phương thức (multimodal late fusion) mang lại hiệu năng vượt trội hơn hẳn việc chỉ dùng đơn lẻ một phương thức hình ảnh hay văn bản ở cả 3 mô hình. Thứ hai, Late Fusion (trung bình cộng đơn giản) là chiến lược tốt nhất và ổn định nhất. Việc sử dụng cơ chế attention gating có học thực tế lại làm giảm nghiêm trọng hiệu năng của BM3 (giảm 46%) và CombiGCN (giảm 14%) do trên tập tương tác nhỏ và thưa thớt như VCR, việc đưa thêm các tham số attention có thể học vào mô hình đã dẫn đến hiện tượng quá khớp (overfitting) nghiêm trọng. Kết luận rút ra là đối với dữ liệu thưa, đơn giản là tốt nhất, và đa phương thức giúp giải quyết bài toán khởi đầu lạnh.">
+        <div class="eye eye-b">08 · RQ2 &amp; RQ4 — Fusion &amp; Cross-Modal Ablation</div>
+        <div class="h2">Late fusion beats attention &amp; single-modality —<br>sparse logs benefit from cross-modal integration</div>
+        <div class="cols">
+          <div class="col">
+            <div class="h3 h3-b">NDCG@10 — Fusion type ablation (MBNv2)</div>
+            <div style="margin-top:8px;">
+              <div class="sm" style="margin-bottom:8px;">Late <span style="color:var(--blue);">■</span> vs Attention
+                <span style="color:var(--red);">■</span>
+              </div>
+              <div class="bar">
+                <div class="blbl">BM3 · Late</div>
+                <div class="btrk">
+                  <div class="bfil" style="width:93%;background:var(--blue);"></div>
+                </div>
+                <div class="bval">0.0186</div>
+              </div>
+              <div class="bar">
+                <div class="blbl">BM3 · Attention</div>
+                <div class="btrk">
+                  <div class="bfil" style="width:50.5%;background:var(--red);"></div>
+                </div>
+                <div class="bval">0.0101</div>
+              </div>
+              <div style="height:10px;"></div>
+              <div class="bar">
+                <div class="blbl">CombiGCN · Late</div>
+                <div class="btrk">
+                  <div class="bfil" style="width:87.5%;background:var(--blue);"></div>
+                </div>
+                <div class="bval">0.0175</div>
+              </div>
+              <div class="bar">
+                <div class="blbl">CombiGCN · Attention</div>
+                <div class="btrk">
+                  <div class="bfil" style="width:75.5%;background:var(--red);"></div>
+                </div>
+                <div class="bval">0.0151</div>
+              </div>
+              <div style="height:10px;"></div>
+              <div class="bar">
+                <div class="blbl">FREEDOM · Late</div>
+                <div class="btrk">
+                  <div class="bfil" style="width:40.5%;background:var(--blue);"></div>
+                </div>
+                <div class="bval">0.0081</div>
+              </div>
+              <div class="bar">
+                <div class="blbl">FREEDOM · Attention</div>
+                <div class="btrk">
+                  <div class="bfil" style="width:44%;background:#1a7a50;"></div>
+                </div>
+                <div class="bval">0.0088</div>
+              </div>
+            </div>
+            <div style="height:14px;"></div>
+            <div class="h3 h3-b">Ablation Study (NDCG@10)</div>
+            <table class="tbl" style="margin-top:6px;">
+              <thead>
+                <tr>
+                  <th>Model (MBNv2)</th>
+                  <th>img only</th>
+                  <th>text only</th>
+                  <th>multimodal</th>
+                  <th>attention</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="best">BM3</td>
+                  <td>0.0150</td>
+                  <td>0.0149</td>
+                  <td class="best">0.0186</td>
+                  <td>0.0101</td>
+                </tr>
+                <tr>
+                  <td>CombiGCN</td>
+                  <td>0.0085</td>
+                  <td>0.0071</td>
+                  <td class="best">0.0175</td>
+                  <td>0.0151</td>
+                </tr>
+                <tr>
+                  <td>FREEDOM</td>
+                  <td>0.0062</td>
+                  <td>0.0031</td>
+                  <td>0.0081</td>
+                  <td class="best">0.0088</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col" style="gap:16px;">
+            <div class="vbox">
+              <div class="vt">Verdict</div>
+              <div class="vb"><strong>Late fusion is best &amp; parameter-free.</strong> Attention gating hurts: BM3
+                −46% · CombiGCN −14%</div>
+            </div>
+            <div class="box bbr" style="background:#fdf3f3;">
+              <div class="eye eye-r" style="margin-bottom:5px;">Why attention fails here</div>
+              <div class="body">Trainable attention weights overfit 9,455 sparse interactions — only FREEDOM sees a weak
+                +9% gain, likely due to its already-decoupled architecture dampening the overfitting effect</div>
+            </div>
+            <div class="box bbl">
+              <div class="eye eye-b" style="margin-bottom:5px;">Takeaway (RQ4 Answer)</div>
+              <div class="body">On sparse logs, <strong>simplicity wins</strong> — multimodal late fusion (average) consistently outperforms visual-only and text-only variants.</div>
+            </div>
+          </div>
+        </div>
+        <div class="ft"><span class="fn">Hoang Dinh Quy Vu · research topic 3</span><span class="fp">15 / 20</span>
+        </div>
+      </section>
+
+      <!-- ── 15 RQ3 ─────────────────────────────────────────── -->
+      <section data-label="16 · RQ3 Model Comparison" class="s s-w"
+        data-speaker-notes="Về câu hỏi nghiên cứu thứ ba (RQ3) so sánh giữa các mô hình, chúng ta thấy một thứ hạng rõ ràng: BM3 vượt trội hơn CombiGCN và FREEDOM. Ở ngưỡng xếp hạng K=5, BM3 dẫn trước CombiGCN tới 18.4% về NDCG. Sự vượt trội của BM3 bắt đầu xuất hiện rõ rệt từ K>=5 khi các hiệu ứng điều chuẩn từ bootstrap tích lũy lại. Tại vị trí K=1, BM3 và CombiGCN hòa nhau với NDCG@1 đạt 0.0127. FREEDOM đứng cuối bảng do ảnh hưởng của nhiễu trên đồ thị kNN tĩnh. Kết quả này khẳng định cơ chế tự giám sát bootstrap của BM3 là phương pháp căn chỉnh và điều chuẩn hiệu quả nhất đối với dữ liệu gợi ý thời trang có độ thưa cao.">
+        <div class="eye eye-b">09 · RQ3 — Model Comparison</div>
+        <div class="h2">BM3 &gt; CombiGCN &gt; FREEDOM — bootstrap<br>regularization dominates on sparse rental data
+        </div>
+        <div class="cols">
+          <div class="col">
+            <div class="h3 h3-b">Best configuration per model</div>
+            <table class="tbl" style="margin-top:12px;">
+              <thead>
+                <tr>
+                  <th>Model</th>
+                  <th>Config</th>
+                  <th>NDCG@5</th>
+                  <th>NDCG@10</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="best">BM3</td>
+                  <td><span class="mono">MBNv2 · late</span></td>
+                  <td class="best">0.0162</td>
+                  <td class="best">0.0186</td>
+                </tr>
+                <tr>
+                  <td>CombiGCN</td>
+                  <td><span class="mono">MBNv2 · late</span></td>
+                  <td>0.0137</td>
+                  <td>0.0175</td>
+                </tr>
+                <tr>
+                  <td class="dim">FREEDOM</td>
+                  <td><span class="mono">MBNv2 · attention</span></td>
+                  <td class="dim">0.0084</td>
+                  <td class="dim">0.0088</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="box bbl" style="margin-top:16px;">
+              <div class="sm">At K = 1: BM3 = CombiGCN tie (0.0127) — BM3 advantage emerges at K ≥ 5 where bootstrap
+                regularization compounds</div>
+            </div>
+          </div>
+          <div class="col" style="gap:16px;">
+            <div class="vbox">
+              <div class="vt">Hierarchy</div>
+              <div class="vb"><span style="font:700 28px var(--serif);">BM3</span> <span
+                  style="opacity:.5;margin:0 8px;">›</span> <span style="font:700 28px var(--serif);">CombiGCN</span>
+                <span style="opacity:.5;margin:0 8px;">›</span> <span style="font:700 28px var(--serif);">FREEDOM</span>
+              </div>
+            </div>
+            <div class="box bbl">
+              <div class="eye eye-b" style="margin-bottom:5px;">BM3 leads K ≥ 5</div>
+              <div class="body">Bootstrap contrastive acts as implicit regularizer — BM3's self-supervised alignment
+                prevents rank degradation at larger K</div>
+            </div>
+            <div class="box bbr" style="background:#fdf3f3;">
+              <div class="eye eye-r" style="margin-bottom:5px;">FREEDOM −53% vs BM3</div>
+              <div class="body">kNN graph noise on a small 2,194-item catalog propagates incorrect semantic similarity —
+                FREEDOM's frozen graph is a liability at this scale</div>
+            </div>
+          </div>
+        </div>
+        <div class="ft"><span class="fn">Hoang Dinh Quy Vu · research topic 3</span><span class="fp">16 / 20</span>
+        </div>
+      </section>
+
+      <!-- ── 16 TRAINING DYNAMICS ───────────────────────────── -->
+      <section data-label="17 · Training Dynamics" class="s s-w"
+        data-speaker-notes="CombiGCN hội tụ nhanh nhất — đỉnh ở epoch 280 — nhưng sau đó loss giảm tới 70%, nguy cơ overfit rất cao nếu không dừng sớm. BM3 chậm hơn khoảng 2.5 lần — đỉnh ở epoch 720 — nhưng ổn định hơn nhiều, loss chỉ giảm 21% sau đỉnh. FREEDOM hội tụ muộn nhất ở epoch 960 và gần như phẳng hoàn toàn sau đó. Khuyến nghị thực tiễn: dùng CombiGCN khi ngân sách training eo hẹp với early stopping; dùng BM3 khi chất lượng ranking là ưu tiên hàng đầu.">
+        <div class="eye eye-b">10 · Training Dynamics &amp; Overfitting</div>
+        <div class="h2">BM3's bootstrap loss prevents overfitting;<br>CombiGCN peaks early then degrades −70%</div>
+        <div class="cols">
+          <div class="col">
+            <div class="h3 h3-b">Peak validation epoch (best config)</div>
+            <div style="display:flex;flex-direction:column;gap:14px;margin-top:8px;">
+              <div class="box bbl">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                  <span class="h3">CombiGCN</span><span class="tag tb">@ epoch 280</span>
+                </div>
+                <div class="body">Peaks early, then loss falls <strong>−70%</strong> while test quality drops. ~2.5×
+                  faster than BM3 → useful if training budget is tight (with early stopping).</div>
+              </div>
+              <div class="box" style="border-left:4px solid var(--red);background:#fdf3f3;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                  <span class="h3">BM3</span><span class="tag tr">@ epoch 720</span>
+                </div>
+                <div class="body">Slow but robust — loss falls only <strong>−21%</strong> after peak. Bootstrap
+                  contrastive acts as a strong implicit regularizer.</div>
+              </div>
+              <div class="box" style="border-left:4px solid #1a7a50;background:#f0faf5;">
+                <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+                  <span class="h3">FREEDOM</span><span class="tag tg">@ epoch 960</span>
+                </div>
+                <div class="body">Late &amp; flat — loss nearly stationary after peak. Frozen kNN prevents
+                  destabilization but also limits adaptation.</div>
+              </div>
+            </div>
+          </div>
+          <div class="col" style="gap:16px;">
+            <div class="h3 h3-b">Convergence Summary</div>
+            <table class="tbl">
+              <thead>
+                <tr>
+                  <th>Model</th>
+                  <th>Peak epoch</th>
+                  <th>Loss drop</th>
+                  <th>Verdict</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>CombiGCN</td>
+                  <td>280</td>
+                  <td class="best">−70%</td>
+                  <td class="dim">Overfit risk</td>
+                </tr>
+                <tr>
+                  <td class="best">BM3</td>
+                  <td class="best">720</td>
+                  <td>−21%</td>
+                  <td class="best">Robust</td>
+                </tr>
+                <tr>
+                  <td>FREEDOM</td>
+                  <td>960</td>
+                  <td>~0%</td>
+                  <td>Flat</td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="vbox" style="margin-top:8px;">
+              <div class="vt">Practical Guidance</div>
+              <div class="vb">Use <strong>CombiGCN</strong> when training budget is tight (with early stopping). Use
+                <strong>BM3</strong> when ranking quality matters most — its regularization pays off at K ≥ 5.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ft"><span class="fn">Hoang Dinh Quy Vu · research topic 3</span><span class="fp">17 / 20</span>
+        </div>
+      </section>
+
+      <!-- ── 17 CONCLUSION ──────────────────────────────────── -->
+      <section data-label="18 · Conclusion" class="s s-dark"
+        data-speaker-notes="Từ 24 cấu hình thực nghiệm trên tập dữ liệu VCR, nghiên cứu rút ra 4 kết luận có ý nghĩa khoa học quan trọng: Thứ nhất, việc tích hợp đa phương thức (late fusion) luôn cải thiện hiệu năng gợi ý so với việc chỉ sử dụng một phương thức đơn lẻ. Thứ hai, sự lựa chọn giữa MobileNetV2 và CLIP phụ thuộc vào cách hợp nhất, trong đó MobileNetV2 tốt hơn cho hợp nhất đa phương thức nhờ giữ được đặc trưng cục bộ. Thứ ba, các cơ chế hợp nhất đơn giản không tham số như late fusion hoạt động hiệu quả hơn cơ chế attention có học trên dữ liệu thưa. Thứ tư, BM3 là kiến trúc mạng đồ thị tối ưu nhất cho gợi ý thời trang nhờ cơ chế bootstrap tự giám sát ổn định.">
+        <div class="eye" style="color:var(--muted);">11 · Conclusion &amp; Contributions</div>
+        <div class="h2 h2-d" style="margin-bottom:44px;">Four reproducible findings on multimodal GNN<br>for sparse
+          fashion recommendation</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;flex:1;align-content:start;">
+          <div
+            style="background:rgba(255,255,255,.06);border-radius:6px;padding:22px 26px;border-top:3px solid var(--blue);">
+            <div style="font:700 32px/1 var(--serif);color:var(--blue);margin-bottom:10px;">01</div>
+            <div class="h3" style="color:var(--white);margin-bottom:8px;">Multimodal late fusion helps</div>
+            <div class="body" style="color:rgba(255,255,255,.7);">Within every evaluated architecture, fusing visual +
+              textual beats single-modality variants</div>
+          </div>
+          <div
+            style="background:rgba(255,255,255,.06);border-radius:6px;padding:22px 26px;border-top:3px solid var(--red);">
+            <div style="font:700 32px/1 var(--serif);color:var(--red);margin-bottom:10px;">02</div>
+            <div class="h3" style="color:var(--white);margin-bottom:8px;">Encoder choice is conditional</div>
+            <div class="body" style="color:rgba(255,255,255,.7);">MobileNetV2 leads in late-fusion; CLIP wins
+              visual-only — no universal ranking across all configs</div>
+          </div>
+          <div
+            style="background:rgba(255,255,255,.06);border-radius:6px;padding:22px 26px;border-top:3px solid #1a7a50;">
+            <div style="font:700 32px/1 var(--serif);color:#7ecba5;margin-bottom:10px;">03</div>
+            <div class="h3" style="color:var(--white);margin-bottom:8px;">Simpler fusion is stronger</div>
+            <div class="body" style="color:rgba(255,255,255,.7);">Parameter-free late fusion is robust; trainable
+              attention overfits the 9,455-interaction sparse log</div>
+          </div>
+          <div
+            style="background:rgba(255,255,255,.06);border-radius:6px;padding:22px 26px;border-top:3px solid #c89a00;">
+            <div style="font:700 32px/1 var(--serif);color:#f0c040;margin-bottom:10px;">04</div>
+            <div class="h3" style="color:var(--white);margin-bottom:8px;">Architecture × depth matters</div>
+            <div class="body" style="color:rgba(255,255,255,.7);">BM3 best for K ≥ 5; CombiGCN matches at K = 1; FREEDOM
+              requires larger catalogs than VCR provides</div>
+          </div>
+        </div>
+        <div class="ft ft-d"><span class="fn fn-d">Hoang Dinh Quy Vu · research topic 3</span><span class="fp fp-d">18 /
+            20</span></div>
+      </section>
+
+      <!-- ── 18 LIMITATIONS ─────────────────────────────────── -->
+      <section data-label="19 · Limitations" class="s s-w"
+        data-speaker-notes="Bên cạnh các kết quả đạt được, nghiên cứu cũng thẳng thắn nhìn nhận 4 hạn chế lớn để định hướng cho các nghiên cứu tương lai: Thứ nhất là các kết quả hiện tại mới dừng lại ở ước lượng single-run, chưa có kiểm định ý nghĩa thống kê trên nhiều seed khác nhau. Thứ hai là do độ thưa cực lớn của tập VCR, các chỉ số xếp hạng tuyệt đối còn tương đối thấp (ví dụ HR@10 ở khoảng 7-8%), nên giá trị tham khảo chủ yếu nằm ở so sánh tương đối. Thứ ba là nghiên cứu chưa benchmark với các baseline thuần túy như LightGCN không đa phương thức hay mô hình gợi ý theo độ phổ biến. Thứ tư là các đặc trưng hình ảnh được trích xuất tĩnh, chưa phản ánh được xu hướng thời trang thay đổi theo thời gian. Hướng nghiên cứu tiếp theo sẽ tập trung giải quyết các hạn chế này thông qua đánh giá đa seed, benchmark thêm baseline và thử nghiệm trên các tập dữ liệu thời trang lớn hơn.">
+        <div class="eye eye-r">12 · Limitations &amp; Future Work</div>
+        <div class="h2">Single-run estimates on near-floor metrics —<br>findings are directional, not definitive</div>
+        <div class="cols">
+          <div class="col">
+            <div class="h3">Current Limitations</div>
+            <div class="bul">
+              <div class="dot dot-r"></div>
+              <div class="body"><strong>Single-run estimates</strong> — no multiple seeds or significance tests; narrow
+                margins (BM3 vs CombiGCN) are indicative trends</div>
+            </div>
+            <div class="bul">
+              <div class="dot dot-r"></div>
+              <div class="body"><strong>Near-floor absolute metrics</strong> — extreme sparsity (3.81 test items/user)
+                keeps HR@10 ~0.07; focus is relative comparison</div>
+            </div>
+            <div class="bul">
+              <div class="dot dot-r"></div>
+              <div class="body"><strong>No standalone baselines</strong> — LightGCN-only and popularity baselines not
+                benchmarked; d = 512 fixed without ablation</div>
+            </div>
+            <div class="bul">
+              <div class="dot dot-r"></div>
+              <div class="body"><strong>Static offline features</strong> — pre-extracted embeddings ignore temporal
+                trends in fashion</div>
+            </div>
+          </div>
+          <div class="col" style="gap:16px;">
+            <div class="h3">Future Work</div>
+            <div class="step">
+              <div class="stn" style="background:#1a7a50;">F1</div>
+              <div class="body">Multi-seed evaluation + significance testing to confirm BM3 vs CombiGCN margin</div>
+            </div>
+            <div class="step">
+              <div class="stn" style="background:#1a7a50;">F2</div>
+              <div class="body">Benchmark standalone LightGCN baseline; ablate embedding dimension d</div>
+            </div>
+            <div class="step">
+              <div class="stn" style="background:#1a7a50;">F3</div>
+              <div class="body">Cross-dataset validation — test on larger fashion catalog to verify FREEDOM's kNN
+                hypothesis</div>
+            </div>
+            <div class="step">
+              <div class="stn" style="background:#1a7a50;">F4</div>
+              <div class="body">Temporal-aware feature extraction and seasonal trend modeling</div>
+            </div>
+          </div>
+        </div>
+        <div class="ft"><span class="fn">Hoang Dinh Quy Vu · research topic 3</span><span class="fp">19 / 20</span>
+        </div>
+      </section>
+
+      <!-- ── 19 THANK YOU ───────────────────────────────────── -->
+      <section data-label="20 · Thank You" class="s s-dark"
+        style="justify-content:center;align-items:center;text-align:center;gap:28px;"
+        data-speaker-notes="Em xin chân thành cảm ơn quý thầy cô trong Hội đồng đã dành thời gian lắng nghe bài thuyết trình của em. Em cũng xin gửi lời cảm ơn sâu sắc đến Tiến sĩ Trần Trung Tín, người đã tận tình hướng dẫn em hoàn thành đề tài này. Tóm lại, nghiên cứu đã chứng minh rằng việc kết hợp các đặc trưng đa phương thức thông qua mạng đồ thị tự giám sát BM3 và bộ mã hóa MobileNetV2 là giải pháp tối ưu cho bài toán gợi ý thời trang trên dữ liệu thuê quần áo thưa thớt VCR. Sau đây, em xin phép được lắng nghe các câu hỏi và ý kiến đóng góp từ quý thầy cô để hoàn thiện đề tài hơn nữa. Em xin chân thành cảm ơn.">
+        <div style="display:flex;gap:7px;justify-content:center;">
+          <div style="width:44px;height:4px;background:var(--red);border-radius:2px;"></div>
+          <div style="width:14px;height:4px;background:var(--blue);border-radius:2px;"></div>
+        </div>
+        <h1 style="font:700 80px/1.1 var(--serif);color:var(--white);">Thank You</h1>
+        <p style="font:300 36px/1 var(--sans);color:var(--muted);">Questions &amp; Discussion</p>
+        <div style="width:1px;height:60px;background:rgba(255,255,255,.12);margin:8px auto;"></div>
+        <div style="display:flex;gap:48px;justify-content:center;">
+          <div>
+            <div style="font:400 24px var(--sans);color:rgba(136,153,187,.5);margin-bottom:5px;">Presented by</div>
+            <div style="font:600 26px var(--serif);color:var(--white);">Hoang Dinh Quy Vu · 252805008</div>
+          </div>
+          <div style="width:1px;background:rgba(255,255,255,.1);"></div>
+          <div>
+            <div style="font:400 24px var(--sans);color:rgba(136,153,187,.5);margin-bottom:5px;">Advised by</div>
+            <div style="font:600 26px var(--serif);color:var(--white);">Dr. Tran Trung Tin</div>
+          </div>
+          <div style="width:1px;background:rgba(255,255,255,.1);"></div>
+          <div>
+            <div style="font:400 24px var(--sans);color:rgba(136,153,187,.5);margin-bottom:5px;">Institution</div>
+            <div style="font:600 26px var(--serif);color:var(--white);">Ton Duc Thang University</div>
+          </div>
+        </div>
+        <div style="margin-top:20px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;">
+          <span class="mono mono-d">BM3</span><span class="mono mono-d">CombiGCN</span><span
+            class="mono mono-d">FREEDOM</span><span class="mono mono-d">CLIP</span><span
+            class="mono mono-d">MobileNetV2</span><span class="mono mono-d">BERT</span>
+        </div>
+      </section>
+
+      <!-- ── 20 APPENDIX: COMBIGCN FORMULAS ────────────────── -->
+      <section data-label="21 · Appendix: CombiGCN Formulas" class="s s-w"
+        data-speaker-notes="Sau đây là slide phụ lục thứ nhất về các công thức chi tiết của mô hình CombiGCN. Đầu tiên, chúng ta xây dựng ma trận kề chuẩn hóa đối xứng S từ ma trận kề thô W, trong đó W chỉ giữ lại các tương đồng cosine lớn hơn 0.5. Tiếp theo, biểu diễn của User được cập nhật bằng cách chỉ lan truyền trên đồ thị tương tác. Đối với Item, biểu diễn được cập nhật bằng cách cộng trực tiếp tín hiệu từ nhánh tương tác CF và nhánh tương tự Item-Item Sim. Cuối cùng, biểu diễn tổng hợp được tính bằng cách lấy trung bình cộng tất cả các lớp GCN.">
+        <div class="eye eye-b">Appendix · Mathematical Formulations</div>
+        <div class="h2">CombiGCN — Dual-Graph Propagation Equations</div>
+        <div class="cols">
+          <div class="col">
+            <div class="box bbl">
+              <div class="h3">1. Symmetric Graph Normalization</div>
+              <div class="body" style="margin: 12px 0 16px;">
+                $$\mathbf{S} = \mathbf{D}_s^{-1/2} \mathbf{W} \mathbf{D}_s^{-1/2}$$
+              </div>
+              <div class="sm">
+                - $\mathbf{W} \in \mathbb{R}^{|\mathcal{I}| \times |\mathcal{I}|}$: Cosine similarity matrix thresholded at $0.5$.<br>
+                - $\mathbf{D}_s$: Diagonal degree matrix of $\mathbf{W}$.<br>
+                - $\mathbf{S}$: Normalised item similarity adjacency matrix.
+              </div>
+            </div>
+            <div class="box bbl" style="margin-top: 8px;">
+              <div class="h3">2. User Representation Update</div>
+              <div class="body" style="margin: 12px 0 16px;">
+                $$\mathbf{e}_u^{(k+1)} = \sum_{i \in \mathcal{N}_u} \frac{1}{\sqrt{|\mathcal{N}_u| |\mathcal{N}_i|}} \mathbf{e}_i^{(k)}$$
+              </div>
+              <div class="sm">
+                - User updates are driven <strong>solely</strong> by the user-item interaction graph $\mathcal{G}_{ui}$.
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="box bbl">
+              <div class="h3">3. Item Dual-Graph Fusion</div>
+              <div class="body" style="margin: 12px 0 16px;">
+                $$\mathbf{e}_i^{(k+1)} = \mathbf{e}_{i, \text{CF}}^{(k+1)} + \mathbf{e}_{i, \text{Sim}}^{(k+1)}$$
+              </div>
+              <div class="sm" style="margin-top: 10px;">
+                - <strong>Collaborative Filtering branch (CF):</strong>
+                $$\mathbf{e}_{i, \text{CF}}^{(k+1)} = \sum_{u \in \mathcal{N}_i} \frac{1}{\sqrt{|\mathcal{N}_i| |\mathcal{N}_u|}} \mathbf{e}_u^{(k)}$$
+                - <strong>Content-Similarity branch (Sim):</strong>
+                $$\mathbf{e}_{i, \text{Sim}}^{(k+1)} = \sum_{j \in \mathcal{S}_i} S_{ij} \mathbf{e}_j^{(k)}$$
+              </div>
+            </div>
+            <div class="box bbl" style="margin-top: 8px;">
+              <div class="h3">4. Layer-wise Mean Pooling</div>
+              <div class="body" style="margin: 12px 0 16px;">
+                $$\mathbf{e}_u = \frac{1}{N+1}\sum_{k=0}^{N} \mathbf{e}_u^{(k)}, \quad \mathbf{e}_i = \frac{1}{N+1}\sum_{k=0}^{N} \mathbf{e}_i^{(k)}$$
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ft"><span class="fn">Hoang Dinh Quy Vu · research topic 3</span><span class="fp">A1 / A3</span></div>
+      </section>
+
+      <!-- ── 21 APPENDIX: BM3 FORMULAS ─────────────────────── -->
+      <section data-label="22 · Appendix: BM3 Formulas" class="s s-w"
+        data-speaker-notes="Slide phụ lục thứ hai này trình bày các công thức của BM3. BM3 chiếu các đặc trưng ảnh thô x_vis và văn bản x_txt qua các lớp chiếu tuyến tính W_v và W_t để đưa về không gian 512 chiều. Biểu diễn modal được hợp nhất bằng trung bình cộng. Để ổn định huấn luyện, các tham số target Theta_target được cập nhật động bằng trung bình trượt lũy thừa EMA từ mạng online. BM3 tối ưu hóa bằng hàm mất mát Bootstrap Loss bất đối xứng đo độ tương đồng cosine giữa nhánh CF trực tuyến và nhánh modal mục tiêu.">
+        <div class="eye eye-r">Appendix · Mathematical Formulations</div>
+        <div class="h2">BM3 — Self-Supervised Bootstrap Equations</div>
+        <div class="cols">
+          <div class="col">
+            <div class="box bbr">
+              <div class="h3">1. Modal Projection &amp; Fusion</div>
+              <div class="body" style="margin: 12px 0 12px;">
+                $$\mathbf{h}_{v,i} = \mathbf{W}_v \mathbf{x}_{vis,i} + \mathbf{b}_v, \quad \mathbf{h}_{t,i} = \mathbf{W}_t \mathbf{x}_{txt,i} + \mathbf{b}_t$$
+                $$\mathbf{e}_{i, \text{modal}} = \frac{\mathbf{h}_{v,i} + \mathbf{h}_{t,i}}{2}$$
+              </div>
+              <div class="sm">
+                - Project raw visual/textual embeddings to collaborative filtering space ($d = 512$).
+              </div>
+            </div>
+            <div class="box bbr" style="margin-top: 8px;">
+              <div class="h3">2. EMA Target Encoder Update</div>
+              <div class="body" style="margin: 12px 0 12px;">
+                $$\mathbf{\Theta}_{target} \leftarrow m \mathbf{\Theta}_{target} + (1 - m) \mathbf{\Theta}_{online}$$
+              </div>
+              <div class="sm">
+                - $m = 0.995$ momentum. No gradient flows through the target encoder to prevent collapse.
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="box bbr">
+              <div class="h3">3. Asymmetric Bootstrap Loss</div>
+              <div class="body" style="margin: 12px 0 12px;">
+                $$\mathcal{L}_{boot}(\mathbf{p}, \mathbf{z}) = 2 - 2 \frac{\mathbf{p}^T \mathbf{z}}{\|\mathbf{p}\| \|\mathbf{z}\|}$$
+                $$\mathcal{L}_{CL} = \frac{1}{2} \left[ \mathcal{L}_{boot}(q(\mathbf{e}_{i, \text{CF}}), sg(\mathbf{e}_{i, \text{modal}})) + \mathcal{L}_{boot}(q(\mathbf{e}_{i, \text{modal}}), sg(\mathbf{e}_{i, \text{target}})) \right]$$
+              </div>
+              <div class="sm">
+                - $q(\cdot)$: 2-layer MLP predictor head to break symmetry.<br>
+                - $sg(\cdot)$: Stop-gradient operator.
+              </div>
+            </div>
+            <div class="box bbr" style="margin-top: 8px;">
+              <div class="h3">4. Joint Optimization Objective</div>
+              <div class="body" style="margin: 10px 0 10px;">
+                $$\mathbf{h}_i = \mathbf{e}_{i, \text{CF}} + \mathbf{e}_{i, \text{modal}}$$
+                $$\mathcal{L}_{total} = \mathcal{L}_{BPR} + \lambda_1 \mathcal{L}_{reg} + \lambda_2 \mathcal{L}_{CL}$$
+              </div>
+              <div class="sm">
+                - Fuses CF &amp; Modal embeddings; optimized using BPR loss + $\mathcal{L}_{CL}$ weight ($\lambda_2 = 0.2$).
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ft"><span class="fn">Hoang Dinh Quy Vu · research topic 3</span><span class="fp">A2 / A3</span></div>
+      </section>
+
+      <!-- ── 22 APPENDIX: FREEDOM FORMULAS ─────────────────── -->
+      <section data-label="23 · Appendix: FREEDOM Formulas" class="s s-w"
+        data-speaker-notes="Slide phụ lục thứ ba trình bày các công thức của FREEDOM. Khác với BM3, FREEDOM cố định đồ thị kNN tương tự item-item A_knn ngay từ lúc khởi tạo. Biểu diễn nội dung được lan truyền độc lập qua các lớp GCN trên đồ thị kNN đóng băng này. Hai nhánh tương tác CF và nội dung content được căn chỉnh đối chiếu bằng hàm mất mát InfoNCE có sử dụng mẫu âm trong cùng mini-batch B với nhiệt độ tau bằng 0.2.">
+        <div class="eye" style="color:#1a7a50;">Appendix · Mathematical Formulations</div>
+        <div class="h2">FREEDOM — Decoupled Graph &amp; InfoNCE Equations</div>
+        <div class="cols">
+          <div class="col">
+            <div class="box" style="border-left: 4px solid #1a7a50; background: #f0faf5;">
+              <div class="h3" style="color: #1a7a50;">1. Frozen kNN Graph Construction</div>
+              <div class="body" style="margin: 12px 0 16px;">
+                $$\mathbf{A}^{knn} = \mathbf{D}_{knn}^{-1/2} \mathbf{W}^{knn} \mathbf{D}_{knn}^{-1/2}$$
+              </div>
+              <div class="sm">
+                - Constructed at initialization by keeping top-$k = 10$ neighbors based on modal cosine similarities. Frozen during training.
+              </div>
+            </div>
+            <div class="box" style="border-left: 4px solid #1a7a50; background: #f0faf5; margin-top: 8px;">
+              <div class="h3" style="color: #1a7a50;">2. Decoupled Content Propagation</div>
+              <div class="body" style="margin: 12px 0 16px;">
+                $$\mathbf{e}_{i, \text{content}}^{(k+1)} = \sum_{j \in \mathcal{N}_k(i)} A^{knn}_{ij} \mathbf{e}_{j, \text{content}}^{(k)}$$
+              </div>
+              <div class="sm">
+                - $\mathbf{e}_{i, \text{content}}^{(0)} = \mathbf{e}_{i, \text{modal}}$. Learns pure semantic representations over the frozen structures.
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <div class="box" style="border-left: 4px solid #1a7a50; background: #f0faf5;">
+              <div class="h3" style="color: #1a7a50;">3. InfoNCE Contrastive Alignment</div>
+              <div class="body" style="margin: 12px 0 16px;">
+                $$\mathcal{L}_{CL} = -\sum_{i \in \mathcal{B}} \ln \frac{\exp\left(s(\mathbf{e}_{i, \text{CF}}, \mathbf{e}_{i, \text{content}}) / \tau\right)}{\sum_{j \in \mathcal{B}} \exp\left(s(\mathbf{e}_{i, \text{CF}}, \mathbf{e}_{j, \text{content}}) / \tau\right)}$$
+              </div>
+              <div class="sm">
+                - $\mathcal{B}$: Mini-batch.<br>
+                - $s(\cdot, \cdot)$: Cosine similarity.<br>
+                - $\tau = 0.2$: Temperature parameter.
+              </div>
+            </div>
+            <div class="box" style="border-left: 4px solid #1a7a50; background: #f0faf5; margin-top: 8px;">
+              <div class="h3" style="color: #1a7a50;">4. Final Fused Joint Loss</div>
+              <div class="body" style="margin: 12px 0 16px;">
+                $$\mathbf{e}_i = \mathbf{e}_{i, \text{CF}} + \mathbf{e}_{i, \text{content}}$$
+                $$\mathcal{L}_{total} = \mathcal{L}_{BPR} + \lambda_1 \mathcal{L}_{reg} + \lambda_2 \mathcal{L}_{CL}$$
+              </div>
+              <div class="sm">
+                - Contrastive alignment loss weight is set to $\lambda_2 = 0.1$.
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="ft"><span class="fn">Hoang Dinh Quy Vu · research topic 3</span><span class="fp">A3 / A3</span></div>
+      </section>
+
+    </x-import>
+  </x-dc>
+  <script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  componentDidMount() {
+    const inject = () => {
+      document.querySelectorAll('section.s').forEach(s => {
+        if (s.querySelector('.tdtu-logo')) return;
+        const img = document.createElement('img');
+        img.src = 'uploads/logo.jpg';
+        img.className = 'tdtu-logo';
+        img.alt = 'TDTU';
+        img.style.cssText = 'position:absolute;top:18px;right:96px;height:76px;object-fit:contain;z-index:2;pointer-events:none;';
+        s.appendChild(img);
+      });
+    };
+    inject();
+    setTimeout(inject, 400);
+    setTimeout(inject, 1200);
+  }
+}
+</script>
+</body>
+
+</html>
