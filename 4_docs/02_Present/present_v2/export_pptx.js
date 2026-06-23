@@ -11,10 +11,25 @@ const OUT_DIR = path.join(DIR, 'slides_png');
 const OUT_PPTX = path.join(DIR, 'Fashion_RecSys_Deck.pptx');
 const W = 1920, H = 1080;
 const FONTS = 'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap';
+// Same MathJax setup the deck uses, so $$...$$ formulas render in the export too.
+const MATHJAX = `<script>window.MathJax={tex:{inlineMath:[['$','$'],['\\\\(','\\\\)']],displayMath:[['$$','$$'],['\\\\[','\\\\]']],processEscapes:true},options:{skipHtmlTags:['script','noscript','style','textarea','pre']}};</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script"></script>`;
 
 const MIME = { '.html':'text/html', '.js':'text/javascript', '.css':'text/css',
   '.png':'image/png', '.jpg':'image/jpeg', '.jpeg':'image/jpeg', '.svg':'image/svg+xml',
   '.gif':'image/gif', '.webp':'image/webp', '.json':'application/json' };
+
+// Wait for MathJax to finish typesetting all $$...$$ on the page.
+async function typesetMath(pg) {
+  try {
+    await pg.evaluate(async () => {
+      if (window.MathJax && window.MathJax.startup) {
+        await window.MathJax.startup.promise;
+        if (window.MathJax.typesetPromise) await window.MathJax.typesetPromise();
+      }
+    });
+  } catch (e) { /* no math on this slide */ }
+}
 
 function serve() {
   return new Promise(resolve => {
@@ -73,7 +88,7 @@ function serve() {
 
     // 1) Measure natural content height at width 1920 (height: auto).
     const measureHtml = `<!DOCTYPE html><html><head><meta charset="utf-8">
-      <base href="${base}"><link href="${FONTS}" rel="stylesheet">
+      <base href="${base}"><link href="${FONTS}" rel="stylesheet">${MATHJAX}
       <style>${data.style}
         html,body{margin:0;padding:0;}
         #frame{width:${W}px;}
@@ -81,6 +96,7 @@ function serve() {
       </style></head><body><div id="frame">${section.html}</div></body></html>`;
     await cap.setContent(measureHtml, { waitUntil: 'load', timeout: 60000 });
     await cap.evaluate(() => document.fonts.ready);
+    await typesetMath(cap);
     await new Promise(r => setTimeout(r, 400));
     const natH = await cap.evaluate(() =>
       document.querySelector('#frame > section').getBoundingClientRect().height);
@@ -91,7 +107,7 @@ function serve() {
       ? `width:${W}px;height:auto;box-sizing:border-box;margin:0;transform-origin:top center;transform:scale(${scale});`
       : `width:${W}px;height:${H}px;box-sizing:border-box;margin:0;`;
     const html = `<!DOCTYPE html><html><head><meta charset="utf-8">
-      <base href="${base}"><link href="${FONTS}" rel="stylesheet">
+      <base href="${base}"><link href="${FONTS}" rel="stylesheet">${MATHJAX}
       <style>${data.style}
         html,body{margin:0;padding:0;background:${bg};}
         #frame{width:${W}px;height:${H}px;overflow:hidden;position:relative;background:${bg};
@@ -100,6 +116,7 @@ function serve() {
       </style></head><body><div id="frame">${section.html}</div></body></html>`;
     await cap.setContent(html, { waitUntil: 'load', timeout: 60000 });
     await cap.evaluate(() => document.fonts.ready);
+    await typesetMath(cap);
     await new Promise(r => setTimeout(r, 700));
     const f = path.join(OUT_DIR, `slide_${String(i + 1).padStart(2, '0')}.png`);
     const el = await cap.$('#frame');
