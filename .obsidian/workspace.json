@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "4_docs/TIMELINE_BY_WEEK.md",
+                "file": "01.MD",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "TIMELINE_BY_WEEK"
+              "title": "01"
             }
           }
         ]
@@ -185,9 +185,33 @@
   },
   "active": "8d2a0d343c6e59c0",
   "lastOpenFiles": [
+    "5_elit/raw/image.png",
+    "5_elit/raw/more.md",
+    "5_elit/raw/Timeline.pdf",
+    "5_elit/raw/Title.md",
+    "figs/formulas/formula_28_1.png",
+    "figs/bm3.png",
+    "figs/combigcn.jpg",
+    "figs/data_pipeline.3.1.png",
+    "figs/freedom.jpg",
+    "5_elit/raw/backup/22_22_252805008_BaoCaoCD2 .pdf",
+    "5_elit/raw/backup/TIMELINE_BY_WEEK.md",
+    "5_elit/raw/backup/21_21_252805008_BaoCaoCD2 .pdf",
+    "5_elit/raw/backup/20_20_252805008_BaoCaoCD2.pdf",
+    "5_elit/raw/backup/19_19_252805008_BaoCaoCD2 .pdf",
+    "5_elit/raw/backup/18_18_252805008_BaoCaoCD2 .pdf",
+    "5_elit/raw/backup/16_16_252805008_BaoCaoCD2 .pdf",
+    "5_elit/raw/pdf_raw/11.md",
+    "5_elit/raw/pdf_raw/12.md",
+    "5_elit/raw/pdf_raw/14.md",
+    "5_elit/raw/pdf_raw/16-22.md",
+    "5_elit/raw/pdf_raw/13.md",
+    "5_elit/done/252805008 - Hoang Dinh Quy Vu - Research Topic 2.pdf_turnitin.pdf",
+    "5_elit/done/receipt_252805008 - Hoang Dinh Quy Vu - Research Topic 2.pdf",
+    "5_elit/done/TranTrungTin_252805008.pdf",
+    "4_docs/TIMELINE_BY_WEEK.md",
     "4_docs/09.md",
     "4_docs/TIMELINE_TIEN_DO.md",
-    "4_docs/TIMELINE_BY_WEEK.md",
     "4_docs/02_Present/present_v2/model_formulas.md",
     "4_docs/02_Present/present_v2/Glossary.md",
     "4_docs/02_Present/present_v2/Fashion RecSys Speaker Notes_v2.md",
@@ -201,15 +225,6 @@
     "4_docs/Docs_Code/Docs/glossary.md",
     "4_docs/Docs_Code/Docs/01_pipeline_tong_quan.md",
     "4_docs/Docs_Code/Docs/02_thuat_toan_split_10k.md",
-    "4_docs/Docs_Code/Docs/05_embeddings_10k_vai_tro.md",
-    "4_docs/02_Present/present_v2/QA/05.similarity_comparison.md",
-    "4_docs/02_Present/present_v2/QA/04.md",
-    "4_docs/02_Present/present_v2/QA/03.bm3.freedom.text_img.md",
-    "4_docs/02_Present/present_v2/QA/03.1.md",
-    "4_docs/02_Present/present_v2/QA/02.combigcn.md",
-    "4_docs/02_Present/present_v2/QA/01.md",
-    "4_docs/02_Present/present_v2/QA/QA_Master.md",
-    "4_docs/02_Present/present_v2/QA/input_3models.md",
-    "4_docs/02_Present/present_v2/QA/00.interact.md"
+    "4_docs/Docs_Code/Docs/05_embeddings_10k_vai_tro.md"
   ]
 }
