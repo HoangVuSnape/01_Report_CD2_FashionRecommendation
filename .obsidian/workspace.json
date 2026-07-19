@@ -1,0 +1,215 @@
+{
+  "main": {
+    "id": "87398aa81d30a3f0",
+    "type": "split",
+    "children": [
+      {
+        "id": "96c183fbaebbe8df",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "8d2a0d343c6e59c0",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "4_docs/TIMELINE_BY_WEEK.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "TIMELINE_BY_WEEK"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "cd00f457c562ed08",
+    "type": "split",
+    "children": [
+      {
+        "id": "35bc6fcdd10bedd2",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "1c62325887fe9556",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "59f47c151adc6fdf",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "6615b14b7d0f3748",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "4901aea42e6aa29a",
+    "type": "split",
+    "children": [
+      {
+        "id": "cbcc686729c8f884",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f1bb27766cdebde3",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "4_docs/Docs_Code/Docs/glossary_full.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for glossary_full"
+            }
+          },
+          {
+            "id": "ea0d3cf9d50ce323",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "4_docs/Docs_Code/Docs/glossary_full.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from glossary_full"
+            }
+          },
+          {
+            "id": "c867a5fe412118ff",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "ec967933c52141c6",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "129317fdec835303",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "4_docs/Docs_Code/Docs/glossary_full.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of glossary_full"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false
+    }
+  },
+  "active": "8d2a0d343c6e59c0",
+  "lastOpenFiles": [
+    "4_docs/09.md",
+    "4_docs/TIMELINE_TIEN_DO.md",
+    "4_docs/TIMELINE_BY_WEEK.md",
+    "4_docs/02_Present/present_v2/model_formulas.md",
+    "4_docs/02_Present/present_v2/Glossary.md",
+    "4_docs/02_Present/present_v2/Fashion RecSys Speaker Notes_v2.md",
+    "4_docs/C4/BAO_CAO_TIEN_DO_EVALUATION.md",
+    "4_docs/C4/72, 82.md",
+    "4_docs/C4/48, 56, 64, 55.md",
+    "4_docs/C4/46.47.75.md",
+    "4_docs/Docs_Code/Docs/glossary_full.md",
+    "4_docs/Docs_Code/Docs/model_data_emb/03_glossary_evaluate.md",
+    "4_docs/Docs_Code/Docs/model3_v2/07_glossary.md",
+    "4_docs/Docs_Code/Docs/glossary.md",
+    "4_docs/Docs_Code/Docs/01_pipeline_tong_quan.md",
+    "4_docs/Docs_Code/Docs/02_thuat_toan_split_10k.md",
+    "4_docs/Docs_Code/Docs/05_embeddings_10k_vai_tro.md",
+    "4_docs/02_Present/present_v2/QA/05.similarity_comparison.md",
+    "4_docs/02_Present/present_v2/QA/04.md",
+    "4_docs/02_Present/present_v2/QA/03.bm3.freedom.text_img.md",
+    "4_docs/02_Present/present_v2/QA/03.1.md",
+    "4_docs/02_Present/present_v2/QA/02.combigcn.md",
+    "4_docs/02_Present/present_v2/QA/01.md",
+    "4_docs/02_Present/present_v2/QA/QA_Master.md",
+    "4_docs/02_Present/present_v2/QA/input_3models.md",
+    "4_docs/02_Present/present_v2/QA/00.interact.md"
+  ]
+}
