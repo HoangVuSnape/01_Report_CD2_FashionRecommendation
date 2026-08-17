@@ -15,9 +15,10 @@
 
 ## Quick access
 
-- Research report: [01_Report_CD2_FashionRecommendation](https://github.com/LegalAI-VN-SLM/01_Report_CD2_FashionRecommendation)
-- Project drive: [Google Drive](https://drive.google.com/drive/folders/YOUR_DRIVE_LINK)
-- Hugging Face: [HoangVuSnape-CD2](https://huggingface.co/HoangVuSnape-CD2)
+- **Experiments code:** [get_hrs_rs](https://github.com/FAI-Recommendation/get_hrs_rs)
+- **Recommender + VTO:** [fashion-recommender-vto](https://github.com/FAI-Recommendation/fashion-recommender-vto)
+- **Project drive:** [Google Drive](https://drive.google.com/drive/folders/1R-21UaVRBB5caWVcsvSr9m08-SEiuxJc?usp=sharing)
+- **Hugging Face:** [HoangVuSnape-CD2](https://huggingface.co/HoangVuSnape-CD2)
 
 ## Overview
 
@@ -225,8 +226,9 @@ BM3 advantage emerges at K ≥ 5 where deeper GCN stacking yields rich, multi-ho
 
 ## Access and links
 
-- [Project report](https://github.com/LegalAI-VN-SLM/01_Report_CD2_FashionRecommendation)
-- [Google Drive](https://drive.google.com/drive/folders/YOUR_DRIVE_LINK)
+- [Experiments repository](https://github.com/FAI-Recommendation/get_hrs_rs)
+- [Recommender + Virtual Try-On](https://github.com/FAI-Recommendation/fashion-recommender-vto)
+- [Google Drive](https://drive.google.com/drive/folders/1R-21UaVRBB5caWVcsvSr9m08-SEiuxJc?usp=sharing)
 - [Hugging Face Models](https://huggingface.co/HoangVuSnape-CD2)
 
 ## Final note
